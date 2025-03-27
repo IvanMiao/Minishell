@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/26 19:42:38 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/03/27 01:41:56 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,26 @@ int	ft_cd(char *path)
 	printf("%d\n", i);
 	if (i != 0)
 		return (1);
-	printf("change path\n");
+	printf("path changed\n");
 	return(0);
 }
 
-/* how to test?
+/*
+ test
+*/
 int	main(int ac, char **av)
 {
-	pid_t	f;
-
-	f = fork();
-	if (f == 0)
+	char cwd[1024];
+	char *path;
+	
+	getcwd(cwd, sizeof(cwd));
+	while (1)
 	{
-		if (ac > 1)
-			ft_cd(av[1]);
+		printf("minishell: %s", cwd);
+		path = readline("$ ");
+		if (ft_cd(path) == 1)
+			printf("error\n");
+		getcwd(cwd, sizeof(cwd));
 	}
-	wait(NULL);
-	return 0;
+	return (0);
 }
-*/
