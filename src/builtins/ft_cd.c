@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/27 03:08:11 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/03/28 18:51:49 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 int	ft_cd(char *path)
 {
-	int i = chdir(path);
-	printf("%d\n", i);
+	int	i;
+
+	i = chdir(path);
 	if (i != 0)
+	{
+		printf("minishell: cd: %s: No such file or directory\n", path);
 		return (1);
-	printf("path changed\n");
-	return(0);
+	}
+	return (0);
 }
 
 /*
@@ -27,17 +30,19 @@ int	ft_cd(char *path)
 */
 int	main(int ac, char **av)
 {
-	char cwd[1024];
-	char *path;
-	
+	char	cwd[1024];
+	char	*path;
+
 	getcwd(cwd, sizeof(cwd));
 	while (1)
 	{
 		printf("minishell: %s", cwd);
 		path = readline("$ ");
 		if (strncmp(path, "cd ", 3) == 0)
-			ft_cd(path+3);
+			ft_cd(path + 3);
 		getcwd(cwd, sizeof(cwd));
+		if (strncmp(path, "stop", 4) == 0)
+			return (0);
 	}
 	return (0);
 }
