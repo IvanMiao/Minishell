@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 02:01:17 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/03/31 15:22:48 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ typedef enum e_tokentype
 	PIPE,
 	R_IN,
 	R_OUT,
-	R_DELIMER,
-	R_TRUNC,
+	R_DELIMITER,
+	R_REDIRECTION,
 	QUOTE,
 	DOLLAR,
 	END
@@ -45,6 +45,7 @@ typedef enum e_tokentype
 typedef struct s_token
 {
 	t_tokentype	type;
+	char		*str;
 	char		*value;
 }		t_token;
 
