@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/03/31 02:08:50 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/03/31 17:28:29 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ int	ft_exit(int argc, char **argv)
 	if (argv[1])
 	{
 		if (!is_numeric(argv[1]))
-			return (printf("bash: exit: %s: numeric argument required\n",
+			return (printf("minishell: exit: %s: numeric argument required\n",
 					argv[1]), 255);
 		nb = ft_atoi(argv[1], &error);
 		if (error)
-			return (printf("bash: exit: %s: numeric argument required\n",
+			return (printf("minishell: exit: %s: numeric argument required\n",
 					argv[1]), 255);
 	}
 	if (argc > 2)

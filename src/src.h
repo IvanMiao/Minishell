@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 15:22:48 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/03/31 16:22:03 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SRC_H
 # define SRC_H
+
+# define FAIL -1
 
 # include "utils/utils.h"
 
@@ -24,8 +26,6 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# define FAIL -1
 
 // ----a simple enum for tokenization-----
 
@@ -68,7 +68,7 @@ t_env	*set_env(char **envp);
 
 // builtins
 int		ft_pwd(void);
-void	ft_echo(int argc, char **argv);
+void	ft_echo(char *command);
 int		ft_cd(char *path);
 int		ft_exit(int argc, char **argv);
 int		ft_env(t_env *env);

@@ -23,6 +23,8 @@ int	main(int ac, char **av, char **envp)
 			ft_export(env, s + 7);
 		if (!ft_strncmp(s, "unset ", 6))
 			ft_unset(env, s + 6);
+		if (!ft_strncmp(s, "echo ", 5))
+			ft_echo(s + 5);
 		// need to fix: echo, exit
 	}
 	return (0);
