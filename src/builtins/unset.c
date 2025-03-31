@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:30:05 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 16:21:44 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/03/31 19:09:13 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	check_arg(char *arg)
 	int		i;
 
 	i = 0;
+	while (arg[i] == SPACE || arg[i] == TAB)
+		i++;
 	if (arg[i] != '_' && !ft_isalpha(arg[i]))
 	{
 		printf("minishell: unset: '%s': not a valid identifier\n", arg);
