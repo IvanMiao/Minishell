@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 15:22:48 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/03/31 17:24:21 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 
 typedef enum e_tokentype
 {
+	CMD,
+	OPTION,
 	WORD,
 	PIPE,
 	R_IN,
