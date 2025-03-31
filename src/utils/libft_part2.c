@@ -6,12 +6,11 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 00:50:22 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 00:50:43 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/03/31 18:47:07 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

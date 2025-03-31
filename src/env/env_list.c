@@ -6,13 +6,13 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:32:46 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 01:12:34 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/03/31 18:06:22 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-static unsigned int	get_delim(char *content)
+static int	get_delim(char *content)
 {
 	int		distance;
 	char	*name;

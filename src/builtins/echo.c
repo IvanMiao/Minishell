@@ -6,12 +6,13 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:08:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/03/31 17:18:52 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/03/31 18:46:40 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
+// if there is -n, -nnnnnnn, -n -n -n
 int	if_n(char *str)
 {
 	int	i;
@@ -31,11 +32,13 @@ int	if_n(char *str)
 }
 
 // command starts after "echo "
+// todo: guillmets, now or after parsing?
 void	ft_echo(char *command)
 {
 	int		new_line;
 	int		i;
-	
+	char	*tmp;
+
 	new_line = 1;
 	while (*command && (*command == SPACE || *command == TAB))
 		command++;
@@ -52,10 +55,11 @@ void	ft_echo(char *command)
 	{
 		write(1, command, 1);
 		command++;
+		tmp = command;
 		while (*command && (*command == SPACE || *command == TAB))
 			command++;
-		if (*command)
-			write(1, " ", 1);
+		if (command - tmp >= 1)
+			command--;
 	}
 	if (new_line)
 		write(1, "\n", 1);
