@@ -27,6 +27,7 @@ int	test_builtin(char *s, t_env *env)
 		ft_unset(env, s + 6);
 	if (!ft_strncmp(s, "echo ", 5))
 		ft_echo(s + 5);
+	// need to fix: echo, exit
 	return (0);
 }
 
@@ -41,7 +42,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	controls();
 	env = set_env(envp);
-	ft_fprintf(2, "test fprintf %s\n", env->content);
+	ft_fprintf(2, "test fprintf env[0]: %s\n", env->content);
 	while (1)
 	{
 		s = readline("minishell$ ");
@@ -55,7 +56,6 @@ int	main(int ac, char **av, char **envp)
 		test_builtin(s, env);
 
 		token_lstclear(&token);
-		// need to fix: echo, exit
 		if (!strncmp(s, "stop", 4))
 			break;
 	}
