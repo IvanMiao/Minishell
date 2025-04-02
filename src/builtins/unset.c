@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:30:05 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 14:33:47 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 16:23:54 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static int	check_arg(char *arg)
 		i++;
 	if (arg[i] != '_' && !ft_isalpha(arg[i]))
 	{
-		printf("minishell: unset: '%s': not a valid identifier\n", arg);
+		ft_fprintf(2, "minishell: unset: '%s': not a valid identifier\n", arg);
 		return (-1);
 	}
 	while (arg[i])
 	{
 		if (arg[i] != '_' && !ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
 		{
-			printf("minishell: unset: '%s': not a valid identifier\n", arg);
+			ft_fprintf(2, "minishell: unset: '%s': not a valid identifier\n", arg);
 			return (-1);
 		}
 		i++;

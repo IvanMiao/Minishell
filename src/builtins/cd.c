@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 01:43:08 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 16:24:17 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_cd(char *path)
 	i = chdir(path);
 	if (i != 0)
 	{
-		printf("minishell: cd: %s: No such file or directory\n", path);
+		ft_fprintf(2, "minishell: cd: %s: No such file or directory\n", path);
 		return (1);
 	}
 	return (0);

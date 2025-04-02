@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 14:33:38 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 16:25:49 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ static int	check_newenv(char *arg)
 	distance = name - arg;
 	if (arg[i] != '_' && !ft_isalpha(arg[i]))
 	{
-		printf("minishell: export: '%s': not a valid identifier\n", arg);
-		return (-1);
+		ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", arg);
+		return (FAIL);
 	}
 	while (i < distance)
 	{
 		if (arg[i] != '_' && !ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
 		{
-			printf("minishell: export: '%s': not a valid identifier\n", arg);
-			return (-1);
+			ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", arg);
+			return (FAIL);
 		}
 		i++;
 	}
