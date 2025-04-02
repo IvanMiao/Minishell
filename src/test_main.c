@@ -41,6 +41,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	controls();
 	env = set_env(envp);
+	ft_fprintf(2, "test fprintf %s\n", env->content);
 	while (1)
 	{
 		s = readline("minishell$ ");

@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/02 15:16:05 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/02 16:15:31 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS	=	test_main.c \
 			env/env_list.c env/env_free.c \
 			parsing/parsing.c parsing/quotes.c \
 			parsing/token_list.c parsing/tokenization.c \
-			utils/libft_part1.c utils/libft_part2.c
+			utils/libft_part1.c utils/libft_part2.c \
+			utils/ft_fprintf.c
 
 OBJS	=	$(SRCS:.c=.o)
 

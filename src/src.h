@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 15:27:44 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 15:36:35 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-// ----a simple enum for tokenization-----
+// ----a enum for tokenization-----
 
 typedef enum e_tokentype
 {
@@ -54,7 +54,7 @@ typedef struct s_token
 	struct s_token	*next;
 }		t_token;
 
-// ----end example----
+// ----end token struct----
 
 typedef struct s_env
 {

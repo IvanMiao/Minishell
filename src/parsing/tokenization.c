@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 14:52:16 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 16:07:04 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
 {
+	if (ft_strncmp(str, "<<", 2) == 0)
+		return (R_DELIMITER);
+	if (ft_strncmp(str, ">>", 2) == 0)
+		return (R_REDIRECTION);
 	if (ft_strncmp(str, "|", 1) == 0)
 		return (PIPE);
 	if (ft_strncmp(str, "<", 1) == 0)
 		return (R_IN);
 	if (ft_strncmp(str, ">", 1) == 0)
 		return (R_OUT);
-	if (ft_strncmp(str, "<<", 2) == 0)
-		return (R_DELIMITER);
-	if (ft_strncmp(str, ">>", 2) == 0)
-		return (R_REDIRECTION);
 	if (ft_strncmp(str, "$", 1) == 0)
 		return (DOLLAR);
 	if (last_token && (last_token->type == R_IN || last_token->type == R_DELIMITER))
@@ -57,10 +57,10 @@ void	modif_tokens_2(char *str, int *i, t_token **token)
 void	modif_tokens(char *str, int *i, t_token **token)
 {
 	int			length_op;
-	//int			start;
 	char		*operation;
 	t_tokentype	type;
 	t_token		*last_token;
+	//int			start;
 
 	while (str[*i] == ' ' || str[*i] == '\t')
 		(*i)++;
@@ -70,7 +70,7 @@ void	modif_tokens(char *str, int *i, t_token **token)
 	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
 	{
 		length_op = 1;
-		if (str[*i + 1] == str[*i])
+		if (str[*i + 1] == str[*i] && (str[*i] == '<' || str[*i] == '>')) // sauf pipe
 			length_op = 2;
 		operation = ft_substr(str, *i, length_op);
 		last_token = token_lstlast(*token);
