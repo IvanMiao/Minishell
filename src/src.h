@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 16:22:03 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 14:36:00 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@
 
 typedef enum e_tokentype
 {
+	CMD,
+	OPTION,
 	WORD,
 	PIPE,
 	R_IN,
 	R_OUT,
 	R_DELIMITER,
 	R_REDIRECTION,
+	INFILE,
+	OUTFILE,
 	QUOTE,
 	DOLLAR,
 	END
@@ -44,9 +48,10 @@ typedef enum e_tokentype
 
 typedef struct s_token
 {
-	t_tokentype	type;
-	char		*str;
-	char		*value;
+	t_tokentype		type;
+	char			*str;
+	int				value;
+	struct s_token	*next;
 }		t_token;
 
 // ----end example----
@@ -79,5 +84,13 @@ int		ft_unset(t_env *env, char *argument);
 void	controls(void);
 void	ctrl_d(char *s);
 void	ctrl_c(int code);
+
+// parsing
+int		check_quotes(char *str);
+char	*remove_quotes(char *str);
+t_token	*token_lst(char *str, t_tokentype type, int value);
+t_token	*token_lstlast(t_token *lst);
+void	token_lstadd_back(t_token **lst, t_token *new);
+void	token_lstclear(t_token **lst);
 
 #endif

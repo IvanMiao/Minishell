@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/03/31 17:28:29 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 14:33:30 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_exit(int argc, char **argv)
 	}
 	if (argc > 2)
 	{
-		printf("bash: exit: too many arguments\n");
+		printf("minishell: exit: too many arguments\n");
 		return (-1);
 	}
 	return ((int)nb);

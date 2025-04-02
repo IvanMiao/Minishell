@@ -6,13 +6,12 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:08:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/03/31 18:46:40 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 14:32:08 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-// if there is -n, -nnnnnnn, -n -n -n
 int	if_n(char *str)
 {
 	int	i;

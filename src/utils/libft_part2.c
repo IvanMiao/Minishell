@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 00:50:22 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 18:47:07 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 14:36:09 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,26 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	while (i < len && s[start + i])
 	{
 		dest[i] = s[start + i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	char	*dest;
+
+	i = 0;
+	dest = malloc(sizeof(char) * ft_strlen(&s[i]) + 1);
+	if (dest == NULL)
+		return (0);
+	if (s == NULL)
+		return (0);
+	while (s[i] != '\0')
+	{
+		dest[i] = s[i];
 		i++;
 	}
 	dest[i] = '\0';
