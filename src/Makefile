@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/02 14:48:44 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/02 15:16:05 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS	=	test_main.c \
 			builtins/echo.c builtins/pwd.c \
 			builtins/exit.c \
 			ctrl/signals.c \
-			env/env_list.c \
+			env/env_list.c env/env_free.c \
 			parsing/parsing.c parsing/quotes.c \
 			parsing/token_list.c parsing/tokenization.c \
 			utils/libft_part1.c utils/libft_part2.c

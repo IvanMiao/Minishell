@@ -2,10 +2,14 @@
 
 void	print_token(t_token *token)
 {
+	int	i;
+
+	i = 1;
 	while (token)
 	{
-		printf("Token : [%s] (type %d, value %d)\n", token->str, token->type, token->value);
+		printf("Token[%d] : [%s] (type %d, value %d)\n", i, token->str, token->type, token->value);
 		token = token->next;
+		i++;
 	}
 }
 
@@ -40,15 +44,20 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		s = readline("minishell$ ");
-		ctrl_d(s);
+		ctrl_d(s, env);
 
 		printf ("Entree : %s\n", s);
 		token = init_tokens(s);
 		if (token)
 			print_token(token);
+
 		test_builtin(s, env);
+
 		token_lstclear(&token);
 		// need to fix: echo, exit
+		if (!strncmp(s, "stop", 4))
+			break;
 	}
+	env_free(env);
 	return (0);
 }

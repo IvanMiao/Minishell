@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 04:14:36 by ymiao             #+#    #+#             */
-/*   Updated: 2025/03/31 01:39:10 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 15:30:10 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	ctrl_c(int code)
 	rl_redisplay();
 }
 
-void	ctrl_d(char *s)
+void	ctrl_d(char *s, t_env *env)
 {
 	if (s == NULL)
 	{
 		printf("exit\n");
-		// free all
+		env_free(env);
 		exit(0);
 	}
 }

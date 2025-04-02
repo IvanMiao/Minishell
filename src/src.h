@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 14:54:06 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/02 15:27:44 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_env	*env_lstlast(t_env *lst);
 void	env_lstadd_back(t_env **lst, t_env *new);
 void	env_lstdelone(t_env **lst, t_env *target);
 t_env	*set_env(char **envp);
+void	env_free(t_env *env);
 
 // builtins
 int		ft_pwd(void);
@@ -82,7 +83,7 @@ int		ft_unset(t_env *env, char *argument);
 
 // signals
 void	controls(void);
-void	ctrl_d(char *s);
+void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
