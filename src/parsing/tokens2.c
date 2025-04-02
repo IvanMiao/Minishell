@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 11:41:39 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/02 14:24:23 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_token	*init_tokens(char *str)
 	return (token);
 }
 
-/*
+
 void	print_token(t_token *token)
 {
 	while (token)
@@ -125,4 +125,3 @@ int	main(void)
 	token_lstclear(&token);
 	return (0);
 }
-*/
