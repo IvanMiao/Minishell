@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 11:33:30 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:56:13 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ void	ctrl_d(char *s);
 void	ctrl_c(int code);
 
 // parsing
+int		check_command(t_token *token);
+int		check_command_in(t_token *token);
+int		check_command_out(t_token *token);
+int		check_command_delimiter(t_token *token);
+int		check_command_redirection(t_token *token);
 int		check_quotes(char *str);
 char	*remove_quotes(char *str);
 t_token	*token_lst(char *str, t_tokentype type, int value);

@@ -6,11 +6,18 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 14:24:23 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/02 16:58:55 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+
+int	check_all_commands(t_token *token)
+{
+	return (check_command(token) && check_command_in(token)
+		&& check_command_out(token) && check_command_delimiter(token)
+		&& check_command_redirection(token));
+}
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
 {
@@ -57,7 +64,6 @@ void	modif_tokens_2(char *str, int *i, t_token **token)
 void	modif_tokens(char *str, int *i, t_token **token)
 {
 	int			length_op;
-	int			start;
 	char		*operation;
 	t_tokentype	type;
 	t_token		*last_token;
@@ -66,7 +72,6 @@ void	modif_tokens(char *str, int *i, t_token **token)
 		(*i)++;
 	if (str[*i] == '\0')
 		return ;
-	start = *i;
 	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
 	{
 		length_op = 1;
