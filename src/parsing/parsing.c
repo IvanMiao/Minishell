@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:33:57 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 14:26:12 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/02 14:53:36 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src.h"
+#include "../src.h"
 
 int	check_command(t_token *token)
 {
@@ -40,6 +40,7 @@ int	check_command(t_token *token)
 	return (1);
 }
 
+/*
 int	check_command_2(t_token *token)
 {
 	t_token	*last;
@@ -49,3 +50,4 @@ int	check_command_2(t_token *token)
 		
 	}
 }
+*/

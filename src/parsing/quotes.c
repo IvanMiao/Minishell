@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 12:33:36 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/02 14:53:30 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
-#include <stdio.h>
-#include <stdlib.h>
 
+/*
 void	ctrl_d(char *s)
 {
 	if (s == NULL)
@@ -23,6 +22,7 @@ void	ctrl_d(char *s)
 		exit(0);
 	}
 }
+*/
 
 int	empty_line(char *str)
 {

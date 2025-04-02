@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokens2.c                                          :+:      :+:    :+:   */
+/*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 14:24:23 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/02 14:52:16 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	modif_tokens_2(char *str, int *i, t_token **token)
 void	modif_tokens(char *str, int *i, t_token **token)
 {
 	int			length_op;
-	int			start;
+	//int			start;
 	char		*operation;
 	t_tokentype	type;
 	t_token		*last_token;
@@ -66,7 +66,7 @@ void	modif_tokens(char *str, int *i, t_token **token)
 		(*i)++;
 	if (str[*i] == '\0')
 		return ;
-	start = *i;
+	//start = *i;
 	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
 	{
 		length_op = 1;
@@ -101,7 +101,7 @@ t_token	*init_tokens(char *str)
 	return (token);
 }
 
-
+/*
 void	print_token(t_token *token)
 {
 	while (token)
@@ -125,3 +125,4 @@ int	main(void)
 	token_lstclear(&token);
 	return (0);
 }
+*/
