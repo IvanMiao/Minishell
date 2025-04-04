@@ -6,14 +6,18 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/04 16:27:59 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/04 18:25:24 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SRC_H
 # define SRC_H
 
-# define FAIL -1
+# define FAIL	-1
+
+# define RED		"\e[31m"
+# define GREEN		"\e[32m"
+# define ENDCOLOR	"\e[0m"
 
 # include "utils/utils.h"
 

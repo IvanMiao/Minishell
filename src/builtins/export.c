@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/04 17:34:25 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/04 18:18:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	replace_env(t_env *copy, char *arg)
 	name = ft_strchr(arg, '=');
 	start = name - arg;
 	free(copy->content);
-	free(copy->content);
+	free(copy->name);
 	free(copy->word);
 	copy->content = ft_strdup(arg);
 	copy->name = ft_substr(arg, 0, start);

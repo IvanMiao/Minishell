@@ -42,26 +42,20 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	controls();
 	env = set_env(envp);
-	char *ans = ft_get_env(env, "PATH");
-	printf("get PATH: %s\n", ans);
 
 	while (1)
 	{
 		s = readline("minishell$ ");
 		ctrl_d(s, env);
 
-		printf ("Entree : %s\n", s);
 		token = init_tokens(s);
 		if (token)
 			print_token(token);
 		if (token->type == DOLLAR)
-		{
-			char *ans = explain_dollar(env, token);
-			printf("token str: %s, the dollar variable is: %s\n", token->str, ans);
-		}
-
+			printf("token str: %s, the dollar variable is: %s\n", token->str, explain_dollar(env, token));
+		if (!strncmp(s, "getenv ", 7))
+			printf(GREEN"get env_var %s: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
 		test_builtin(s, env);
-
 		token_lstclear(&token);
 		if (!strncmp(s, "stop", 4))
 			break;
