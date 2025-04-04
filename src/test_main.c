@@ -28,7 +28,7 @@ int	test_builtin(char *s, t_env *env)
 		ft_unset(env, s + 6);
 	if (!ft_strncmp(s, "echo ", 5))
 		ft_echo(s + 5);
-	// need to fix: echo(guillmets), exit
+	// need to fix: echo(guillemets), exit
 	return (0);
 }
 
@@ -40,9 +40,8 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
-	controls();
-	env = set_env(envp);
-
+	controls(); // init sigals
+	env = set_env(envp); // init env
 	while (1)
 	{
 		s = readline("minishell$ ");
@@ -54,11 +53,9 @@ int	main(int ac, char **av, char **envp)
 		if (token->type == DOLLAR)
 			printf("token str: %s, the dollar variable is: %s\n", token->str, explain_dollar(env, token));
 		if (!strncmp(s, "getenv ", 7))
-			printf(GREEN"get env_var %s: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
+			printf(GREEN"get env_var!\nname: %s\nword: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
 		test_builtin(s, env);
 		token_lstclear(&token);
-		if (!strncmp(s, "stop", 4))
-			break;
 	}
 	env_free(env);
 	return (0);

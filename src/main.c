@@ -6,17 +6,11 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 14:35:13 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/04 18:57:16 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src.h"
-
-void	init_struct(t_token *token, t_env *env)
-{
-	token->str = NULL;
-	token->value = NULL;
-}
 
 int	main(int argc, char **argv, char **envp)
 {
