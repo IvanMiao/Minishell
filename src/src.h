@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 17:15:25 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/04 16:27:59 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ t_env	*env_lstlast(t_env *lst);
 void	env_lstadd_back(t_env **lst, t_env *new);
 void	env_lstdelone(t_env **lst, t_env *target);
 t_env	*set_env(char **envp);
+char	*ft_get_env(t_env *env, char *name);
+char	*explain_dollar(t_env *env, t_token *token);
 void	env_free(t_env *env);
 
 // builtins

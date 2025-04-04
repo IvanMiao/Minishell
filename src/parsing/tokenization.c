@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 16:07:04 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/04 17:36:36 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ t_tokentype	assign_tokens(char *str, t_token *last_token)
 		return (R_OUT);
 	if (ft_strncmp(str, "$", 1) == 0)
 		return (DOLLAR);
-	if (last_token && (last_token->type == R_IN || last_token->type == R_DELIMITER))
+	if (last_token && (last_token->type == R_IN
+			|| last_token->type == R_DELIMITER))
 		return (INFILE);
-	if (last_token && (last_token->type == R_OUT || last_token->type == R_REDIRECTION))
+	if (last_token && (last_token->type == R_OUT
+			|| last_token->type == R_REDIRECTION))
 		return (OUTFILE);
 	return (WORD);
 }
@@ -60,13 +62,11 @@ void	modif_tokens(char *str, int *i, t_token **token)
 	char		*operation;
 	t_tokentype	type;
 	t_token		*last_token;
-	//int			start;
 
 	while (str[*i] == ' ' || str[*i] == '\t')
 		(*i)++;
 	if (str[*i] == '\0')
 		return ;
-	//start = *i;
 	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
 	{
 		length_op = 1;
@@ -106,7 +106,8 @@ void	print_token(t_token *token)
 {
 	while (token)
 	{
-		printf("Token : [%s] (type %d, value %d)\n", token->str, token->type, token->value);
+		printf("Token : [%s] (type %d, value %d)\n",
+			token->str, token->type, token->value);
 		token = token->next;
 	}
 }
