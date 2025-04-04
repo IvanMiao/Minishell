@@ -11,7 +11,7 @@ int	main(int ac, char **av, char **envp)
 	env = set_env(envp);
 	while (1)
 	{
-		s = readline("minishell$ ");
+		s = readline("minishell$ "); // "$path"  '$path'
 		ctrl_d(s);
 		if (!ft_strncmp(s, "cd ", 3))
 			ft_cd(s + 3);

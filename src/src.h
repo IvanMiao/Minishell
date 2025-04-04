@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 16:56:13 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/04 13:09:33 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -86,6 +87,15 @@ void	ctrl_d(char *s);
 void	ctrl_c(int code);
 
 // parsing
+int		open_file(char *file, int value);
+void	x_cmd(char *cmd, char **envp);
+void	error_here_doc(char *str);
+void	here_doc(char *limiter);
+void	errors(int value);
+void	ft_free(char **s);
+char	*find_full_path(char *cmd, char **paths);
+char	*find_path(char *cmd, char **envp);
+void	ft_exec(char *cmd_shell, char **envp);
 int		check_command(t_token *token);
 int		check_command_in(t_token *token);
 int		check_command_out(t_token *token);

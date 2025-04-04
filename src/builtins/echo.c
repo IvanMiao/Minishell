@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:08:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/03/31 02:09:03 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/04 16:17:51 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	ft_echo(int argc, char **argv)
 		write(1, "\n", 1);
 }
 
-/*
+
 int	main(int argc, char **argv)
 {
 	ft_echo(argc, argv);
 	return (0);
 }
-*/
+
