@@ -6,14 +6,18 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 15:36:35 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/05 16:19:50 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SRC_H
 # define SRC_H
 
-# define FAIL -1
+# define FAIL	-1
+
+# define RED		"\e[31m"
+# define GREEN		"\e[32m"
+# define ENDCOLOR	"\e[0m"
 
 # include "utils/utils.h"
 
@@ -70,6 +74,8 @@ t_env	*env_lstlast(t_env *lst);
 void	env_lstadd_back(t_env **lst, t_env *new);
 void	env_lstdelone(t_env **lst, t_env *target);
 t_env	*set_env(char **envp);
+char	*ft_get_env(t_env *env, char *name);
+char	*explain_dollar(t_env *env, t_token *token);
 void	env_free(t_env *env);
 
 // builtins
@@ -87,12 +93,12 @@ void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
-int		check_quotes(char *str);
-char	*remove_quotes(char *str);
 t_token	*token_lst(char *str, t_tokentype type, int value);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);
 t_token	*init_tokens(char *str);
+int		check_quotes(char *str);
+char	*remove_quotes(char *str);
 
 #endif

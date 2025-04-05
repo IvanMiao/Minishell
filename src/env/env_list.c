@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:32:46 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 14:34:03 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/04 17:16:46 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_env	*env_lstnew(char *content)
 	if (!new)
 		return (NULL);
 	start = get_delim(content);
-	new -> content = content;
+	new -> content = ft_strdup(content);
 	new -> name = ft_substr(content, 0, start);
 	new -> word = ft_substr(content, start + 1, ft_strlen(content) - start);
 	new -> next = NULL;
@@ -78,6 +78,7 @@ void	env_lstdelone(t_env **lst, t_env *target)
 		*lst = target->next;
 		free(target->name);
 		free(target->word);
+		free(target->content);
 		free(target);
 		return ;
 	}
@@ -89,6 +90,7 @@ void	env_lstdelone(t_env **lst, t_env *target)
 		current->next = target->next;
 		free(target->name);
 		free(target->word);
+		free(target->content);
 		free(target);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 16:25:49 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/04 18:18:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,29 @@ static int	check_newenv(char *arg)
 	{
 		if (arg[i] != '_' && !ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
 		{
-			ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", arg);
+			ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n",
+				arg);
 			return (FAIL);
 		}
 		i++;
 	}
 	return (distance);
+}
+
+static int	replace_env(t_env *copy, char *arg)
+{
+	int		start;
+	char	*name;
+
+	name = ft_strchr(arg, '=');
+	start = name - arg;
+	free(copy->content);
+	free(copy->name);
+	free(copy->word);
+	copy->content = ft_strdup(arg);
+	copy->name = ft_substr(arg, 0, start);
+	copy->word = ft_substr(arg, start + 1, ft_strlen(arg) - start);
+	return (0);
 }
 
 /* 
@@ -61,9 +78,9 @@ int	ft_export(t_env *env, char *argument)
 	{
 		dist_now = ft_strchr(copy->content, '=') - copy->content;
 		if (dist_now == dist_arg
-			&& ft_strncmp(argument, copy->content, dist_arg))
+			&& !ft_strncmp(argument, copy->content, dist_arg))
 		{
-			copy->content = argument;
+			replace_env(copy, argument);
 			return (0);
 		}
 		copy = copy->next;
