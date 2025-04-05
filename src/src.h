@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/05 16:19:50 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/05 16:34:13 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,10 @@ void	token_lstclear(t_token **lst);
 t_token	*init_tokens(char *str);
 int		check_quotes(char *str);
 char	*remove_quotes(char *str);
+int		check_command(t_token *token);
+int		check_command_in(t_token *token);
+int		check_command_out(t_token *token);
+int		check_command_delimiter(t_token *token);
+int		check_command_redirection(t_token *token);
 
 #endif
