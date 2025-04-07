@@ -6,11 +6,11 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/04 16:24:26 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/07 14:25:22 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src.h"
+#include "../src.h"
 
 int	open_file(char *file, int value)
 {

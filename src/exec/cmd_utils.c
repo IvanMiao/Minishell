@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 14:01:21 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:25:13 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ char	*get_pathname(t_env *env, char *first_cmd)
 		free(tmp);
 		if (access(ans, F_OK | X_OK) == 0)
 		{
-			// free_split(all_path);
+			ft_free(all_path);
 			return (ans);
 		}
 		free(ans);
 		i++;
 	}
-	// free_split(path);
+	ft_free(path);
 	return (first_cmd);
 }
 

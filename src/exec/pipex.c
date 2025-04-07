@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 14:10:04 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:05:22 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_last_status(char *str, int value)
 	}
 }
 
-void	x_cmd(char *cmd, char **envp)
+void	x_cmd(t_cmd *cmd, t_env *env)
 {
 	int		pipe_fd2[2];
 	pid_t	child;
@@ -58,7 +58,7 @@ void	x_cmd(char *cmd, char **envp)
 		if (dup2(pipe_fd2[1], STDOUT_FILENO) == -1)
 			errors(1);
 		close(pipe_fd2[1]);
-		ft_exec(cmd, envp);
+		ft_exec(cmd, env);
 	}
 	close(pipe_fd2[1]);
 	if (dup2(pipe_fd2[0], STDIN_FILENO) == -1)
@@ -66,35 +66,33 @@ void	x_cmd(char *cmd, char **envp)
 	close(pipe_fd2[0]);
 }
 
-int	pipex(t_token *token, t_env *env)
+int	pipex(t_token *token, t_env *env, t_cmd *cmd)
 {
-	int		pipefd[2];
-	pid_t	child;
+	t_token	*start;
+	pid_t	last_cmd;
 	int		exit_code;
-	int		i;
 
+	handle_here_doc(token, env, cmd);
+	start = token;
 	exit_code = 0;
-	i = 2;
-	if (env == NULL)
-		errors(1);
-	if (pipe(pipefd) == -1)
-		errors(2);
-	child = fork();
-	if (child < 0)
-		errors(3);
-	if (child == 0)
-		children(pipefd, argv, env);
-	else
+	while (token)
 	{
-		while (i < argc - 2)
+		if (token->type == PIPE)
 		{
-			x_cmd(argv[i], env);
-			i++;
+			x_cmd(start, env);
+			token = token->next;
+			start = token;
 		}
-		parents(pipefd, argv, env);
-		exit_code = exit_status(child);
+		else
+			token = token->next;
 	}
-	errors(4);
+	last_cmd = fork();
+	if (last_cmd == 0)
+	{
+		exec_simple_cmd(start, env);
+		exit(1);
+	}
+	exit_status(last_cmd);
 	print_last_status("$?", exit_code);
-	return (0);
+	return (exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 14:09:25 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:25:20 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,33 @@ void	read_here_doc(char *limiter)
 
 void	here_doc(t_token *token, t_env *env, t_cmd *cmd)
 {
-	int	fd_in;
-	int	fd_out;
+	int		fd_in;
+	int		fd_out;
+	t_token	*start;
 
-	if (argc < 6)
-		errors(4);
-	if (ft_strncmp(argv[1], "<<", 2) == 0)
+	if (!token || !token->next || token->type != R_DELIMITER)
+		return ;
+	if (token->type == R_DELIMITER)
 	{
-		fd_out = open_file(argv[argc - 1], 2);
-		read_here_doc(argv[2]);
+		start = token;
+		cmd->delimiter = token->next->str;
+		fd_out = open_file(cmd->outfile, 2);
+		read_here_doc(cmd->delimiter);
+		close(fd_out);
+		dup2(fd_out, STDOUT_FILENO);
+		exec_simple_cmd(start->str, env);
 	}
-	else
-	{
-		fd_in = open_file(argv[1], 0);
-		fd_out = open_file(argv[argc - 1], 1);
-		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
-	}
-	dup2(fd_out, STDOUT_FILENO);
-	close(fd_out);
-	ft_exec(argv[argc - 2], envp);
 }
 
+void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
+{
+	while (token)
+	{
+		if (token->type == R_DELIMITER && token->next)
+		{
+			here_doc(token->next, env, cmd);
+			break ;
+		}
+		token = token->next;
+	}
+}

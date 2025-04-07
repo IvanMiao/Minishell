@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 14:14:33 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/07 15:04:59 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,6 @@ typedef struct s_cmd
 	char	*outfile;
 	char	*delimiter;
 	int		nb_pipes;
-}		t_cmd;
-
-typedef struct s_cmd
-{
-	char	*pathname;
-	char	**argv;
-	char	**envp;
-	char	*infile;
-	char	*outfile;
-	char	*delimiter;
-	int		nb_pipes;
 }			t_cmd;
 
 // env
@@ -131,6 +120,8 @@ int		check_command_delimiter(t_token *token);
 int		check_command_redirection(t_token *token);
 
 // exec
+void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
+void	ft_free(char **s);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
