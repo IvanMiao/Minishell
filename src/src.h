@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 05:01:34 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 13:33:06 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
@@ -57,7 +58,7 @@ typedef struct s_token
 	char			*str;
 	int				value;
 	struct s_token	*next;
-}		t_token;
+}					t_token;
 
 // ----end token struct----
 
@@ -67,7 +68,18 @@ typedef struct s_env
 	char			*name;
 	char			*word;
 	struct s_env	*next;
-}		t_env;
+}					t_env;
+
+typedef struct s_cmd
+{
+	char	*pathname;
+	char	**argv;
+	char	**envp;
+	char	*infile;
+	char	*outfile;
+	char	*delimiter;
+	int		nb_pipes;
+}			t_cmd;
 
 // env
 t_env	*env_lstnew(char *content);
@@ -108,7 +120,7 @@ int		check_command_delimiter(t_token *token);
 int		check_command_redirection(t_token *token);
 
 // exec
-char	**get_cmd(t_token *token);
+
 int		exec_simple_cmd(t_token *token, t_env *env);
 
 #endif
