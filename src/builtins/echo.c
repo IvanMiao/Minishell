@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:08:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 14:32:08 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 05:01:23 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	if_n(char *str)
 
 // command starts after "echo "
 // todo: guillmets, now or after parsing?
-void	ft_echo(char *command)
+int	ft_echo(char *command)
 {
 	int		new_line;
 	int		i;
@@ -62,6 +62,7 @@ void	ft_echo(char *command)
 	}
 	if (new_line)
 		write(1, "\n", 1);
+	return (0);
 }
 /*
 void	ft_echo(int argc, char **argv)

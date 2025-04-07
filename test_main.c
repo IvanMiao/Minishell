@@ -16,20 +16,23 @@ void	print_token(t_token *token)
 
 int	test_builtin(char *s, t_env *env)
 {
+	int	flag;
+
+	flag = -1;
 	if (!ft_strncmp(s, "cd ", 3))
-		ft_cd(s + 3);
+		flag = ft_cd(s + 3);
 	if (!ft_strncmp(s, "pwd", 3))
-		ft_pwd();
+		flag = ft_pwd();
 	if (!ft_strncmp(s, "env", 3))
-		ft_env(env);
+		flag = ft_env(env);
 	if (!ft_strncmp(s, "export ", 7))
-		ft_export(env, s + 7);
+		flag = ft_export(env, s + 7);
 	if (!ft_strncmp(s, "unset ", 6))
-		ft_unset(env, s + 6);
+		flag = ft_unset(env, s + 6);
 	if (!ft_strncmp(s, "echo ", 5))
-		ft_echo(s + 5);
+		flag = ft_echo(s + 5);
 	// need to fix: echo(guillemets), exit
-	return (0);
+	return (flag);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -49,12 +52,13 @@ int	main(int ac, char **av, char **envp)
 
 		token = init_tokens(s);
 		if (token)
-			print_token(token);
-		if (token->type == DOLLAR)
+			print_token(token); // show all the tokens' types
+		if (token->type == DOLLAR) // try: type $PWD, $PATH, ...
 			printf("token str: %s, the dollar variable is: %s\n", token->str, explain_dollar(env, token));
-		if (!strncmp(s, "getenv ", 7))
+		if (!strncmp(s, "getenv ", 7))// try: type getenv PWD, ...
 			printf(GREEN"get env_var!\nname: %s\nword: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
-		test_builtin(s, env);
+		if (test_builtin(s, env) == -1) // exec builtin functions: echo, cd, pwd...
+			exec_simple_cmd(token, env);
 		token_lstclear(&token);
 	}
 	env_free(env);
