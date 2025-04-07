@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 15:49:16 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:22:14 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ char	*get_outfile(t_token *token)
 {
 	while (token && token->type != PIPE)
 	{
-		if (token->type == R_OUT && token->next && token->next->type == OUTFILE)
+		if ((token->type == R_OUT || token->type == R_REDIRECTION)
+			&& token->next && token->next->type == OUTFILE)
 			return (token->next->str);
 		token = token->next;
 	}

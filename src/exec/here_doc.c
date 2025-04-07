@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 15:25:20 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/07 17:36:38 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,35 @@
 
 void	read_here_doc(char *limiter)
 {
-	int		pipe_fd[2];
 	char	*str;
+	int		fd;
 
-	if (pipe(pipe_fd) == -1)
-		errors(2);
-	if (fork() == 0)
+	fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	while (1)
 	{
-		close(pipe_fd[0]);
-		while (1)
-		{
-			str = readline("> ");
-			if (!str || (ft_strncmp(str, limiter, ft_strlen(limiter)) == 0
-					&& str[ft_strlen(limiter)] == '\n'))
-				error_here_doc(str);
-			write(pipe_fd[1], str, ft_strlen(str));
-			free(str);
-		}
+		str = readline("> ");
+		if (ft_strncmp(str, limiter, ft_strlen(limiter)) == 0)
+			break ;
+		ft_fprintf(fd, "%s\n", str);
+		free(str);
 	}
-	close(pipe_fd[1]);
-	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
-		errors(1);
-	close(pipe_fd[0]);
-	wait(NULL);
+	return ;
 }
 
 void	here_doc(t_token *token, t_env *env, t_cmd *cmd)
 {
-	int		fd_in;
 	int		fd_out;
-	t_token	*start;
 
-	if (!token || !token->next || token->type != R_DELIMITER)
+	(void) env;
+	if (!token || !token->next)
 		return ;
-	if (token->type == R_DELIMITER)
+	if (cmd->outfile)
 	{
-		start = token;
-		cmd->delimiter = token->next->str;
 		fd_out = open_file(cmd->outfile, 2);
-		read_here_doc(cmd->delimiter);
-		close(fd_out);
 		dup2(fd_out, STDOUT_FILENO);
-		exec_simple_cmd(start->str, env);
+		close (fd_out);
 	}
+	read_here_doc(cmd->delimiter);
 }
 
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)

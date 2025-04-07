@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 15:53:14 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:40:13 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ int		check_command_redirection(t_token *token);
 
 // exec
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
-void	ft_free(char **s);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
@@ -131,5 +130,9 @@ char	*get_outfile(t_token *token);
 char	*get_delimiter(t_token *token);
 bool	check_append(t_token *token);
 int		exec_simple_cmd(t_token *token, t_env *env);
+
+int		open_file(char *file, int value);
+void	errors(int value);
+void	error_here_doc(char *str);
 
 #endif

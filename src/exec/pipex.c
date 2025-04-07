@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 15:05:22 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/07 17:43:42 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_last_status(char *str, int value)
 	}
 }
 
-void	x_cmd(t_cmd *cmd, t_env *env)
+void	x_cmd(t_token *token, t_env *env)
 {
 	int		pipe_fd2[2];
 	pid_t	child;
@@ -58,7 +58,7 @@ void	x_cmd(t_cmd *cmd, t_env *env)
 		if (dup2(pipe_fd2[1], STDOUT_FILENO) == -1)
 			errors(1);
 		close(pipe_fd2[1]);
-		ft_exec(cmd, env);
+		exec_simple_cmd(token, env);
 	}
 	close(pipe_fd2[1]);
 	if (dup2(pipe_fd2[0], STDIN_FILENO) == -1)
@@ -72,7 +72,6 @@ int	pipex(t_token *token, t_env *env, t_cmd *cmd)
 	pid_t	last_cmd;
 	int		exit_code;
 
-	handle_here_doc(token, env, cmd);
 	start = token;
 	exit_code = 0;
 	while (token)

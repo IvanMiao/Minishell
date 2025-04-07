@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 15:52:31 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 16:34:50 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ char	**get_real_cmd(t_token *token, t_env *env)
 	i = 0;
 	while (tmp && tmp->type != PIPE)
 	{
-		flag = (token->type == R_IN || token->type == R_OUT
-				|| token->type == R_DELIMITER || token->type == R_REDIRECTION
-				|| token->type == INFILE || token->type == OUTFILE);
-		if (!flag)
+		if (tmp->type == WORD || tmp->type == DOLLAR)
 			i++;
 		tmp = tmp->next;
 	}
@@ -80,10 +77,8 @@ char	**get_real_cmd(t_token *token, t_env *env)
 	i = 0;
 	while (token && token->type != PIPE)
 	{
-		flag = (token->type == R_IN || token->type == R_OUT
-			|| token->type == R_DELIMITER || token->type == R_REDIRECTION
-			|| token->type == INFILE || token->type == OUTFILE);
-		if (flag)
+		flag = (token->type == WORD || token->type == DOLLAR);
+		if (!flag)
 		{
 			token = token->next;
 			continue ;
@@ -92,14 +87,11 @@ char	**get_real_cmd(t_token *token, t_env *env)
 			cmd[i] = get_pathname(env, ft_strdup(token->str));
 		else
 			cmd[i] = ft_strdup(token->str);
+		printf("check cmd[%d]: %s\n", i, cmd[i]);
 		i++;
 		token = token->next;
 	}
 	cmd[i] = NULL;
-	// for test
-	for (int j = 0; j<i; j++)
-		printf("cmd[%d] : %s\n", j, cmd[j]);
-	// end test
 	return (cmd);
 }
 

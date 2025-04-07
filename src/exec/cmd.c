@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 15:51:54 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:37:53 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,35 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	pid_t	pid;
 	t_cmd	*cmd;
 	int		status;
-	//int		fd;
+	int		fd_in;
+	int		fd_out;
 
 	pid = fork();
+	cmd = set_cmd(token, env);
 	if (pid == 0)
 	{
-		cmd = set_cmd(token, env);
-
-		// if (cmd->infile)
-		// 	fd = open(cmd->infile, O_RDONLY);
-		// if (fd == -1)
-		// {
-		// 	perror("open");
-		// 	free_cmd(cmd);
-		// 	exit(1);
-		// }
-		
+		handle_here_doc(token, env, cmd);
+		if (cmd->infile)
+		{
+			fd_in = open_file(cmd->infile, 0);
+			dup2(fd_in, 0);
+		}
+		else if (cmd->outfile && cmd->append == false)
+		{
+			fd_out = open_file(cmd->outfile, 1);
+			dup2(fd_out, 1);
+		}
+		else if (cmd->outfile && cmd->append == true)
+		{
+			printf("append exists!\n");
+			fd_out = open_file(cmd->outfile, 2);
+			dup2(fd_out, 1);
+		}
+		else if (cmd->delimiter)
+		{
+			fd_in = open("./.heredoc.tmp", O_RDONLY);
+			dup2(fd_in, 0);
+		}
 		if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 		{
 			free_cmd(cmd);
@@ -79,10 +92,11 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	else
 	{
 		waitpid(pid, &status, 0);
+		if (cmd->delimiter)
+			unlink("./.heredoc.tmp");
+		free_cmd(cmd);
 		if (WIFEXITED(status))
-			return (WEXITSTATUS(status));
 			return (WEXITSTATUS(status));
 	}
 	return (0);
 }
-
