@@ -6,107 +6,50 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 13:21:01 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/07 14:15:07 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-static char	**get_cmd(t_token *token)
+void	free_cmd(t_cmd *cmd)
 {
-	char	**cmd;
-	bool	flag;
-	int		i;
-	t_token	*tmp;
+	char	**tmp;
 
-	tmp = token;
-	i = 0;
-	while (tmp && tmp->type != PIPE)
-	{
-		flag = (token->type == R_IN || token->type == R_OUT
-			|| token->type == R_DELIMITER || token->type == R_REDIRECTION
-			|| token->type == INFILE || token->type == OUTFILE);
-		if (!flag)
-			i++;
-		tmp = tmp->next;
-	}
-
-	cmd = malloc(sizeof(char *) * (i + 1));
-	if (!cmd)
-		return (NULL);
-	i = 0;
-	while (token && token->type != PIPE)
-	{
-		flag = (token->type == R_IN || token->type == R_OUT
-			|| token->type == R_DELIMITER || token->type == R_REDIRECTION
-			|| token->type == INFILE || token->type == OUTFILE);
-		if (flag)
-		{
-			token = token->next;
-			continue ;
-		}
-		cmd[i] = ft_strdup(token->str);
-		i++;
-		token = token->next;
-	}
-	cmd[i] = NULL;
-	// for test
-	for (int j = 0; j<i; j++)
-		printf("cmd[%d] : %s\n", j, cmd[j]);
-	// end test
-	return (cmd);
+	tmp = cmd->argv;
+	while (*tmp)
+		free(*tmp++);
+	free(cmd->argv);
+	tmp = cmd->envp;
+	while (*tmp)
+		free(*tmp++);
+	free(cmd->envp);
 }
 
-static char	**get_env(t_env *env)
+t_cmd	*set_cmd(t_token *token, t_env *env)
 {
-	char	**res;
-	int		i;
-	t_env	*tmp;
+	t_cmd	*cmd;
 
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	res = malloc(sizeof(char *) * (i + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		res[i] = ft_strdup(env->content);
-		i++;
-		env = env->next;
-	}
-	res[i] = NULL;
-	return (res);
+	cmd = malloc(sizeof(t_cmd));
+	cmd->argv = get_real_cmd(token, env);
+	cmd->envp = get_env(env);
+	cmd->pathname = cmd->argv[0];
+	return (cmd);
 }
 
 int	exec_simple_cmd(t_token *token, t_env *env)
 {
 	pid_t	pid;
-	char	**cmd;
-	char	**envp;
-	char	**tmp;
+	t_cmd	*cmd;
 	int		status;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		cmd = get_cmd(token);
-		envp = get_env(env);
-		if (execve(cmd[0], cmd, envp) < 0)
+		cmd = set_cmd(token, env);
+		if (execve(cmd->argv[0], cmd->argv, cmd->envp) < 0)
 		{
-			tmp = cmd;
-			while (*tmp)
-				free(*tmp++);
-			free(cmd);
-			tmp = envp;
-			while (*tmp)
-				free(*tmp++);
-			free(envp);
+			free_cmd(cmd);
 			perror("execve");
 			exit (1);
 		}
@@ -119,3 +62,4 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	}
 	return (0);
 }
+

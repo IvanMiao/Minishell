@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/07 05:05:26 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/07 13:58:10 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,9 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				env/get_env.c env/explain_dollar.c \
 				parsing/check_command.c parsing/quotes.c \
 				parsing/token_list.c parsing/tokenization.c \
-				exec/cmd.c \
+				exec/cmd.c exec/cmd_utils.c \
 				utils/libft_part1.c utils/libft_part2.c \
+				utils/ft_split.c \
 				utils/ft_fprintf.c)
 
 OBJS	=	$(SRCS:.c=.o)
