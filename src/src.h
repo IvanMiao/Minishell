@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 05:01:34 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 13:57:33 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,17 @@ typedef struct s_env
 	struct s_env	*next;
 }		t_env;
 
+typedef struct s_cmd
+{
+	char	*pathname;
+	char	**argv;
+	char	**envp;
+	char	*infile;
+	char	*outfile;
+	char	*delimiter;
+	int		nb_pipes;
+}		t_cmd;
+
 // env
 t_env	*env_lstnew(char *content);
 t_env	*env_lstlast(t_env *lst);
@@ -108,7 +119,9 @@ int		check_command_delimiter(t_token *token);
 int		check_command_redirection(t_token *token);
 
 // exec
-char	**get_cmd(t_token *token);
+char	**get_real_cmd(t_token *token, t_env *env);
+char	**get_env(t_env *env);
+char	*get_pathname(t_env *env, char *first_cmd);
 int		exec_simple_cmd(t_token *token, t_env *env);
 
 #endif
