@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 00:50:22 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 16:06:01 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 04:05:43 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,30 @@ char	*ft_strdup(const char *s)
 	}
 	dest[i] = '\0';
 	return (dest);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	len_s1;
+	size_t	len_s2;
+	size_t	i;
+	char	*p;
+
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	i = -1;
+	p = malloc(sizeof(char) * (len_s1 + len_s2 + 1));
+	if (!p)
+		return (NULL);
+	while (++i < len_s1)
+		p[i] = s1[i];
+	while (i < len_s1 + len_s2)
+	{
+		p[i] = s2[i - len_s1];
+		i++;
+	}
+	p[i] = '\0';
+	return (p);
 }
 
 void	ft_putchar_fd(int c, int fd)

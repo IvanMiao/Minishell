@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/05 16:19:50 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 05:01:34 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include <limits.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -80,7 +81,7 @@ void	env_free(t_env *env);
 
 // builtins
 int		ft_pwd(void);
-void	ft_echo(char *command);
+int		ft_echo(char *command);
 int		ft_cd(char *path);
 int		ft_exit(int argc, char **argv);
 int		ft_env(t_env *env);
@@ -100,5 +101,14 @@ void	token_lstclear(t_token **lst);
 t_token	*init_tokens(char *str);
 int		check_quotes(char *str);
 char	*remove_quotes(char *str);
+int		check_command(t_token *token);
+int		check_command_in(t_token *token);
+int		check_command_out(t_token *token);
+int		check_command_delimiter(t_token *token);
+int		check_command_redirection(t_token *token);
+
+// exec
+char	**get_cmd(t_token *token);
+int		exec_simple_cmd(t_token *token, t_env *env);
 
 #endif

@@ -6,11 +6,18 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/04 17:36:36 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/05 16:35:26 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+
+int	check_all_commands(t_token *token)
+{
+	return (check_command(token) && check_command_in(token)
+		&& check_command_out(token) && check_command_delimiter(token)
+		&& check_command_redirection(token));
+}
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
 {
