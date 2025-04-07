@@ -6,11 +6,26 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 14:01:21 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 14:51:04 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+
+static void	free_split(char **all_path)
+{
+	int	i;
+
+	i = 0;
+	if (!all_path)
+		return ;
+	while (all_path[i])
+	{
+		free(all_path[i]);
+		i++;
+	}
+	free(all_path);
+}
 
 char	*get_pathname(t_env *env, char *first_cmd)
 {
@@ -20,11 +35,9 @@ char	*get_pathname(t_env *env, char *first_cmd)
 	int		i;
 
 	i = 0;
-	if (access(first_cmd, F_OK | X_OK) == 0)
+	if (access(first_cmd, F_OK | X_OK) == 0 || !ft_get_env(env, "PATH"))
 		return (first_cmd);
 	all_path = ft_split((const char *)ft_get_env(env, "PATH"), ':');
-	if (!all_path)
-		return (first_cmd);
 	while (all_path[i])
 	{
 		tmp = ft_strjoin(all_path[i], "/");
@@ -32,13 +45,13 @@ char	*get_pathname(t_env *env, char *first_cmd)
 		free(tmp);
 		if (access(ans, F_OK | X_OK) == 0)
 		{
-			// free_split(all_path);
+			free_split(all_path);
 			return (ans);
 		}
 		free(ans);
 		i++;
 	}
-	// free_split(path);
+	free_split(all_path);
 	return (first_cmd);
 }
 
@@ -54,8 +67,8 @@ char	**get_real_cmd(t_token *token, t_env *env)
 	while (tmp && tmp->type != PIPE)
 	{
 		flag = (token->type == R_IN || token->type == R_OUT
-			|| token->type == R_DELIMITER || token->type == R_REDIRECTION
-			|| token->type == INFILE || token->type == OUTFILE);
+				|| token->type == R_DELIMITER || token->type == R_REDIRECTION
+				|| token->type == INFILE || token->type == OUTFILE);
 		if (!flag)
 			i++;
 		tmp = tmp->next;

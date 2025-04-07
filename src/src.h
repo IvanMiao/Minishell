@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 13:57:33 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 15:42:21 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 
 // ----a enum for tokenization-----
 
@@ -77,7 +79,7 @@ typedef struct s_cmd
 	char	*infile;
 	char	*outfile;
 	char	*delimiter;
-	int		nb_pipes;
+	bool	append;
 }		t_cmd;
 
 // env
@@ -122,6 +124,10 @@ int		check_command_redirection(t_token *token);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
+char	*get_infile(t_token *token);
+char	*get_outfile(t_token *token);
+char	*get_delimiter(t_token *token);
+bool	check_append(t_token *token);
 int		exec_simple_cmd(t_token *token, t_env *env);
 
 #endif
