@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 18:06:22 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 18:14:38 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	if (pid == 0)
 	{
 		// for test
+		printf(RED"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
 		printf("infile is: %s\n", cmd->infile);
 		printf("outfile is: %s\n", cmd->outfile);
 		printf("delimiter is: %s\n", cmd->delimiter);
