@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:33:57 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/05 16:37:55 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:58:09 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_command(t_token *token)
 		last = token;
 		token = token->next;
 	}
-	return (1);
+	return (0);
 }
 
 int	check_command_in(t_token *token)
@@ -58,7 +58,7 @@ int	check_command_in(t_token *token)
 		last = token;
 		token = token->next;
 	}
-	return (1);
+	return (0);
 }
 
 int	check_command_out(t_token *token)
@@ -79,7 +79,7 @@ int	check_command_out(t_token *token)
 		last = token;
 		token = token->next;
 	}
-	return (1);
+	return (0);
 }
 
 int	check_command_delimiter(t_token *token)
@@ -100,7 +100,7 @@ int	check_command_delimiter(t_token *token)
 		last = token;
 		token = token->next;
 	}
-	return (1);
+	return (0);
 }
 
 int	check_command_redirection(t_token *token)
@@ -121,5 +121,5 @@ int	check_command_redirection(t_token *token)
 		last = token;
 		token = token->next;
 	}
-	return (1);
+	return (0);
 }

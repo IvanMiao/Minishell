@@ -53,6 +53,11 @@ int	main(int ac, char **av, char **envp)
 		token = init_tokens(s);
 		if (token)
 			print_token(token); // show all the tokens' types
+		if (check_all_commands(token)) // check tokens
+		{
+			token_lstclear(&token);
+			continue ;
+		}
 		if (token->type == DOLLAR) // try: type $PWD, $PATH, ...
 			printf("token str: %s, the dollar variable is: %s\n", token->str, explain_dollar(env, token));
 		if (!strncmp(s, "getenv ", 7))// try: type getenv PWD, ...

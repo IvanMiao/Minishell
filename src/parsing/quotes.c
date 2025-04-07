@@ -6,23 +6,11 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 14:53:30 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 17:57:00 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
-
-/*
-void	ctrl_d(char *s)
-{
-	if (s == NULL)
-	{
-		printf("exit\n");
-		// free all
-		exit(0);
-	}
-}
-*/
 
 int	empty_line(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 17:37:53 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 18:06:22 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ t_cmd	*set_cmd(t_token *token, t_env *env)
 	cmd->outfile = get_outfile(token);
 	cmd->delimiter = get_delimiter(token);
 	cmd->append = check_append(token);
-	// for test
-	printf("infile is :%s\n", cmd->infile);
-	printf("outfile is :%s\n", cmd->outfile);
-	printf("delimiter is :%s\n", cmd->delimiter);
-	printf("append? :%d\n", cmd->append);
-	// test done
 	return (cmd);
 }
 
@@ -60,7 +54,15 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	cmd = set_cmd(token, env);
 	if (pid == 0)
 	{
+		// for test
+		printf("infile is: %s\n", cmd->infile);
+		printf("outfile is: %s\n", cmd->outfile);
+		printf("delimiter is: %s\n", cmd->delimiter);
+		printf("append?: %d\n", cmd->append);
+		// test done
+
 		handle_here_doc(token, env, cmd);
+
 		if (cmd->infile)
 		{
 			fd_in = open_file(cmd->infile, 0);
@@ -73,7 +75,6 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		}
 		else if (cmd->outfile && cmd->append == true)
 		{
-			printf("append exists!\n");
 			fd_out = open_file(cmd->outfile, 2);
 			dup2(fd_out, 1);
 		}

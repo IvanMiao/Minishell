@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 15:41:58 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/07 18:01:24 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	check_all_commands(t_token *token)
 {
-	return (check_command(token) && check_command_in(token)
-		&& check_command_out(token) && check_command_delimiter(token)
-		&& check_command_redirection(token));
+	return (check_command(token) || check_command_in(token)
+		|| check_command_out(token) || check_command_delimiter(token)
+		|| check_command_redirection(token));
 }
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
@@ -77,7 +77,7 @@ void	modif_tokens(char *str, int *i, t_token **token)
 	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
 	{
 		length_op = 1;
-		if (str[*i + 1] == str[*i] && (str[*i] == '<' || str[*i] == '>')) // sauf pipe
+		if (str[*i + 1] == str[*i] && (str[*i] == '<' || str[*i] == '>'))
 			length_op = 2;
 		operation = ft_substr(str, *i, length_op);
 		last_token = token_lstlast(*token);
