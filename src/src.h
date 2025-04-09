@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 17:59:05 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 15:19:06 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int		check_command_redirection(t_token *token);
 int		check_all_commands(t_token *token);
 
 // exec
+int		pipex(t_token *token, t_env *env, t_cmd *cmd);
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);

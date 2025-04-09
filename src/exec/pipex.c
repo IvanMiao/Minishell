@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 17:43:42 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 15:18:11 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	print_last_status(char *str, int value)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && str[i + 1] == '?')
+		if (str[i] == DOLLAR && str[i + 1] && str[i + 1] == '?')
 		{
 			printf("%d\n", value);
 			i += 2;
