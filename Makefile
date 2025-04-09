@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/07 16:50:55 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/09 17:19:49 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				parsing/token_list.c parsing/tokenization.c \
 				exec/cmd.c exec/cmd_utils.c \
 				exec/cmd_utils_part2.c exec/exec_utils.c \
-				exec/here_doc.c \
+				exec/here_doc.c exec/pipex.c \
 				utils/libft_part1.c utils/libft_part2.c \
 				utils/ft_split.c \
 				utils/ft_fprintf.c)

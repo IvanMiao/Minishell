@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/09 15:18:11 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/09 18:16:25 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "src.h"
+#include "../src.h"
 
 int	exit_status(pid_t child)
 {
@@ -55,10 +55,12 @@ void	x_cmd(t_token *token, t_env *env)
 	if (child == 0)
 	{
 		close(pipe_fd2[0]);
+		printf(RED"avant le dup2\n"ENDCOLOR);
 		if (dup2(pipe_fd2[1], STDOUT_FILENO) == -1)
 			errors(1);
+		printf("apres le dup2\n");
 		close(pipe_fd2[1]);
-		exec_simple_cmd(token, env);
+		ft_exec(token, env, pipe_fd2);
 	}
 	close(pipe_fd2[1]);
 	if (dup2(pipe_fd2[0], STDIN_FILENO) == -1)
@@ -66,10 +68,9 @@ void	x_cmd(t_token *token, t_env *env)
 	close(pipe_fd2[0]);
 }
 
-int	pipex(t_token *token, t_env *env, t_cmd *cmd)
+int	pipex(t_token *token, t_env *env)
 {
 	t_token	*start;
-	pid_t	last_cmd;
 	int		exit_code;
 
 	start = token;
@@ -85,13 +86,7 @@ int	pipex(t_token *token, t_env *env, t_cmd *cmd)
 		else
 			token = token->next;
 	}
-	last_cmd = fork();
-	if (last_cmd == 0)
-	{
-		exec_simple_cmd(start, env);
-		exit(1);
-	}
-	exit_status(last_cmd);
+	exit_code = exec_simple_cmd(start, env);
 	print_last_status("$?", exit_code);
 	return (exit_code);
 }

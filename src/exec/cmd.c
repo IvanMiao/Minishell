@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/09 16:23:29 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 18:16:45 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,44 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		free_cmd(cmd);
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
+	}
+	return (0);
+}
+
+int	ft_exec(t_token *token, t_env *env, int	*pipe_fd2)
+{
+	t_cmd	*cmd;
+	int		fd_in;
+	int		fd_out;
+
+	(void)pipe_fd2;
+	cmd = set_cmd(token, env);
+	handle_here_doc(token, env, cmd);
+	if (cmd->delimiter)
+	{
+		fd_in = open("./.heredoc.tmp", O_RDONLY);
+		dup2(fd_in, 0);
+	}
+	if (cmd->infile)
+	{
+		fd_in = open_file(cmd->infile, 0);
+		dup2(fd_in, 0);
+	}
+	if (cmd->outfile && cmd->append == false)
+	{
+		fd_out = open_file(cmd->outfile, 1);
+		dup2(fd_out, 1);
+	}
+	else if (cmd->outfile && cmd->append == true)
+	{
+		fd_out = open_file(cmd->outfile, 2);
+		dup2(fd_out, 1);
+	}
+	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
+	{
+		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
+		free_cmd(cmd);
+		exit (1);
 	}
 	return (0);
 }

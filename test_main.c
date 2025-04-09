@@ -40,17 +40,21 @@ int	main(int ac, char **av, char **envp)
 	t_env	*env;
 	t_token	*token;
 	char	*s;
+	int		exit_code;
 
 	(void)ac;
 	(void)av;
+	exit_code = 0;
 	controls(); // init sigals
 	env = set_env(envp); // init env
 	while (1)
 	{
 		s = readline("minishell$ ");
+		printf("all the commands are: %s\n", s);
 		ctrl_d(s, env);
-
 		token = init_tokens(s);
+		if (!token || empty_line(s))
+			continue ;
 		if (token)
 			print_token(token); // show all the tokens' types
 		if (check_all_commands(token)) // check tokens
@@ -63,8 +67,11 @@ int	main(int ac, char **av, char **envp)
 		if (!strncmp(s, "getenv ", 7))// try: type getenv PWD, ...
 			printf(GREEN"get env_var!\nname: %s\nword: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
 		if (test_builtin(s, env, token) == -1) // exec builtin functions: echo, cd, pwd...
-			exec_simple_cmd(token, env);
+			exit_code = pipex(token, env);
+			//exit_code = exec_simple_cmd(token, env);
+		printf("%d\n", exit_code);
 		token_lstclear(&token);
+		free(s);
 	}
 	env_free(env);
 	return (0);
