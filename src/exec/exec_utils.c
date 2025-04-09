@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 16:51:24 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/08 04:38:50 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,4 @@ void	errors(int value)
 		perror("execve");
 		exit(EXIT_FAILURE);
 	}
-}
-
-void	ft_free(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		free(s[i]);
-		i++;
-	}
-	free(s);
 }

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:33:57 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 17:58:09 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 04:44:43 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 int	check_command(t_token *token)
 {
 	t_token	*last;
+	char	*msg;
 
+	msg = "bash: syntax error near unexpected token ";
 	while (token)
 	{
 		if (token->type == PIPE)
 		{
 			if (!last || !token->next || token->next->type == PIPE)
-				return (printf(
-						"bash: syntax error near unexpected token `|'\n"), 2);
+				return (printf("%s`|'\n", msg), 2);
 		}
 		if (token->type == R_IN || token->type == R_OUT
 			|| token->type == R_DELIMITER || token->type == R_REDIRECTION
@@ -31,8 +32,7 @@ int	check_command(t_token *token)
 				&& token->next->type == R_REDIRECTION))
 		{
 			if (!last || !token->next)
-				return (printf
-					("bash: syntax error near unexpected token `newline'\n"), 2);
+				return (printf("%s`newline'\n", msg), 2);
 		}
 		last = token;
 		token = token->next;
