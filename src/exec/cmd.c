@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/09 16:10:44 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 16:23:29 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		}
 		if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 		{
+			ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
 			free_cmd(cmd);
-			perror("execve");
 			exit (1);
 		}
 	}

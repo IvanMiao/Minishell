@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:08:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 05:01:23 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 17:03:05 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,69 +30,30 @@ int	if_n(char *str)
 	return (0);
 }
 
-// command starts after "echo "
-// todo: guillmets, now or after parsing?
-int	ft_echo(char *command)
+int	ft_echo(t_token *token)
 {
 	int		new_line;
-	int		i;
-	char	*tmp;
+	t_token	*copy;
 
 	new_line = 1;
-	while (*command && (*command == SPACE || *command == TAB))
-		command++;
-	i = if_n(command);
-	while (i)
+	if (token->next == NULL)
+		return (printf("\n"), 0);
+	copy = token->next;
+	while (copy)
 	{
-		new_line = 0;
-		command += i;
-		i = if_n(command);
-	}
-	while (*command && (*command == SPACE || *command == TAB))
-		command++;
-	while (*command)
-	{
-		write(1, command, 1);
-		command++;
-		tmp = command;
-		while (*command && (*command == SPACE || *command == TAB))
-			command++;
-		if (command - tmp >= 1)
-			command--;
+		if (if_n(copy->str))
+		{
+			new_line = 0;
+			copy = copy->next;
+			continue ;
+		}
+		if (copy->next == NULL)
+			printf("%s", copy->str);
+		else
+			printf("%s ", copy->str);
+		copy = copy->next;
 	}
 	if (new_line)
-		write(1, "\n", 1);
+		printf("\n");
 	return (0);
 }
-/*
-void	ft_echo(int argc, char **argv)
-{
-	int	new_line;
-	int	i;
-
-	new_line = 1;
-	i = 1;
-	while (i < argc && if_n(argv[i]))
-	{
-		new_line = 0;
-		i ++;
-	}
-	while (i < argc)
-	{
-		write(1, argv[i], (int)ft_strlen(argv[i]));
-		if (i + 1 < argc)
-			write(1, " ", 1);
-		i++;
-	}
-	if (new_line)
-		write(1, "\n", 1);
-}
-*/
-
-/*
-int	main(int argc, char **argv)
-{
-	ft_echo(argc, argv);
-	return (0);
-}
-*/

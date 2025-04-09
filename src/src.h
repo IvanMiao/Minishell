@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/09 15:48:48 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:36:55 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	env_free(t_env *env);
 
 // builtins
 int		ft_pwd(void);
-int		ft_echo(char *command);
+int		ft_echo(t_token *token);
 int		ft_cd(char *path);
 int		ft_exit(int argc, char **argv);
 int		ft_env(t_env *env);
