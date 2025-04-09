@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/09 15:19:06 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/09 15:48:48 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int		check_command_out(t_token *token);
 int		check_command_delimiter(t_token *token);
 int		check_command_redirection(t_token *token);
 int		check_all_commands(t_token *token);
+char	*keep_string_quotes(char *str, int *i);
 
 // exec
 int		pipex(t_token *token, t_env *env, t_cmd *cmd);

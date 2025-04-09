@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/07 17:57:00 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 16:00:57 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,49 @@ char	*remove_quotes(char *str)
 	result[j] = '\0';
 	return (result);
 }
+
+char	*keep_string_quotes(char *str, int *i)
+{
+	char	*result;
+	char	quote;
+	int		start;
+	int		end;
+
+	quote = str[*i];
+	if (str[*i] == quote)
+		(*i)++;
+	start = *i;
+	while (str[*i] && str[*i] != quote)
+		(*i)++;
+	end = *i;
+	result = ft_substr(str, start, end - start);
+	if (str[*i] == quote)
+		(*i)++;
+	return (result);
+}
+
+/*void test_keep_string_quotes(char *input)
+{
+	int i = 0;
+	char *res = keep_string_quotes(input, &i);
+	printf("Input:    %s\n", input);
+	printf("Extract:  %s\n", res ? res : "(null)");
+	printf("Index:    %d\n", i);
+	printf("---------------------\n");
+	free(res);
+}
+
+int	main(void)
+{
+	test_keep_string_quotes("\"hello                               world\"");
+	test_keep_string_quotes("'abc def'");
+	test_keep_string_quotes("\"no end");
+	test_keep_string_quotes("''");
+	test_keep_string_quotes("\"\"");
+	test_keep_string_quotes("'123'");
+	return 0;
+}*/
+
 
 /*
 int	main(void)

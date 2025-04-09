@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/09 04:39:21 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 16:09:07 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,22 @@ void	modif_tokens_2(char *str, int *i, t_token **token)
 	t_tokentype	type;
 	t_token		*last_token;
 
-	start = *i;
-	while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
-		&& str[*i] != ' ')
-		(*i)++;
-	length_op = ft_substr(str, start, *i - start);
-	clean_word = remove_quotes(length_op);
-	free(length_op);
+	if (str[*i] == '\'' || str[*i] == '"')
+	{
+		length_op = keep_string_quotes(str, i);
+		clean_word = ft_strdup(length_op);
+		free(length_op);
+	}
+	else
+	{
+		start = *i;
+		while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
+			&& str[*i] != ' ')
+			(*i)++;
+		length_op = ft_substr(str, start, *i - start);
+		clean_word = remove_quotes(length_op);
+		free(length_op);
+	}
 	last_token = token_lstlast(*token);
 	type = assign_tokens(clean_word, last_token);
 	token_lstadd_back(token, token_lst(clean_word, type, 0));
