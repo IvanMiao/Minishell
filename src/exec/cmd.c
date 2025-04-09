@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/09 15:19:35 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/09 16:10:44 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,24 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		printf("infile is: %s\n", cmd->infile);
 		printf("outfile is: %s\n", cmd->outfile);
 		printf("delimiter is: %s\n", cmd->delimiter);
-		printf("append?: %d\n", cmd->append);
+		char	*ans = cmd->append? "true" : "false";
+		printf("append?: %s\n", ans);
 		printf("------------------------------\n");
 		// test done
 
 		handle_here_doc(token, env, cmd);
 
+		if (cmd->delimiter)
+		{
+			fd_in = open("./.heredoc.tmp", O_RDONLY);
+			dup2(fd_in, 0);
+		}
 		if (cmd->infile)
 		{
 			fd_in = open_file(cmd->infile, 0);
 			dup2(fd_in, 0);
 		}
-		else if (cmd->outfile && cmd->append == false)
+		if (cmd->outfile && cmd->append == false)
 		{
 			fd_out = open_file(cmd->outfile, 1);
 			dup2(fd_out, 1);
@@ -79,11 +85,6 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		{
 			fd_out = open_file(cmd->outfile, 2);
 			dup2(fd_out, 1);
-		}
-		else if (cmd->delimiter)
-		{
-			fd_in = open("./.heredoc.tmp", O_RDONLY);
-			dup2(fd_in, 0);
 		}
 		if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 		{
