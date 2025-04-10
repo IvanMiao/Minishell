@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 14:02:12 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:02:32 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	env_free(t_env *env);
 int		ft_pwd(void);
 int		ft_echo(t_token *token);
 int		ft_cd(char *path);
-int		ft_exit(int argc, char **argv);
+int		ft_exit(t_token *token);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, char *argument);
 int		ft_unset(t_env *env, char *argument);
@@ -127,7 +127,7 @@ int		check_all_commands(t_token *token);
 int		empty_line(char *str);
 
 // exec
-void	print_last_status(char *str, int value);
+void	print_last_status(t_token *token, int value);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);

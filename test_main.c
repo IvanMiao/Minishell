@@ -31,7 +31,8 @@ int	test_builtin(char *s, t_env *env, t_token *token)
 		flag = ft_unset(env, s + 6);
 	if (!ft_strncmp(s, "echo", 4))
 		flag = ft_echo(token);
-	// need to fix: echo(guillemets), exit
+	if (!ft_strncmp(s, "exit", 4))
+		flag = ft_exit(token);
 	return (flag);
 }
 

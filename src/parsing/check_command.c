@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:33:57 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/10 14:42:14 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/10 14:52:48 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	check_command_in(t_token *token)
 		{
 			if (!last || !token->next || token->next->type == R_IN)
 				return (printf
-					("bash: syntax error near unexpected token `<'\n"), 2);
+					("minishell: syntax error near unexpected token `<'\n"), 2);
 			if (!last || !token->next || token->next->type == R_DELIMITER)
 				return (printf
-					("bash: syntax error near unexpected token `<<'\n"), 2);
+					("minishell: syntax error near unexpected token `<<'\n"), 2);
 		}
 		last = token;
 		token = token->next;
@@ -71,10 +71,10 @@ int	check_command_out(t_token *token)
 		{
 			if (!last || !token->next || token->next->type == R_OUT)
 				return (printf
-					("bash: syntax error near unexpected token `>'\n"), 2);
+					("minishell: syntax error near unexpected token `>'\n"), 2);
 			if (!last || !token->next || token->next->type == R_REDIRECTION)
 				return (printf
-					("bash: syntax error near unexpected token `>>'\n"), 2);
+					("minishell: syntax error near unexpected token `>>'\n"), 2);
 		}
 		last = token;
 		token = token->next;
@@ -92,10 +92,10 @@ int	check_command_delimiter(t_token *token)
 		{
 			if (!last || !token->next || token->next->type == R_DELIMITER)
 				return (printf
-					("bash: syntax error near unexpected token `<<'\n"), 2);
+					("minishell: syntax error near unexpected token `<<'\n"), 2);
 			if (!last || !token->next || token->next->type == R_IN)
 				return (printf
-					("bash: syntax error near unexpected token `<'\n"), 2);
+					("minishell: syntax error near unexpected token `<'\n"), 2);
 		}
 		last = token;
 		token = token->next;
@@ -113,10 +113,10 @@ int	check_command_redirection(t_token *token)
 		{
 			if (!last || !token->next || token->next->type == R_REDIRECTION)
 				return (printf
-					("bash: syntax error near unexpected token `>>'\n"), 2);
+					("minishell: syntax error near unexpected token `>>'\n"), 2);
 			if (!last || !token->next || token->next->type == R_OUT)
 				return (printf
-					("bash: syntax error near unexpected token `>'\n"), 2);
+					("minishell: syntax error near unexpected token `>'\n"), 2);
 		}
 		last = token;
 		token = token->next;
