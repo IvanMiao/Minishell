@@ -68,7 +68,7 @@ int	main(int ac, char **av, char **envp)
 			printf(GREEN"get env_var!\nname: %s\nword: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
 		if (test_builtin(s, env, token) == -1) // exec builtin functions: echo, cd, pwd...
 			exit_code = pipex(token, env);
-		printf("%d\n", exit_code);
+		printf("------------------------\nexit_code: %d\n", exit_code);
 		token_lstclear(&token);
 		free(s);
 	}

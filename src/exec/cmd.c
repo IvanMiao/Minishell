@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 14:40:04 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:47:26 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,51 @@ t_cmd	*set_cmd(t_token *token, t_env *env)
 	return (cmd);
 }
 
+static void	all_dups(t_cmd *cmd, int *prev_pipe)
+{
+	int	fd_in;
+	int	fd_out;
+
+	if (prev_pipe == NULL)
+		fd_in = -1;
+	else
+		fd_in = *prev_pipe;
+	if (fd_in != -1)
+	{
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	if (cmd->delimiter)
+	{
+		fd_in = open("./.heredoc.tmp", O_RDONLY);
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	if (cmd->infile)
+	{
+		fd_in = open_file(cmd->infile, 0);
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	if (cmd->outfile && cmd->append == false)
+	{
+		fd_out = open_file(cmd->outfile, 1);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
+	else if (cmd->outfile && cmd->append == true)
+	{
+		fd_out = open_file(cmd->outfile, 2);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
+}
+
 int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
 	int		status;
-	int		fd_in;
-	int		fd_out;
 
 	pid = fork();
 	cmd = set_cmd(token, env);
@@ -65,36 +103,7 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 		// test done
 
 		handle_here_doc(token, env, cmd);
-		if (prev_pipe != 0)
-		{
-			fd_in = *prev_pipe;
-			dup2(fd_in, 0);
-			close(fd_in);
-		}
-		if (cmd->delimiter)
-		{
-			fd_in = open("./.heredoc.tmp", O_RDONLY);
-			dup2(fd_in, 0);
-			close(fd_in);
-		}
-		if (cmd->infile)
-		{
-			fd_in = open_file(cmd->infile, 0);
-			dup2(fd_in, 0);
-			close(fd_in);
-		}
-		if (cmd->outfile && cmd->append == false)
-		{
-			fd_out = open_file(cmd->outfile, 1);
-			dup2(fd_out, 1);
-			close(fd_out);
-		}
-		else if (cmd->outfile && cmd->append == true)
-		{
-			fd_out = open_file(cmd->outfile, 2);
-			dup2(fd_out, 1);
-			close(fd_out);
-		}
+		all_dups(cmd, prev_pipe);
 		if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 		{
 			ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
@@ -107,7 +116,7 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 		waitpid(pid, &status, 0);
 		if (cmd->delimiter)
 			unlink("./.heredoc.tmp");
-		if (*prev_pipe != 0)
+		if (*prev_pipe != -1)
 			close(*prev_pipe);
 		free_cmd(cmd);
 		if (WIFEXITED(status))
@@ -119,35 +128,10 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 int	ft_exec(t_token *token, t_env *env)
 {
 	t_cmd	*cmd;
-	int		fd_in;
-	int		fd_out;
 
 	cmd = set_cmd(token, env);
 	handle_here_doc(token, env, cmd);
-	if (cmd->delimiter)
-	{
-		fd_in = open("./.heredoc.tmp", O_RDONLY);
-		dup2(fd_in, 0);
-		close(fd_in);
-	}
-	if (cmd->infile)
-	{
-		fd_in = open_file(cmd->infile, 0);
-		dup2(fd_in, 0);
-		close(fd_in);
-	}
-	if (cmd->outfile && cmd->append == false)
-	{
-		fd_out = open_file(cmd->outfile, 1);
-		dup2(fd_out, 1);
-		close(fd_out);
-	}
-	else if (cmd->outfile && cmd->append == true)
-	{
-		fd_out = open_file(cmd->outfile, 2);
-		dup2(fd_out, 1);
-		close(fd_out);
-	}
+	all_dups(cmd, NULL);
 	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 	{
 		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
