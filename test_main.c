@@ -31,7 +31,8 @@ int	test_builtin(char *s, t_env *env, t_token *token)
 		flag = ft_unset(env, s + 6);
 	if (!ft_strncmp(s, "echo", 4))
 		flag = ft_echo(token);
-	// need to fix: echo(guillemets), exit
+	if (!ft_strncmp(s, "exit", 4))
+		flag = ft_exit(token);
 	return (flag);
 }
 
@@ -66,8 +67,8 @@ int	main(int ac, char **av, char **envp)
 			printf("token str: %s, the dollar variable is: %s\n", token->str, explain_dollar(env, token));
 		if (!strncmp(s, "getenv ", 7))// try: type getenv PWD, ...
 			printf(GREEN"get env_var!\nname: %s\nword: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
-		if (test_builtin(s, env, token) == -1) // exec builtin functions: echo, cd, pwd...
-			exit_code = pipex(token, env);
+		//if (test_builtin(s, env, token) == -1) // exec builtin functions: echo, cd, pwd...
+		exit_code = pipex(token, env);
 		printf("------------------------\nexit_code: %d\n", exit_code);
 		token_lstclear(&token);
 		free(s);

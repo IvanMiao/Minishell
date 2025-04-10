@@ -6,41 +6,11 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/10 15:46:11 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/10 16:12:50 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
-
-int	exit_status(pid_t child)
-{
-	int	status;
-
-	waitpid(child, &status, 0);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (-1);
-}
-
-void	print_last_status(char *str, int value)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == DOLLAR && str[i + 1] && str[i + 1] == '?')
-		{
-			printf("%d\n", value);
-			i += 2;
-		}
-		else
-		{
-			write(1, &str[i], 1);
-			i++;
-		}
-	}
-}
 
 void	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 {

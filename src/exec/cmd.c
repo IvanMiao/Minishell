@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 15:47:26 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/10 17:23:46 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,12 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	t_cmd	*cmd;
 	int		status;
 
-	pid = fork();
 	cmd = set_cmd(token, env);
+
+	if (exec_builtin(cmd, env, token) != -1)
+		return (0);
+	pid = fork();
+		
 	if (pid == 0)
 	{
 		// for test
@@ -132,6 +136,8 @@ int	ft_exec(t_token *token, t_env *env)
 	cmd = set_cmd(token, env);
 	handle_here_doc(token, env, cmd);
 	all_dups(cmd, NULL);
+	if (exec_builtin(cmd, env, token) != -1)
+		exit (0);
 	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 	{
 		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);

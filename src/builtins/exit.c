@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/04 19:03:03 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/10 16:06:27 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,41 @@ int	is_numeric(char *str)
 	return (1);
 }
 
-int	ft_exit(int argc, char **argv)
+int	count_args(t_token *token)
+{
+	int	count;
+
+	count = 0;
+	token = token->next;
+	while (token && token->type != PIPE)
+	{
+		count++;
+		token = token->next;
+	}
+	return (count);
+}
+
+int	ft_exit(t_token *token)
 {
 	long long			nb;
 	int					error;
+	int					argc;
+	t_token				*arg;
 
 	printf("exit\n");
-	if (argv[1])
+	argc = count_args(token);
+	arg = token->next;
+	if (arg)
 	{
-		if (!is_numeric(argv[1]))
+		if (!is_numeric(arg->str))
 			return (ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",
-					argv[1]), 255);
-		nb = ft_atoi(argv[1], &error);
+					arg->str), 255);
+		nb = ft_atoi(arg->str, &error);
 		if (error)
 			return (ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",
-					argv[1]), 255);
+					arg->str), 255);
 	}
-	if (argc > 2)
+	if (argc > 1)
 	{
 		ft_fprintf(2, "minishell: exit: too many arguments\n", NULL);
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 16:04:52 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/10 17:13:25 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,40 @@ static void	free_split(char **all_path)
 	free(all_path);
 }
 
+char	*get_builtin(char *first_cmd)
+{
+	if (!ft_strncmp(first_cmd, "cd", 2))
+		return ("cd");
+	if (!ft_strncmp(first_cmd, "pwd", 3))
+		return ("pwd");
+	if (!ft_strncmp(first_cmd, "env", 3))
+		return ("env");
+	if (!ft_strncmp(first_cmd, "export", 6))
+		return ("export");
+	if (!ft_strncmp(first_cmd, "unset", 5))
+		return ("unset");
+	if (!ft_strncmp(first_cmd, "echo", 4))
+		return ("echo");
+	if (!ft_strncmp(first_cmd, "exit", 4))
+		return ("exit");
+	return (NULL);
+}
+
 char	*get_pathname(t_env *env, char *first_cmd)
 {
 	char	**all_path;
 	char	*ans;
 	char	*tmp;
 	int		i;
+	char	*dup;
 
+	if (get_builtin(first_cmd))
+		return (ft_strdup(get_builtin(first_cmd)));
+		
+	dup = ft_strdup(first_cmd);
 	i = 0;
 	if (access(first_cmd, F_OK | X_OK) == 0 || !ft_get_env(env, "PATH"))
-		return (first_cmd);
+		return (dup);
 	all_path = ft_split((const char *)ft_get_env(env, "PATH"), ':');
 	while (all_path[i])
 	{
@@ -46,13 +70,14 @@ char	*get_pathname(t_env *env, char *first_cmd)
 		if (access(ans, F_OK | X_OK) == 0)
 		{
 			free_split(all_path);
+			free(dup);
 			return (ans);
 		}
 		free(ans);
 		i++;
 	}
 	free_split(all_path);
-	return (first_cmd);
+	return (dup);
 }
 
 char	**get_real_cmd(t_token *token, t_env *env)
@@ -94,7 +119,7 @@ char	**get_real_cmd(t_token *token, t_env *env)
 			free(tmp_tokenstr);
 		}
 		if (i == 0)
-			cmd[i] = get_pathname(env, ft_strdup(token->str));
+			cmd[i] = get_pathname(env, token->str);
 		else
 			cmd[i] = ft_strdup(token->str);
 		i++;
