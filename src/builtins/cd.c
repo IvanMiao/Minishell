@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/02 16:24:17 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/10 17:04:51 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-int	ft_cd(char *path)
+int	ft_cd(t_cmd *cmd)
 {
 	int	i;
 
-	i = chdir(path);
+	i = chdir(cmd->pathname);
 	if (i != 0)
 	{
-		ft_fprintf(2, "minishell: cd: %s: No such file or directory\n", path);
+		ft_fprintf(2, "minishell: cd: %s: No such file or directory\n", cmd->pathname);
 		return (1);
 	}
 	return (0);

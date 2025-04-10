@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 16:36:36 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/10 17:05:03 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	env_free(t_env *env);
 // builtins
 int		ft_pwd(void);
 int		ft_echo(t_token *token);
-int		ft_cd(char *path);
+int		ft_cd(t_cmd *cmd);
 int		ft_exit(t_token *token);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, char *argument);
