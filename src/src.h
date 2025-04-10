@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/09 18:06:13 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/10 14:02:12 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,20 +112,22 @@ t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);
 t_token	*init_tokens(char *str);
+
 int		check_quotes(char *str);
 char	*remove_quotes(char *str);
+char	*keep_string_quotes(char *str, int *i);
+
 int		check_command(t_token *token);
 int		check_command_in(t_token *token);
 int		check_command_out(t_token *token);
 int		check_command_delimiter(t_token *token);
 int		check_command_redirection(t_token *token);
 int		check_all_commands(t_token *token);
-char	*keep_string_quotes(char *str, int *i);
+
 int		empty_line(char *str);
 
 // exec
-int		pipex(t_token *token, t_env *env);
-void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
+void	print_last_status(char *str, int value);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
@@ -133,12 +135,15 @@ char	*get_infile(t_token *token);
 char	*get_outfile(t_token *token);
 char	*get_delimiter(t_token *token);
 bool	check_append(t_token *token);
-int		exec_simple_cmd(t_token *token, t_env *env);
+
+int		exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe);
+int		ft_exec(t_token *token, t_env *env);
+
+int		pipex(t_token *token, t_env *env);
+void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
 
 int		open_file(char *file, int value);
 void	errors(int value);
 void	error_here_doc(char *str);
-
-int	ft_exec(t_token *token, t_env *env, int *fd_pipe2);
 
 #endif

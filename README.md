@@ -23,7 +23,6 @@ Pour recuperer les dernieres versions du projet :
 1. `$?` & exit.c 
 2. builtin functions & system binaries in a single command
 3. Error messages
-4. On a pas le droit a exit !!
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html)

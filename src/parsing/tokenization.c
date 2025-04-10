@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/09 16:09:07 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/10 14:43:12 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	check_all_commands(t_token *token)
 {
-	return (check_command(token) || check_command_in(token)
-		|| check_command_out(token) || check_command_delimiter(token)
-		|| check_command_redirection(token));
+	return (check_command_in(token) || check_command_out(token)
+		|| check_command_delimiter(token) || check_command_redirection(token)
+		|| check_command(token));
 }
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
