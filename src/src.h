@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 17:05:03 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/10 17:35:55 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ char	*get_infile(t_token *token);
 char	*get_outfile(t_token *token);
 char	*get_delimiter(t_token *token);
 bool	check_append(t_token *token);
+
+int		exec_builtin(t_cmd *cmd, t_env *env, t_token *token);
 
 int		exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe);
 int		ft_exec(t_token *token, t_env *env);
