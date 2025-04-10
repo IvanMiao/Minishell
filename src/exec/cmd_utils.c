@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 17:55:40 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/10 16:04:52 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	**get_real_cmd(t_token *token, t_env *env)
 	char	**cmd;
 	bool	flag;
 	int		i;
+	char	*tmp_tokenstr;
 	t_token	*tmp;
 
 	tmp = token;
@@ -82,6 +83,15 @@ char	**get_real_cmd(t_token *token, t_env *env)
 		{
 			token = token->next;
 			continue ;
+		}
+		if (token->type == DOLLAR)
+		{
+			tmp_tokenstr = token->str;
+			if (ft_get_env(env, (token->str) + 1))
+				token->str = ft_strdup(ft_get_env(env, (token->str) + 1));
+			else
+				token->str = ft_strdup("");
+			free(tmp_tokenstr);
 		}
 		if (i == 0)
 			cmd[i] = get_pathname(env, ft_strdup(token->str));
