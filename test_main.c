@@ -32,7 +32,7 @@ int	test_builtin(char *s, t_env *env, t_token *token)
 	if (!ft_strncmp(s, "echo", 4))
 		flag = ft_echo(token);
 	if (!ft_strncmp(s, "exit", 4))
-		flag = ft_exit(token);
+		ft_exit(token);
 	return (flag);
 }
 
