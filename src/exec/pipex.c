@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/09 18:16:25 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/09 20:56:07 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,51 +42,58 @@ void	print_last_status(char *str, int value)
 	}
 }
 
-void	x_cmd(t_token *token, t_env *env)
+void	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 {
-	int		pipe_fd2[2];
+	int		pipe_fd[2];
 	pid_t	child;
 
-	if (pipe(pipe_fd2) == -1)
+	if (pipe(pipe_fd) == -1)
 		errors(2);
 	child = fork();
 	if (child == -1)
 		errors(3);
 	if (child == 0)
 	{
-		close(pipe_fd2[0]);
-		printf(RED"avant le dup2\n"ENDCOLOR);
-		if (dup2(pipe_fd2[1], STDOUT_FILENO) == -1)
+		if (*prev_pipe != 0)
+		{
+			if (dup2(*prev_pipe, STDIN_FILENO) == -1)
+				errors(1);
+			close(*prev_pipe);
+		}
+		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			errors(1);
-		printf("apres le dup2\n");
-		close(pipe_fd2[1]);
-		ft_exec(token, env, pipe_fd2);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		ft_exec(token, env);
+		exit(1);
 	}
-	close(pipe_fd2[1]);
-	if (dup2(pipe_fd2[0], STDIN_FILENO) == -1)
-		errors(1);
-	close(pipe_fd2[0]);
+	if (*prev_pipe != 0)
+		close(*prev_pipe);
+	close(pipe_fd[1]);
+	*prev_pipe = pipe_fd[0];
 }
 
 int	pipex(t_token *token, t_env *env)
 {
 	t_token	*start;
 	int		exit_code;
+	int		prev_pipe;
 
+	prev_pipe = 0;
 	start = token;
 	exit_code = 0;
 	while (token)
 	{
 		if (token->type == PIPE)
 		{
-			x_cmd(start, env);
+			x_cmd(start, env, &prev_pipe);
 			token = token->next;
 			start = token;
 		}
 		else
 			token = token->next;
 	}
-	exit_code = exec_simple_cmd(start, env);
+	exit_code = exec_simple_cmd(start, env, &prev_pipe);
 	print_last_status("$?", exit_code);
 	return (exit_code);
 }

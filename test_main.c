@@ -50,13 +50,13 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		s = readline("minishell$ ");
-		printf("all the commands are: %s\n", s);
 		ctrl_d(s, env);
+
 		token = init_tokens(s);
 		if (!token || empty_line(s))
 			continue ;
 		if (token)
-			print_token(token); // show all the tokens' types
+			print_token(token);
 		if (check_all_commands(token)) // check tokens
 		{
 			token_lstclear(&token);
@@ -68,7 +68,6 @@ int	main(int ac, char **av, char **envp)
 			printf(GREEN"get env_var!\nname: %s\nword: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
 		if (test_builtin(s, env, token) == -1) // exec builtin functions: echo, cd, pwd...
 			exit_code = pipex(token, env);
-			//exit_code = exec_simple_cmd(token, env);
 		printf("%d\n", exit_code);
 		token_lstclear(&token);
 		free(s);

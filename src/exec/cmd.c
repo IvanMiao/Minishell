@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/09 18:16:45 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/10 03:01:22 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_cmd	*set_cmd(t_token *token, t_env *env)
 	return (cmd);
 }
 
-int	exec_simple_cmd(t_token *token, t_env *env)
+int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
@@ -65,7 +65,11 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		// test done
 
 		handle_here_doc(token, env, cmd);
-
+		if (prev_pipe != 0)
+		{
+			fd_in = *prev_pipe;
+			dup2(fd_in, 0);
+		}
 		if (cmd->delimiter)
 		{
 			fd_in = open("./.heredoc.tmp", O_RDONLY);
@@ -98,6 +102,7 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		waitpid(pid, &status, 0);
 		if (cmd->delimiter)
 			unlink("./.heredoc.tmp");
+		close(*prev_pipe);
 		free_cmd(cmd);
 		if (WIFEXITED(status))
 			return (WEXITSTATUS(status));
@@ -105,13 +110,12 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	return (0);
 }
 
-int	ft_exec(t_token *token, t_env *env, int	*pipe_fd2)
+int	ft_exec(t_token *token, t_env *env)
 {
 	t_cmd	*cmd;
 	int		fd_in;
 	int		fd_out;
 
-	(void)pipe_fd2;
 	cmd = set_cmd(token, env);
 	handle_here_doc(token, env, cmd);
 	if (cmd->delimiter)
