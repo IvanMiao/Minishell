@@ -9,6 +9,10 @@ For test:
 delete `test_minishell`:
 - `make fclean`
 
+Pour recuperer les dernieres versions du projet :
+- `git pull`
+-`git merge *fichier d'origine*`
+
 ## TODO
 
 ### New Features
@@ -19,11 +23,11 @@ delete `test_minishell`:
 1. `$?` & exit.c 
 2. builtin functions & system binaries in a single command
 3. Error messages
+4. On a pas le droit a exit !!
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html)
 [Exit Status](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Exit-Status.html)
-
 
 
 ### Test
