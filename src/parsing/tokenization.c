@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 15:24:07 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 18:35:57 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,66 @@ t_tokentype	assign_tokens(char *str, t_token *last_token)
 	return (WORD);
 }
 
+/*
+void	modif_tokens_2(char *str, int *i, t_token **token)
+{
+	int			start;
+	char		*clean_word;
+	char		*s_inquote;
+	t_tokentype	type;
+	char		*tmp;
+	char		*tmp2;
+	bool		flag;
+
+	flag = false;
+	start = *i;
+	while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
+		&& str[*i] != ' ')
+		(*i)++;
+	clean_word = ft_substr(str, start, *i - start);
+	while (str[*i])
+	{
+		while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
+			&& str[*i] != ' ' && str[*i] != '\t' && str[*i] != '\'' && str[*i] != '"')
+			(*i)++;
+		if (!(str[*i] == '\'' || str[*i] == '"'))
+			break ;
+		tmp = clean_word;
+		tmp2 = ft_substr(str, start, *i - start);
+		clean_word = ft_strjoin(tmp, tmp2);
+		free(tmp);
+		free(tmp2);
+		if (str[*i] == '\'' || str[*i] == '"')
+		{
+			s_inquote = keep_string_quotes(str, i);
+			tmp = clean_word;
+			clean_word = ft_strjoin(clean_word, s_inquote);
+			free(tmp);
+			free(s_inquote);
+			printf(RED"QUOTE! clean_word is : %s\n"ENDCOLOR, clean_word);
+			(*i)++;
+			start = (*i);
+		}
+	}
+	type = assign_tokens(clean_word, token_lstlast(*token));
+	token_lstadd_back(token, token_lst(clean_word, type, 0, flag));
+	free(clean_word);
+}
+*/
+
 void	modif_tokens_2(char *str, int *i, t_token **token)
 {
 	int			start;
 	char		*clean_word;
 	char		*length_op;
 	t_tokentype	type;
+	bool		flag;
 
+	flag = false;
 	if (str[*i] == '\'' || str[*i] == '"')
 	{
 		if (str[*i] == '\'')
-			print_single_quote(str, i);
+			flag = true;
 		length_op = keep_string_quotes(str, i);
 		clean_word = ft_strdup(length_op);
 		free(length_op);
@@ -64,9 +113,11 @@ void	modif_tokens_2(char *str, int *i, t_token **token)
 			&& str[*i] != ' ')
 			(*i)++;
 		clean_word = remove_quotes(ft_substr(str, start, *i - start));
+		printf("\nclean_word is : %s\n", clean_word);
 	}
+	//printf("\nclean_word is : %s\n", clean_word);
 	type = assign_tokens(clean_word, token_lstlast(*token));
-	token_lstadd_back(token, token_lst(clean_word, type, 0));
+	token_lstadd_back(token, token_lst(clean_word, type, 0, flag));
 	free(clean_word);
 }
 
@@ -89,7 +140,7 @@ void	modif_tokens(char *str, int *i, t_token **token)
 		operation = ft_substr(str, *i, length_op);
 		last_token = token_lstlast(*token);
 		type = assign_tokens(operation, last_token);
-		token_lstadd_back(token, token_lst(operation, type, 0));
+		token_lstadd_back(token, token_lst(operation, type, 0, false));
 		free(operation);
 		*i += length_op;
 	}

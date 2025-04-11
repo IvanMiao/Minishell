@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:16:15 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/02 10:51:49 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 16:07:31 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-t_token	*token_lst(char *str, t_tokentype type, int value)
+t_token	*token_lst(char *str, t_tokentype type, int value, bool s_quote)
 {
 	t_token	*token;
 
@@ -22,6 +22,7 @@ t_token	*token_lst(char *str, t_tokentype type, int value)
 	token->str = ft_strdup(str);
 	token->value = value;
 	token->type = type;
+	token->s_quote = s_quote;
 	token->next = NULL;
 	return (token);
 }

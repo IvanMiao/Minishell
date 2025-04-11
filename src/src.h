@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 14:31:07 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 17:47:02 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # define RED		"\e[31m"
 # define GREEN		"\e[32m"
+# define BLUE		"\e[34m"
 # define ENDCOLOR	"\e[0m"
 
 # include "utils/utils.h"
@@ -57,6 +58,7 @@ typedef struct s_token
 {
 	t_tokentype		type;
 	char			*str;
+	bool			s_quote;
 	int				value;
 	struct s_token	*next;
 }					t_token;
@@ -107,13 +109,13 @@ void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
-t_token	*token_lst(char *str, t_tokentype type, int value);
+t_token	*token_lst(char *str, t_tokentype type, int value, bool s_quote);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);
 t_token	*init_tokens(char *str);
 
-char	*print_single_quote(char *str, int *i);
+char	*print_single_quote(t_token *token, int *i);
 int		check_quotes(char *str);
 char	*remove_quotes(char *str);
 char	*keep_string_quotes(char *str, int *i);

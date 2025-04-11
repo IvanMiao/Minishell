@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 13:32:50 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 18:29:51 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,20 @@ int	exit_history(int value)
 	return (value);
 }
 
+static void	print_token(t_token *token)
+{
+	int	i;
+
+	i = 1;
+	while (token)
+	{
+		printf("Token[%d] : [%s] (type %d, value %d, s_quote? %s)\n",
+			i, token->str, token->type, token->value, token->s_quote ? "yes": "no");
+		token = token->next;
+		i++;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*history;
@@ -66,11 +80,14 @@ int	main(int argc, char **argv, char **envp)
 		ctrl_d(history, env);
 		add_history(history);
 		token = init_tokens(history);
+		if (token)
+			print_token(token);
 		if (check_main(&token, history))
 			continue ;
 		pipex(token, env);
 		token_lstclear(&token);
 		free (history);
 	}
+	env_free(env);
 	return (0);
 }

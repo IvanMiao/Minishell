@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 13:18:10 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 16:09:57 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**get_real_cmd(t_token *token, t_env *env)
 			token = token->next;
 			continue ;
 		}
-		if (token->type == DOLLAR)
+		if (token->type == DOLLAR && token->s_quote == false)
 		{
 			tmp_tokenstr = token->str;
 			if (ft_get_env(env, (token->str) + 1))

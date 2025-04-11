@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 15:21:59 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 16:15:33 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,6 @@ char	*keep_string_quotes(char *str, int *i)
 	if (str[*i] == quote)
 		(*i)++;
 	return (result);
-}
-
-char	*print_single_quote(char *str, int *i)
-{
-	(*i)++;
-	while (str[*i] && str[*i] != '\'')
-	{
-		printf("%c", str[*i]);
-		(*i)++;
-	}
-	return (str);
 }
 
 /*void test_keep_string_quotes(char *input)
