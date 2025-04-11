@@ -6,23 +6,11 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/09 16:00:57 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:21:59 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
-
-int	empty_line(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-		i++;
-	return (i == ft_strlen(str));
-}
 
 //Lorsqu'on fait single_quote = !single_quote, ca fonctionne comme un
 //interupteur. C'est-a-dire que s'il rentre une fois dans le if, il aura la
@@ -43,11 +31,7 @@ int	check_quotes(char *str)
 		if (str[i] == '\'' && !double_quotes)
 			single_quote = !single_quote;
 		else if (str[i] == '"' && !single_quote)
-		{
-			if (str[i] == '$')
-				return (0);
 			double_quotes = !double_quotes;
-		}
 		i++;
 	}
 	return (single_quote || double_quotes);
@@ -102,6 +86,17 @@ char	*keep_string_quotes(char *str, int *i)
 	return (result);
 }
 
+char	*print_single_quote(char *str, int *i)
+{
+	(*i)++;
+	while (str[*i] && str[*i] != '\'')
+	{
+		printf("%c", str[*i]);
+		(*i)++;
+	}
+	return (str);
+}
+
 /*void test_keep_string_quotes(char *input)
 {
 	int i = 0;
@@ -123,7 +118,6 @@ int	main(void)
 	test_keep_string_quotes("'123'");
 	return 0;
 }*/
-
 
 /*
 int	main(void)

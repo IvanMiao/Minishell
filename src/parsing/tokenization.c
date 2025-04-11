@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/10 14:43:12 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:24:07 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ void	modif_tokens_2(char *str, int *i, t_token **token)
 	char		*clean_word;
 	char		*length_op;
 	t_tokentype	type;
-	t_token		*last_token;
 
 	if (str[*i] == '\'' || str[*i] == '"')
 	{
+		if (str[*i] == '\'')
+			print_single_quote(str, i);
 		length_op = keep_string_quotes(str, i);
 		clean_word = ft_strdup(length_op);
 		free(length_op);
@@ -62,12 +63,9 @@ void	modif_tokens_2(char *str, int *i, t_token **token)
 		while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
 			&& str[*i] != ' ')
 			(*i)++;
-		length_op = ft_substr(str, start, *i - start);
-		clean_word = remove_quotes(length_op);
-		free(length_op);
+		clean_word = remove_quotes(ft_substr(str, start, *i - start));
 	}
-	last_token = token_lstlast(*token);
-	type = assign_tokens(clean_word, last_token);
+	type = assign_tokens(clean_word, token_lstlast(*token));
 	token_lstadd_back(token, token_lst(clean_word, type, 0));
 	free(clean_word);
 }

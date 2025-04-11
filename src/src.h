@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 17:06:31 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/11 14:31:07 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);
 t_token	*init_tokens(char *str);
 
+char	*print_single_quote(char *str, int *i);
 int		check_quotes(char *str);
 char	*remove_quotes(char *str);
 char	*keep_string_quotes(char *str, int *i);
@@ -123,8 +124,6 @@ int		check_command_out(t_token *token);
 int		check_command_delimiter(t_token *token);
 int		check_command_redirection(t_token *token);
 int		check_all_commands(t_token *token);
-
-int		empty_line(char *str);
 
 // exec
 void	print_last_status(t_token *token, int value);
