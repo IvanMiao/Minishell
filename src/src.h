@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 17:47:02 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/11 18:41:12 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);
 t_token	*init_tokens(char *str);
 
-char	*print_single_quote(t_token *token, int *i);
 int		check_quotes(char *str);
 char	*remove_quotes(char *str);
 char	*keep_string_quotes(char *str, int *i);
