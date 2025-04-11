@@ -6,11 +6,12 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 19:03:37 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/11 20:16:23 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+#include "parsing.h"
 
 int	check_all_commands(t_token *token)
 {
@@ -42,58 +43,66 @@ t_tokentype	assign_tokens(char *str, t_token *last_token)
 	return (WORD);
 }
 
-char	*update_clean_word(char *clean_word, char *str, int start, int *i)
+char	*update_clean_word(char *clean_word, char *str, int *i)
 {
 	char	*tmp;
 	char	*res;
-
-	tmp = ft_substr(str, start, *i - start);
+	
+	tmp = malloc(sizeof(char) * 2);
+	tmp[0] = str[*i];
+	tmp[1] = '\0';
 	res = ft_strjoin(clean_word, tmp);
-	if (ft_strlen(clean_word) != 0)
-		free(clean_word);
-	free(tmp);
-	tmp = res;
-	res = remove_quotes(res);
+	free(clean_word);
 	free(tmp);
 	return (res);
 }
 
+void	update_state(int *state, char *str, int *i)
+{
+	if (str[*i] == '"' && *state == STATE_GENERAL)
+		*state = STATE_IN_DQ;
+	else if (str[*i] == '\'' && *state == STATE_GENERAL)
+		*state = STATE_IN_SQ;
+	else if (str[*i] == '"' && *state == STATE_IN_DQ)
+		*state = STATE_GENERAL;
+	else if (str[*i] == '\'' && *state == STATE_IN_SQ)
+		*state = STATE_GENERAL;
+}
+
 void	modif_tokens_2(char *str, int *i, t_token **token)
 {
-	int			start;
+	int			state;
 	char		*clean_word;
-	char		*s_inquote;
 	t_tokentype	type;
-	char		*tmp;
-	bool		flag;
+	int			tmp;
 
-	flag = false;
-	start = *i;
-
-	clean_word = "";
-
+	state = STATE_GENERAL;
+	clean_word = ft_strdup("");
 	while (str[*i])
 	{
-		while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
-			&& str[*i] != ' ' && str[*i] != '\t' && str[*i] != '\'' && str[*i] != '"')
-			(*i)++;
-		if (!(str[*i] == '\'' || str[*i] == '"'))
+		if ((str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+			|| str[*i] == ' ' || str[*i] == '\t')
 			break ;
-		clean_word = update_clean_word(clean_word, str, start, i);
-		if (str[*i] == '\'' || str[*i] == '"')
-		{
-			s_inquote = keep_string_quotes(str, i);
-			tmp = clean_word;
-			clean_word = ft_strjoin(clean_word, s_inquote);
-			free(tmp);
-			free(s_inquote);
-			printf(RED"QUOTE! clean_word is : %s\n"ENDCOLOR, clean_word);
+		update_state(&state, str, i);
+		if ((str[*i] == '"' && state != STATE_IN_SQ)
+			|| (str[*i] == '\'' && state != STATE_IN_DQ))
 			(*i)++;
-			start = (*i);
+		if ((str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+			|| str[*i] == ' ' || str[*i] == '\t' || !str[*i])
+			break ;
+		tmp = state;
+		update_state(&state, str, i);
+		if (tmp == state)
+		{
+			clean_word = update_clean_word(clean_word, str, i);
+			(*i)++;
 		}
+			// if state == DQ, str[*i] == '$', expand
+		else
+			(*i)++;
 	}
 	type = assign_tokens(clean_word, token_lstlast(*token));
-	token_lstadd_back(token, token_lst(clean_word, type, 0, flag));
+	token_lstadd_back(token, token_lst(clean_word, type, 0, false));
 	free(clean_word);
 }
 
