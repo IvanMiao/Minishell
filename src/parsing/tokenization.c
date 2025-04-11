@@ -6,19 +6,12 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 20:16:23 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/11 20:36:53 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 #include "parsing.h"
-
-int	check_all_commands(t_token *token)
-{
-	return (check_command_in(token) || check_command_out(token)
-		|| check_command_delimiter(token) || check_command_redirection(token)
-		|| check_command(token));
-}
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
 {
@@ -106,40 +99,6 @@ void	modif_tokens_2(char *str, int *i, t_token **token)
 	free(clean_word);
 }
 
-
-/*
-void	modif_tokens_2(char *str, int *i, t_token **token)
-{
-	int			start;
-	char		*clean_word;
-	char		*length_op;
-	t_tokentype	type;
-	bool		flag;
-
-	flag = false;
-	if (str[*i] == '\'' || str[*i] == '"')
-	{
-		if (str[*i] == '\'')
-			flag = true;
-		length_op = keep_string_quotes(str, i);
-		clean_word = ft_strdup(length_op);
-		free(length_op);
-	}
-	else
-	{
-		start = *i;
-		while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
-			&& str[*i] != ' ')
-			(*i)++;
-		clean_word = remove_quotes(ft_substr(str, start, *i - start));
-		printf(BLUE"\nclean_word is : %s\n"ENDCOLOR, clean_word);
-	}
-	//printf("\nclean_word is : %s\n", clean_word);
-	type = assign_tokens(clean_word, token_lstlast(*token));
-	token_lstadd_back(token, token_lst(clean_word, type, 0, flag));
-	free(clean_word);
-}
-*/
 
 void	modif_tokens(char *str, int *i, t_token **token)
 {

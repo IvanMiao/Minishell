@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   check_all_commands.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 19:35:53 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 20:34:03 by ymiao            ###   ########.fr       */
+/*   Created: 2025/04/11 20:31:09 by ymiao             #+#    #+#             */
+/*   Updated: 2025/04/11 20:31:30 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include "../src.h"
 
-// --- define a state machine ---
-# define STATE_GENERAL	1
-# define STATE_IN_SQ	2
-# define STATE_IN_DQ	3
-
-#endif
+int	check_all_commands(t_token *token)
+{
+	return (check_command_in(token) || check_command_out(token)
+		|| check_command_delimiter(token) || check_command_redirection(token)
+		|| check_command(token));
+}

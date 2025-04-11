@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:01:13 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 12:55:20 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/11 20:43:33 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ int	exec_builtin(t_cmd *cmd, t_env *env, t_token *token)
 	if (!ft_strncmp(cmd->pathname, "exit", 4))
 		flag = ft_exit(token);
 	if (flag != -1)
-		free(cmd);
+		free_cmd(cmd);
 	return (flag);
 }
