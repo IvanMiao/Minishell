@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 20:36:53 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/12 03:32:51 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,71 +36,36 @@ t_tokentype	assign_tokens(char *str, t_token *last_token)
 	return (WORD);
 }
 
-char	*update_clean_word(char *clean_word, char *str, int *i)
-{
-	char	*tmp;
-	char	*res;
-	
-	tmp = malloc(sizeof(char) * 2);
-	tmp[0] = str[*i];
-	tmp[1] = '\0';
-	res = ft_strjoin(clean_word, tmp);
-	free(clean_word);
-	free(tmp);
-	return (res);
-}
-
-void	update_state(int *state, char *str, int *i)
-{
-	if (str[*i] == '"' && *state == STATE_GENERAL)
-		*state = STATE_IN_DQ;
-	else if (str[*i] == '\'' && *state == STATE_GENERAL)
-		*state = STATE_IN_SQ;
-	else if (str[*i] == '"' && *state == STATE_IN_DQ)
-		*state = STATE_GENERAL;
-	else if (str[*i] == '\'' && *state == STATE_IN_SQ)
-		*state = STATE_GENERAL;
-}
-
-void	modif_tokens_2(char *str, int *i, t_token **token)
+void	modif_tokens_2(char *str, int *i, t_token **token, t_env *env)
 {
 	int			state;
 	char		*clean_word;
 	t_tokentype	type;
-	int			tmp;
+	int			order;
 
-	state = STATE_GENERAL;
+	state = ST_GENERAL;
 	clean_word = ft_strdup("");
 	while (str[*i])
 	{
-		if ((str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
-			|| str[*i] == ' ' || str[*i] == '\t')
+		//printf("char: %c, state: %d\n", str[*i], state);
+		if (state == ST_GENERAL && (str[*i] == '|' || str[*i] == '<'
+				|| str[*i] == '>' || str[*i] == ' ' || str[*i] == '\t'))
 			break ;
-		update_state(&state, str, i);
-		if ((str[*i] == '"' && state != STATE_IN_SQ)
-			|| (str[*i] == '\'' && state != STATE_IN_DQ))
-			(*i)++;
-		if ((str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
-			|| str[*i] == ' ' || str[*i] == '\t' || !str[*i])
-			break ;
-		tmp = state;
-		update_state(&state, str, i);
-		if (tmp == state)
+		order = update_state(&state, str, i);
+		if (order == EXPAND_DOLLAR)
+			clean_word = expand_dollar(str, i, env, clean_word);
+		else if (order == UPDATE_WORD)
 		{
 			clean_word = update_clean_word(clean_word, str, i);
 			(*i)++;
 		}
-			// if state == DQ, str[*i] == '$', expand
-		else
-			(*i)++;
 	}
 	type = assign_tokens(clean_word, token_lstlast(*token));
 	token_lstadd_back(token, token_lst(clean_word, type, 0, false));
 	free(clean_word);
 }
 
-
-void	modif_tokens(char *str, int *i, t_token **token)
+void	modif_tokens(char *str, int *i, t_token **token, t_env *env)
 {
 	int			length_op;
 	char		*operation;
@@ -124,11 +89,11 @@ void	modif_tokens(char *str, int *i, t_token **token)
 		*i += length_op;
 	}
 	else
-		modif_tokens_2(str, i, token);
+		modif_tokens_2(str, i, token, env);
 }
 
 //Pas sur de l'affichage du 1er perror
-t_token	*init_tokens(char *str)
+t_token	*init_tokens(char *str, t_env *env)
 {
 	int		i;
 	t_token	*token;
@@ -141,21 +106,11 @@ t_token	*init_tokens(char *str)
 		return (NULL);
 	}
 	while (str[i])
-		modif_tokens(str, &i, &token);
+		modif_tokens(str, &i, &token, env);
 	return (token);
 }
 
 /*
-void	print_token(t_token *token)
-{
-	while (token)
-	{
-		printf("Token : [%s] (type %d, value %d)\n",
-			token->str, token->type, token->value);
-		token = token->next;
-	}
-}
-
 int	main(void)
 {
 	char *str = "cat < input.txt | grep hello > output.txt";

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 16:09:57 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/12 03:22:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	**get_real_cmd(t_token *token, t_env *env)
 	char	**cmd;
 	bool	flag;
 	int		i;
-	char	*tmp_tokenstr;
+	//char	*tmp_tokenstr;
 	t_token	*tmp;
 
 	tmp = token;
@@ -107,15 +107,15 @@ char	**get_real_cmd(t_token *token, t_env *env)
 			token = token->next;
 			continue ;
 		}
-		if (token->type == DOLLAR && token->s_quote == false)
-		{
-			tmp_tokenstr = token->str;
-			if (ft_get_env(env, (token->str) + 1))
-				token->str = ft_strdup(ft_get_env(env, (token->str) + 1));
-			else
-				token->str = ft_strdup("");
-			free(tmp_tokenstr);
-		}
+		// if (token->type == DOLLAR && token->s_quote == false)
+		// {
+		// 	tmp_tokenstr = token->str;
+		// 	if (ft_get_env(env, (token->str) + 1))
+		// 		token->str = ft_strdup(ft_get_env(env, (token->str) + 1));
+		// 	else
+		// 		token->str = ft_strdup("");
+		// 	free(tmp_tokenstr);
+		// }
 		if (i == 0)
 			cmd[i] = get_pathname(env, token->str);
 		else

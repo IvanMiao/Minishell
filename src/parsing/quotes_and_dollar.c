@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes.c                                           :+:      :+:    :+:   */
+/*   quotes_and_dollar.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 16:15:33 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/12 03:42:26 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+#include "parsing.h"
 
 //Lorsqu'on fait single_quote = !single_quote, ca fonctionne comme un
 //interupteur. C'est-a-dire que s'il rentre une fois dans le if, il aura la
@@ -37,6 +38,87 @@ int	check_quotes(char *str)
 	return (single_quote || double_quotes);
 }
 
+/*
+following the rules for environment variables, we check if there is a variable exists
+if there is, add the dollar variable to clean_word
+if not, just return the clean_word as it is
+after this function, clean_word is updated
+*/ 
+char	*expand_dollar(char *str, int *i, t_env *env, char *clean_word)
+{
+	int		j;
+	char	*tmp;
+	char	*res;
+
+	(*i)++;
+	if (str[*i] != '_' && !ft_isalpha(str[*i]))
+	{
+		if (!(str[*i] == '\'' || str[*i] == '"'))
+			(*i)++;
+		return (clean_word);
+	}
+	j = *i;
+	while (str[*i]
+		&& (str[*i] == '_' || ft_isalpha(str[*i]) || ft_isdigit(str[*i])))
+		(*i)++;
+	tmp = ft_substr(str, j, (*i) - j);
+	res = ft_get_env(env, tmp);
+	free(tmp);
+	if (res)
+	{
+		tmp = ft_strjoin(clean_word, res);
+		free(clean_word);
+		clean_word = tmp;
+	}
+	return (clean_word);
+}
+
+/* if no dollar sign is found,
+	and the current state tells us to add a character
+	we call this function*/
+char	*update_clean_word(char *clean_word, char *str, int *i)
+{
+	char	tmp[2];
+	char	*res;
+
+	tmp[0] = str[*i];
+	tmp[1] = '\0';
+	res = ft_strjoin(clean_word, tmp);
+	free(clean_word);
+	return (res);
+}
+
+/* DEEPTHOUGHT of the state machine*/
+int	update_state(int *state, char *str, int *i)
+{
+	if (str[*i] == '"' && *state == ST_GENERAL)
+	{
+		*state = ST_IN_DQ;
+		(*i)++;
+	}
+	else if (str[*i] == '\'' && *state == ST_GENERAL)
+	{
+		*state = ST_IN_SQ;
+		(*i)++;
+	}
+	else if (str[*i] == '"' && *state == ST_IN_DQ)
+	{
+		*state = ST_GENERAL;
+		(*i)++;
+	}
+	else if (str[*i] == '\'' && *state == ST_IN_SQ)
+	{
+		*state = ST_GENERAL;
+		(*i)++;
+	}
+	else if ((*state == ST_IN_DQ || *state == ST_GENERAL) && str[*i] == '$')
+		return (EXPAND_DOLLAR);
+	else
+		return (UPDATE_WORD);
+	return (0);
+}
+
+/*
 char	*remove_quotes(char *str)
 {
 	char	*result;
@@ -85,6 +167,7 @@ char	*keep_string_quotes(char *str, int *i)
 		(*i)++;
 	return (result);
 }
+*/
 
 /*void test_keep_string_quotes(char *input)
 {
