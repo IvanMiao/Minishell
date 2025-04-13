@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/12 03:42:26 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/13 18:05:23 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ int	check_quotes(char *str)
 }
 
 /*
-following the rules for environment variables, we check if there is a variable exists
+following the rules for environment variables
+we check if there is a variable exists
 if there is, add the dollar variable to clean_word
 if not, just return the clean_word as it is
 after this function, clean_word is updated
-*/ 
+*/
 char	*expand_dollar(char *str, int *i, t_env *env, char *clean_word)
 {
 	int		j;
@@ -91,31 +92,29 @@ char	*update_clean_word(char *clean_word, char *str, int *i)
 /* DEEPTHOUGHT of the state machine*/
 int	update_state(int *state, char *str, int *i)
 {
+	int	tmp_state;
+
+	tmp_state = *state;
 	if (str[*i] == '"' && *state == ST_GENERAL)
-	{
 		*state = ST_IN_DQ;
-		(*i)++;
-	}
 	else if (str[*i] == '\'' && *state == ST_GENERAL)
-	{
 		*state = ST_IN_SQ;
-		(*i)++;
-	}
 	else if (str[*i] == '"' && *state == ST_IN_DQ)
-	{
 		*state = ST_GENERAL;
-		(*i)++;
-	}
 	else if (str[*i] == '\'' && *state == ST_IN_SQ)
-	{
 		*state = ST_GENERAL;
+	if (tmp_state != *state)
+	{
 		(*i)++;
+		return (0);
 	}
-	else if ((*state == ST_IN_DQ || *state == ST_GENERAL) && str[*i] == '$')
-		return (EXPAND_DOLLAR);
-	else
-		return (UPDATE_WORD);
-	return (0);
+	if ((*state == ST_IN_DQ || *state == ST_GENERAL)
+		&& str[*i] == '$' && str[(*i) + 1])
+	{
+		if (str[(*i) + 1] != '\'')		
+			return (EXPAND_DOLLAR);
+	}
+	return (UPDATE_WORD);
 }
 
 /*

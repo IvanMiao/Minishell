@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/12 03:32:18 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/13 18:05:40 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,18 +43,22 @@ $(NAME): $(SRCS)
 	@$(CC) $(CFLAGS) $(SRCS) $(SRC_MAIN) -o $(NAME) $(LIBS)
 	@echo "Compilation complete."
 
-test:
-	@$(CC) $(CFLAGS) $(SRCS) $(SRC_TEST) -g3 -o test_minishell $(LIBS)
+create_supp: ./test/create_supp.c
+	$(CC) $(CFLAGS) ./test/create_supp.c -o create_supp
+	./create_supp
+
+test: create_supp
+	@$(CC) $(CFLAGS) $(SRCS) $(SRC_TEST) -o test_minishell $(LIBS)
 	@echo "Test programme done."
 
 clean:
 	@rm -f $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME) test_minishell
+	@rm -f $(NAME) test_minishell readline.supp create_supp
 	@echo "Fully cleaned up."
 
 re: fclean all
 	@echo "Recompiled."
 	
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test

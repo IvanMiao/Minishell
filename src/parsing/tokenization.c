@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/12 03:32:51 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/13 18:05:27 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	modif_tokens_2(char *str, int *i, t_token **token, t_env *env)
 	clean_word = ft_strdup("");
 	while (str[*i])
 	{
-		//printf("char: %c, state: %d\n", str[*i], state);
 		if (state == ST_GENERAL && (str[*i] == '|' || str[*i] == '<'
 				|| str[*i] == '>' || str[*i] == ' ' || str[*i] == '\t'))
 			break ;
@@ -61,9 +60,10 @@ void	modif_tokens_2(char *str, int *i, t_token **token, t_env *env)
 		}
 	}
 	type = assign_tokens(clean_word, token_lstlast(*token));
-	token_lstadd_back(token, token_lst(clean_word, type, 0, false));
+	token_lstadd_back(token, token_lst(clean_word, type, 0));
 	free(clean_word);
 }
+//printf("char: %c, state: %d\n", str[*i], state);
 
 void	modif_tokens(char *str, int *i, t_token **token, t_env *env)
 {
@@ -84,7 +84,7 @@ void	modif_tokens(char *str, int *i, t_token **token, t_env *env)
 		operation = ft_substr(str, *i, length_op);
 		last_token = token_lstlast(*token);
 		type = assign_tokens(operation, last_token);
-		token_lstadd_back(token, token_lst(operation, type, 0, false));
+		token_lstadd_back(token, token_lst(operation, type, 0));
 		free(operation);
 		*i += length_op;
 	}

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 22:19:03 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/13 18:05:14 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,12 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	printf("infile is: %s\n", cmd->infile);
 	printf("outfile is: %s\n", cmd->outfile);
 	printf("delimiter is: %s\n", cmd->delimiter);
-	char	*ans = cmd->append? "true" : "false";
-	printf("append?: %s\n", ans);
+	printf("append?: %s\n", cmd->append? "true" : "false");
 	printf("------------------------------\n");
 	if (exec_builtin(cmd, env, token) != -1)
-		return (0);
+		return (free_cmd(cmd), 0);
+	if (ft_strlen(cmd->pathname) == 0)
+		return (free_cmd(cmd), 0);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -107,6 +108,8 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 		execve(cmd->pathname, cmd->argv, cmd->envp);
 		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
 		free_cmd(cmd);
+		env_free(env);
+		token_lstclear(&token); // need to check the token is the first token!
 		exit (1);
 	}
 	else
@@ -128,6 +131,8 @@ int	ft_exec(t_token *token, t_env *env)
 	t_cmd	*cmd;
 
 	cmd = set_cmd(token, env);
+	if (ft_strlen(cmd->pathname) == 0)
+		return (free_cmd(cmd) ,0);
 	handle_here_doc(token, env, cmd);
 	all_dups(cmd, NULL);
 	if (exec_builtin(cmd, env, token) != -1)
@@ -136,9 +141,10 @@ int	ft_exec(t_token *token, t_env *env)
 	{
 		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
 		free_cmd(cmd);
-		exit (1);
+		env_free(env);
+		token_lstclear(&token); // the token is not the first token!
 	}
-	return (0);
+	return (1);
 }
 
 /*printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);

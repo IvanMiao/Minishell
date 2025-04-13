@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 23:39:50 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/13 03:45:07 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	print_token(t_token *token)
 	i = 1;
 	while (token)
 	{
-		printf("Token[%d] : [%s] (type %d, value %d, s_quote? %s)\n",
-			i, token->str, token->type, token->value, token->s_quote ? "yes": "no");
+		printf("Token[%d] : [%s] (type %d, value %d)\n",
+			i, token->str, token->type, token->value);
 		token = token->next;
 		i++;
 	}

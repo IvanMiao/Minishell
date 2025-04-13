@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/12 03:31:30 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/13 18:05:36 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_token
 {
 	t_tokentype		type;
 	char			*str;
-	bool			s_quote;
 	int				value;
 	struct s_token	*next;
 }					t_token;
@@ -109,7 +108,7 @@ void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
-t_token	*token_lst(char *str, t_tokentype type, int value, bool s_quote);
+t_token	*token_lst(char *str, t_tokentype type, int value);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);

@@ -36,6 +36,36 @@ int	test_builtin(char *s, t_env *env, t_token *token)
 	return (flag);
 }
 
+int	empty_line(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	return (i == ft_strlen(str));
+}
+
+int	check_main(t_token **token, char *history)
+{
+	if (!*token || empty_line(history))
+	{
+		if (*token)
+			token_lstclear(token);
+		free(history);
+		return (1);
+	}
+	if (check_all_commands(*token))
+	{
+		token_lstclear(token);
+		free(history);
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
@@ -53,8 +83,8 @@ int	main(int ac, char **av, char **envp)
 		s = readline("minishell$ ");
 		ctrl_d(s, env);
 
-		token = init_tokens(s);
-		if (!token || empty_line(s))
+		token = init_tokens(s, env);
+		if (check_main(&token, s))
 			continue ;
 		if (token)
 			print_token(token);
