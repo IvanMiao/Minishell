@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 03:19:57 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 14:49:42 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*history;
 	t_env	*env;
 	t_token	*token;
+	int		exit_code;
 
 	(void)argc;
 	(void)argv;
@@ -84,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 			print_token(token);
 		if (check_main(&token, history))
 			continue ;
-		pipex(token, env);
+		exit_code = pipex(token, env);
 		token_lstclear(&token);
 		free(history);
 	}

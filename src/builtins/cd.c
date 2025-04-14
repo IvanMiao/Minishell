@@ -6,20 +6,20 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 17:04:51 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/14 14:32:47 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-int	ft_cd(t_cmd *cmd)
+int	ft_cd(char *pathname)
 {
 	int	i;
 
-	i = chdir(cmd->pathname);
+	i = chdir(pathname);
 	if (i != 0)
 	{
-		ft_fprintf(2, "minishell: cd: %s: No such file or directory\n", cmd->pathname);
+		ft_fprintf(2, "minishell: cd: %s: No such file or directory\n", pathname);
 		return (1);
 	}
 	return (0);
