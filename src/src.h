@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 17:35:55 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/14 14:23:31 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # define RED		"\e[31m"
 # define GREEN		"\e[32m"
+# define BLUE		"\e[34m"
 # define ENDCOLOR	"\e[0m"
 
 # include "utils/utils.h"
@@ -57,6 +58,7 @@ typedef struct s_token
 {
 	t_tokentype		type;
 	char			*str;
+	bool			s_quote;
 	int				value;
 	struct s_token	*next;
 }					t_token;
@@ -107,12 +109,13 @@ void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
-t_token	*token_lst(char *str, t_tokentype type, int value);
+t_token	*token_lst(char *str, t_tokentype type, int value, bool s_quote);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);
 t_token	*init_tokens(char *str);
 
+char	*print_single_quote(t_token *token, int *i);
 int		check_quotes(char *str);
 char	*remove_quotes(char *str);
 char	*keep_string_quotes(char *str, int *i);
@@ -123,8 +126,6 @@ int		check_command_out(t_token *token);
 int		check_command_delimiter(t_token *token);
 int		check_command_redirection(t_token *token);
 int		check_all_commands(t_token *token);
-
-int		empty_line(char *str);
 
 // exec
 void	print_last_status(t_token *token, int value);

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 17:23:46 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/11 15:41:45 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,23 +89,19 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	int		status;
 
 	cmd = set_cmd(token, env);
-
+	printf("------------------------------\n");
+	printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
+	printf("infile is: %s\n", cmd->infile);
+	printf("outfile is: %s\n", cmd->outfile);
+	printf("delimiter is: %s\n", cmd->delimiter);
+	char	*ans = cmd->append? "true" : "false";
+	printf("append?: %s\n", ans);
+	printf("------------------------------\n");
 	if (exec_builtin(cmd, env, token) != -1)
 		return (0);
 	pid = fork();
-		
 	if (pid == 0)
 	{
-		// for test
-		printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
-		printf("infile is: %s\n", cmd->infile);
-		printf("outfile is: %s\n", cmd->outfile);
-		printf("delimiter is: %s\n", cmd->delimiter);
-		char	*ans = cmd->append? "true" : "false";
-		printf("append?: %s\n", ans);
-		printf("------------------------------\n");
-		// test done
-
 		handle_here_doc(token, env, cmd);
 		all_dups(cmd, prev_pipe);
 		if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
@@ -146,3 +142,12 @@ int	ft_exec(t_token *token, t_env *env)
 	}
 	return (0);
 }
+
+/*printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
+printf("infile is: %s\n", cmd->infile);
+printf("outfile is: %s\n", cmd->outfile);
+printf("delimiter is: %s\n", cmd->delimiter);
+char	*ans = cmd->append? "true" : "false";
+printf("append?: %s\n", ans);
+printf("------------------------------\n");
+*/

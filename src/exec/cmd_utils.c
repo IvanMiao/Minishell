@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/10 17:36:45 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/14 14:24:09 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ char	*get_pathname(t_env *env, char *first_cmd)
 
 	if (get_builtin(first_cmd))
 		return (ft_strdup(get_builtin(first_cmd)));
-
 	dup = ft_strdup(first_cmd);
 	i = 0;
 	if (access(first_cmd, F_OK | X_OK) == 0 || !ft_get_env(env, "PATH"))
@@ -96,7 +95,6 @@ char	**get_real_cmd(t_token *token, t_env *env)
 			i++;
 		tmp = tmp->next;
 	}
-
 	cmd = malloc(sizeof(char *) * (i + 1));
 	if (!cmd)
 		return (NULL);
@@ -109,7 +107,7 @@ char	**get_real_cmd(t_token *token, t_env *env)
 			token = token->next;
 			continue ;
 		}
-		if (token->type == DOLLAR)
+		if (token->type == DOLLAR && token->s_quote == false)
 		{
 			tmp_tokenstr = token->str;
 			if (ft_get_env(env, (token->str) + 1))

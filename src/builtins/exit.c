@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/10 16:46:17 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/14 14:22:28 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ int	ft_exit(t_token *token)
 	{
 		if (!is_numeric(arg->str))
 		{
-			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", arg->str);
+			ft_fprintf(2,
+					"minishell: exit: %s: numeric argument required\n", arg->str);
 			exit(255);
 		}
 		nb = ft_atoi(arg->str, &error);
