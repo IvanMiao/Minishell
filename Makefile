@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/13 18:05:40 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/14 02:50:51 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
 LIBS	=	-lreadline
 
-SRC_TEST	=	test_main.c
 SRC_MAIN	=	main.c
 SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				builtins/export.c builtins/unset.c \
@@ -37,19 +36,25 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
+SRC_TEST	=	test_main.c
+
 all: $(NAME)
 
 $(NAME): $(SRCS)
 	@$(CC) $(CFLAGS) $(SRCS) $(SRC_MAIN) -o $(NAME) $(LIBS)
 	@echo "Compilation complete."
 
-create_supp: ./test/create_supp.c
+supp: ./test/create_supp.c
 	$(CC) $(CFLAGS) ./test/create_supp.c -o create_supp
 	./create_supp
 
-test: create_supp
+test: supp
+	rm create_supp
 	@$(CC) $(CFLAGS) $(SRCS) $(SRC_TEST) -o test_minishell $(LIBS)
 	@echo "Test programme done."
+
+val: test
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./test_minishell
 
 clean:
 	@rm -f $(OBJS)

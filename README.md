@@ -13,7 +13,7 @@ For test:
 - `./test_minishell`
 
 test with valgrind:
-- `valgrind --leak-check=full --show-lead-kinds=all --suppressions=readline.supp ./test_minishell`
+- `valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./test_minishell`
 
 delete `test_minishell`:
 - `make fclean`

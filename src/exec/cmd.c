@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/13 18:05:14 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 03:19:40 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	int		status;
 
 	cmd = set_cmd(token, env);
-	printf("------------------------------\n");
-	printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
-	printf("infile is: %s\n", cmd->infile);
-	printf("outfile is: %s\n", cmd->outfile);
-	printf("delimiter is: %s\n", cmd->delimiter);
-	printf("append?: %s\n", cmd->append? "true" : "false");
-	printf("------------------------------\n");
+	// printf("------------------------------\n");
+	// printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
+	// printf("infile is: %s\n", cmd->infile);
+	// printf("outfile is: %s\n", cmd->outfile);
+	// printf("delimiter is: %s\n", cmd->delimiter);
+	// printf("append?: %s\n", cmd->append? "true" : "false");
+	// printf("------------------------------\n");
 	if (exec_builtin(cmd, env, token) != -1)
 		return (free_cmd(cmd), 0);
 	if (ft_strlen(cmd->pathname) == 0)
@@ -132,7 +132,7 @@ int	ft_exec(t_token *token, t_env *env)
 
 	cmd = set_cmd(token, env);
 	if (ft_strlen(cmd->pathname) == 0)
-		return (free_cmd(cmd) ,0);
+		return (free_cmd(cmd), 0);
 	handle_here_doc(token, env, cmd);
 	all_dups(cmd, NULL);
 	if (exec_builtin(cmd, env, token) != -1)

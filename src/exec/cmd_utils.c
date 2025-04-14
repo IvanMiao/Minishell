@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/13 18:05:10 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/13 23:35:28 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_pathname(t_env *env, char *first_cmd)
 	int		i;
 	char	*dup;
 
-	if (get_builtin(first_cmd))
+	if (get_builtin(first_cmd) != NULL)
 		return (ft_strdup(get_builtin(first_cmd)));
 	dup = ft_strdup(first_cmd);
 	if (ft_strlen(first_cmd) == 0)

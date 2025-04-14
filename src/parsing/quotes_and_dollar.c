@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/13 18:05:23 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 03:42:32 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,17 @@ char	*update_clean_word(char *clean_word, char *str, int *i)
 }
 
 /* DEEPTHOUGHT of the state machine*/
+static int	utils_update_state(int state, char c)
+{
+	if (!(c == '_' || ft_isalpha(c) || ft_isdigit(c)))
+		return (UPDATE_WORD);
+	if ((c != '\'' && c != '"'))
+		return (EXPAND_DOLLAR);
+	if ((state == ST_GENERAL && (c == '\'' || c == '"')))
+		return (EXPAND_DOLLAR);
+	return (0);
+}
+
 int	update_state(int *state, char *str, int *i)
 {
 	int	tmp_state;
@@ -109,10 +120,10 @@ int	update_state(int *state, char *str, int *i)
 		return (0);
 	}
 	if ((*state == ST_IN_DQ || *state == ST_GENERAL)
-		&& str[*i] == '$' && str[(*i) + 1])
+		&& str[*i] == '$' && str[*i + 1])
 	{
-		if (str[(*i) + 1] != '\'')		
-			return (EXPAND_DOLLAR);
+		if (utils_update_state(*state, str[*i + 1]))
+			return (utils_update_state(*state, str[*i + 1]));
 	}
 	return (UPDATE_WORD);
 }

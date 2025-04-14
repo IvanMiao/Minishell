@@ -1,41 +1,5 @@
 #include "src/src.h"
 
-void	print_token(t_token *token)
-{
-	int	i;
-
-	i = 1;
-	while (token)
-	{
-		printf("Token[%d] : [%s] (type %d, value %d)\n",
-			i, token->str, token->type, token->value);
-		token = token->next;
-		i++;
-	}
-}
-
-int	test_builtin(char *s, t_env *env, t_token *token)
-{
-	int	flag;
-
-	flag = -1;
-	if (!ft_strncmp(s, "cd ", 3))
-		flag = ft_cd(s + 3);
-	if (!ft_strncmp(s, "pwd", 3))
-		flag = ft_pwd();
-	if (!ft_strncmp(s, "env", 3))
-		flag = ft_env(env);
-	if (!ft_strncmp(s, "export ", 7))
-		flag = ft_export(env, s + 7);
-	if (!ft_strncmp(s, "unset ", 6))
-		flag = ft_unset(env, s + 6);
-	if (!ft_strncmp(s, "echo", 4))
-		flag = ft_echo(token);
-	if (!ft_strncmp(s, "exit", 4))
-		flag = ft_exit(token);
-	return (flag);
-}
-
 int	empty_line(char *str)
 {
 	size_t	i;
@@ -66,6 +30,59 @@ int	check_main(t_token **token, char *history)
 	return (0);
 }
 
+int	exit_history(int value)
+{
+	rl_clear_history();
+	return (value);
+}
+
+static void	print_token(t_token *token)
+{
+	int	i;
+
+	i = 1;
+	while (token)
+	{
+		printf("Token[%d] : [%s] (type %d, value %d)\n",
+			i, token->str, token->type, token->value);
+		token = token->next;
+		i++;
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	char	*history;
+	t_env	*env;
+	t_token	*token;
+
+	(void)argc;
+	(void)argv;
+	controls();
+	env = set_env(envp);
+	while (1)
+	{
+		history = readline("minishell$ ");
+		if (!history)
+			exit_history(1);
+		ctrl_d(history, env);
+		add_history(history);
+		token = init_tokens(history, env);
+		if (token)
+			print_token(token);
+		if (check_main(&token, history))
+			continue ;
+		pipex(token, env);
+		token_lstclear(&token);
+		free (history);
+	}
+	env_free(env);
+	return (0);
+}
+
+
+
+/*
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
@@ -105,3 +122,4 @@ int	main(int ac, char **av, char **envp)
 	env_free(env);
 	return (0);
 }
+*/
