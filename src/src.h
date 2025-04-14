@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 17:49:07 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 19:08:59 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,7 @@ void	print_last_status(t_token *token, int value);
 int		open_file(char *file, int value);
 void	errors(int value);
 void	error_here_doc(char *str);
+
+void	free_all(t_env *env, t_token *token, t_cmd *cmd);
 
 #endif
