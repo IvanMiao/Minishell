@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   check_all_commands.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/04 16:21:43 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 23:50:34 by ymiao            ###   ########.fr       */
+/*   Created: 2025/04/11 20:31:09 by ymiao             #+#    #+#             */
+/*   Updated: 2025/04/11 20:31:30 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-char	*ft_get_env(t_env *env, char *name)
+int	check_all_commands(t_token *token)
 {
-	while (env)
-	{
-		if (ft_strlen(env->name) == ft_strlen(name))
-		{
-			if (ft_strncmp(env->name, name, ft_strlen(name)) == 0)
-				return (env->word);
-		}
-		env = env->next;
-	}
-	return (NULL);
+	return (check_command_in(token) || check_command_out(token)
+		|| check_command_delimiter(token) || check_command_redirection(token)
+		|| check_command(token));
 }

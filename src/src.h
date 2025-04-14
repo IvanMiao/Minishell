@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 14:23:31 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/14 14:29:42 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_token
 {
 	t_tokentype		type;
 	char			*str;
-	bool			s_quote;
 	int				value;
 	struct s_token	*next;
 }					t_token;
@@ -109,16 +108,16 @@ void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
-t_token	*token_lst(char *str, t_tokentype type, int value, bool s_quote);
+t_token	*token_lst(char *str, t_tokentype type, int value);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);
-t_token	*init_tokens(char *str);
+t_token	*init_tokens(char *str, t_env *env);
 
-char	*print_single_quote(t_token *token, int *i);
 int		check_quotes(char *str);
-char	*remove_quotes(char *str);
-char	*keep_string_quotes(char *str, int *i);
+int		update_state(int *state, char *str, int *i);
+char	*update_clean_word(char *clean_word, char *str, int *i);
+char	*expand_dollar(char *str, int *i, t_env *env, char *clean_word);
 
 int		check_command(t_token *token);
 int		check_command_in(t_token *token);
@@ -128,7 +127,6 @@ int		check_command_redirection(t_token *token);
 int		check_all_commands(t_token *token);
 
 // exec
-void	print_last_status(t_token *token, int value);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
@@ -136,15 +134,16 @@ char	*get_infile(t_token *token);
 char	*get_outfile(t_token *token);
 char	*get_delimiter(t_token *token);
 bool	check_append(t_token *token);
+void	free_cmd(t_cmd *cmd);
 
 int		exec_builtin(t_cmd *cmd, t_env *env, t_token *token);
-
 int		exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe);
 int		ft_exec(t_token *token, t_env *env);
 
 int		pipex(t_token *token, t_env *env);
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
 
+void	print_last_status(t_token *token, int value);
 int		open_file(char *file, int value);
 void	errors(int value);
 void	error_here_doc(char *str);

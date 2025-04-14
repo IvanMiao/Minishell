@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/04 16:21:43 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/11 23:50:34 by ymiao            ###   ########.fr       */
+/*   Created: 2025/04/11 19:35:53 by ymiao             #+#    #+#             */
+/*   Updated: 2025/04/12 03:00:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src.h"
+#ifndef PARSING_H
+# define PARSING_H
 
-char	*ft_get_env(t_env *env, char *name)
-{
-	while (env)
-	{
-		if (ft_strlen(env->name) == ft_strlen(name))
-		{
-			if (ft_strncmp(env->name, name, ft_strlen(name)) == 0)
-				return (env->word);
-		}
-		env = env->next;
-	}
-	return (NULL);
-}
+// --- define a state machine ---
+# define ST_GENERAL	1
+# define ST_IN_SQ	2
+# define ST_IN_DQ	3
+
+//
+# define EXPAND_DOLLAR	4
+# define UPDATE_WORD	5
+#endif

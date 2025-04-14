@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/10 17:07:31 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/14 02:50:51 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
 LIBS	=	-lreadline
 
-SRC_TEST	=	test_main.c
 SRC_MAIN	=	main.c
 SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				builtins/export.c builtins/unset.c \
@@ -24,7 +23,8 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				ctrl/signals.c \
 				env/env_list.c env/env_free.c \
 				env/get_env.c env/explain_dollar.c \
-				parsing/check_command.c parsing/quotes.c \
+				parsing/check_command.c parsing/check_all_commands.c \
+				parsing/quotes_and_dollar.c \
 				parsing/token_list.c parsing/tokenization.c \
 				exec/cmd.c exec/cmd_utils.c \
 				exec/cmd_utils_part2.c exec/exec_utils.c \
@@ -36,24 +36,34 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
+SRC_TEST	=	test_main.c
+
 all: $(NAME)
 
 $(NAME): $(SRCS)
 	@$(CC) $(CFLAGS) $(SRCS) $(SRC_MAIN) -o $(NAME) $(LIBS)
 	@echo "Compilation complete."
 
-test:
-	@$(CC) $(CFLAGS) $(SRCS) $(SRC_TEST) -g3 -o test_minishell $(LIBS)
+supp: ./test/create_supp.c
+	$(CC) $(CFLAGS) ./test/create_supp.c -o create_supp
+	./create_supp
+
+test: supp
+	rm create_supp
+	@$(CC) $(CFLAGS) $(SRCS) $(SRC_TEST) -o test_minishell $(LIBS)
 	@echo "Test programme done."
+
+val: test
+	valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./test_minishell
 
 clean:
 	@rm -f $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME) test_minishell
+	@rm -f $(NAME) test_minishell readline.supp create_supp
 	@echo "Fully cleaned up."
 
 re: fclean all
 	@echo "Recompiled."
 	
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test

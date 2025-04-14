@@ -6,18 +6,12 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/11 18:35:57 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/13 18:05:27 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
-
-int	check_all_commands(t_token *token)
-{
-	return (check_command_in(token) || check_command_out(token)
-		|| check_command_delimiter(token) || check_command_redirection(token)
-		|| check_command(token));
-}
+#include "parsing.h"
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
 {
@@ -42,86 +36,36 @@ t_tokentype	assign_tokens(char *str, t_token *last_token)
 	return (WORD);
 }
 
-/*
-void	modif_tokens_2(char *str, int *i, t_token **token)
+void	modif_tokens_2(char *str, int *i, t_token **token, t_env *env)
 {
-	int			start;
+	int			state;
 	char		*clean_word;
-	char		*s_inquote;
 	t_tokentype	type;
-	char		*tmp;
-	char		*tmp2;
-	bool		flag;
+	int			order;
 
-	flag = false;
-	start = *i;
-	while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
-		&& str[*i] != ' ')
-		(*i)++;
-	clean_word = ft_substr(str, start, *i - start);
+	state = ST_GENERAL;
+	clean_word = ft_strdup("");
 	while (str[*i])
 	{
-		while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
-			&& str[*i] != ' ' && str[*i] != '\t' && str[*i] != '\'' && str[*i] != '"')
-			(*i)++;
-		if (!(str[*i] == '\'' || str[*i] == '"'))
+		if (state == ST_GENERAL && (str[*i] == '|' || str[*i] == '<'
+				|| str[*i] == '>' || str[*i] == ' ' || str[*i] == '\t'))
 			break ;
-		tmp = clean_word;
-		tmp2 = ft_substr(str, start, *i - start);
-		clean_word = ft_strjoin(tmp, tmp2);
-		free(tmp);
-		free(tmp2);
-		if (str[*i] == '\'' || str[*i] == '"')
+		order = update_state(&state, str, i);
+		if (order == EXPAND_DOLLAR)
+			clean_word = expand_dollar(str, i, env, clean_word);
+		else if (order == UPDATE_WORD)
 		{
-			s_inquote = keep_string_quotes(str, i);
-			tmp = clean_word;
-			clean_word = ft_strjoin(clean_word, s_inquote);
-			free(tmp);
-			free(s_inquote);
-			printf(RED"QUOTE! clean_word is : %s\n"ENDCOLOR, clean_word);
+			clean_word = update_clean_word(clean_word, str, i);
 			(*i)++;
-			start = (*i);
 		}
 	}
 	type = assign_tokens(clean_word, token_lstlast(*token));
-	token_lstadd_back(token, token_lst(clean_word, type, 0, flag));
+	token_lstadd_back(token, token_lst(clean_word, type, 0));
 	free(clean_word);
 }
-*/
+//printf("char: %c, state: %d\n", str[*i], state);
 
-void	modif_tokens_2(char *str, int *i, t_token **token)
-{
-	int			start;
-	char		*clean_word;
-	char		*length_op;
-	t_tokentype	type;
-	bool		flag;
-
-	flag = false;
-	if (str[*i] == '\'' || str[*i] == '"')
-	{
-		if (str[*i] == '\'')
-			flag = true;
-		length_op = keep_string_quotes(str, i);
-		clean_word = ft_strdup(length_op);
-		free(length_op);
-	}
-	else
-	{
-		start = *i;
-		while ((str[*i] && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
-			&& str[*i] != ' ')
-			(*i)++;
-		clean_word = remove_quotes(ft_substr(str, start, *i - start));
-		printf("\nclean_word is : %s\n", clean_word);
-	}
-	//printf("\nclean_word is : %s\n", clean_word);
-	type = assign_tokens(clean_word, token_lstlast(*token));
-	token_lstadd_back(token, token_lst(clean_word, type, 0, flag));
-	free(clean_word);
-}
-
-void	modif_tokens(char *str, int *i, t_token **token)
+void	modif_tokens(char *str, int *i, t_token **token, t_env *env)
 {
 	int			length_op;
 	char		*operation;
@@ -140,16 +84,16 @@ void	modif_tokens(char *str, int *i, t_token **token)
 		operation = ft_substr(str, *i, length_op);
 		last_token = token_lstlast(*token);
 		type = assign_tokens(operation, last_token);
-		token_lstadd_back(token, token_lst(operation, type, 0, false));
+		token_lstadd_back(token, token_lst(operation, type, 0));
 		free(operation);
 		*i += length_op;
 	}
 	else
-		modif_tokens_2(str, i, token);
+		modif_tokens_2(str, i, token, env);
 }
 
 //Pas sur de l'affichage du 1er perror
-t_token	*init_tokens(char *str)
+t_token	*init_tokens(char *str, t_env *env)
 {
 	int		i;
 	t_token	*token;
@@ -162,21 +106,11 @@ t_token	*init_tokens(char *str)
 		return (NULL);
 	}
 	while (str[i])
-		modif_tokens(str, &i, &token);
+		modif_tokens(str, &i, &token, env);
 	return (token);
 }
 
 /*
-void	print_token(t_token *token)
-{
-	while (token)
-	{
-		printf("Token : [%s] (type %d, value %d)\n",
-			token->str, token->type, token->value);
-		token = token->next;
-	}
-}
-
 int	main(void)
 {
 	char *str = "cat < input.txt | grep hello > output.txt";

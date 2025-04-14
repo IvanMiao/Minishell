@@ -1,6 +1,42 @@
 #include "src/src.h"
 
-void	print_token(t_token *token)
+int	empty_line(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	return (i == ft_strlen(str));
+}
+
+int	check_main(t_token **token, char *history)
+{
+	if (!*token || empty_line(history))
+	{
+		if (*token)
+			token_lstclear(token);
+		free(history);
+		return (1);
+	}
+	if (check_all_commands(*token))
+	{
+		token_lstclear(token);
+		free(history);
+		return (1);
+	}
+	return (0);
+}
+
+int	exit_history(int value)
+{
+	rl_clear_history();
+	return (value);
+}
+
+static void	print_token(t_token *token)
 {
 	int	i;
 
@@ -14,28 +50,37 @@ void	print_token(t_token *token)
 	}
 }
 
-int	test_builtin(char *s, t_env *env, t_token *token)
+int	main(int argc, char **argv, char **envp)
 {
-	int	flag;
+	char	*history;
+	t_env	*env;
+	t_token	*token;
 
-	flag = -1;
-	if (!ft_strncmp(s, "cd ", 3))
-		flag = ft_cd(s + 3);
-	if (!ft_strncmp(s, "pwd", 3))
-		flag = ft_pwd();
-	if (!ft_strncmp(s, "env", 3))
-		flag = ft_env(env);
-	if (!ft_strncmp(s, "export ", 7))
-		flag = ft_export(env, s + 7);
-	if (!ft_strncmp(s, "unset ", 6))
-		flag = ft_unset(env, s + 6);
-	if (!ft_strncmp(s, "echo", 4))
-		flag = ft_echo(token);
-	if (!ft_strncmp(s, "exit", 4))
-		ft_exit(token);
-	return (flag);
+	(void)argc;
+	(void)argv;
+	controls();
+	env = set_env(envp);
+	while (1)
+	{
+		history = readline("minishell$ ");
+		if (!history)
+			exit_history(1);
+		ctrl_d(history, env);
+		add_history(history);
+		token = init_tokens(history, env);
+		if (token)
+			print_token(token);
+		if (check_main(&token, history))
+			continue ;
+		pipex(token, env);
+		token_lstclear(&token);
+		free (history);
+	}
+	env_free(env);
+	return (0);
 }
 
+/*
 int	main(int ac, char **av, char **envp)
 {
 	t_env	*env;
@@ -53,8 +98,8 @@ int	main(int ac, char **av, char **envp)
 		s = readline("minishell$ ");
 		ctrl_d(s, env);
 
-		token = init_tokens(s);
-		if (!token || empty_line(s))
+		token = init_tokens(s, env);
+		if (check_main(&token, s))
 			continue ;
 		if (token)
 			print_token(token);
@@ -75,3 +120,4 @@ int	main(int ac, char **av, char **envp)
 	env_free(env);
 	return (0);
 }
+*/

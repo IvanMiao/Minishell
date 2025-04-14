@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 14:24:09 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/14 14:27:54 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	free_split(char **all_path)
 	free(all_path);
 }
 
-char	*get_builtin(char *first_cmd)
+static char	*get_builtin(char *first_cmd)
 {
 	if (!ft_strncmp(first_cmd, "cd", 2))
 		return ("cd");
@@ -54,9 +54,11 @@ char	*get_pathname(t_env *env, char *first_cmd)
 	int		i;
 	char	*dup;
 
-	if (get_builtin(first_cmd))
+	if (get_builtin(first_cmd) != NULL)
 		return (ft_strdup(get_builtin(first_cmd)));
 	dup = ft_strdup(first_cmd);
+	if (ft_strlen(first_cmd) == 0)
+		return (dup);
 	i = 0;
 	if (access(first_cmd, F_OK | X_OK) == 0 || !ft_get_env(env, "PATH"))
 		return (dup);
@@ -84,7 +86,6 @@ char	**get_real_cmd(t_token *token, t_env *env)
 	char	**cmd;
 	bool	flag;
 	int		i;
-	char	*tmp_tokenstr;
 	t_token	*tmp;
 
 	tmp = token;
@@ -106,15 +107,6 @@ char	**get_real_cmd(t_token *token, t_env *env)
 		{
 			token = token->next;
 			continue ;
-		}
-		if (token->type == DOLLAR && token->s_quote == false)
-		{
-			tmp_tokenstr = token->str;
-			if (ft_get_env(env, (token->str) + 1))
-				token->str = ft_strdup(ft_get_env(env, (token->str) + 1));
-			else
-				token->str = ft_strdup("");
-			free(tmp_tokenstr);
 		}
 		if (i == 0)
 			cmd[i] = get_pathname(env, token->str);
