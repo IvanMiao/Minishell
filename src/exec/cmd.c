@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 03:19:40 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 18:16:26 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 		free_cmd(cmd);
 		env_free(env);
 		token_lstclear(&token); // need to check the token is the first token!
-		exit (1);
+		exit (127);
 	}
 	else
 	{

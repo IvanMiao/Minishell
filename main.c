@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 03:19:57 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 18:04:08 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,10 @@ int	main(int argc, char **argv, char **envp)
 	char	*history;
 	t_env	*env;
 	t_token	*token;
+	//int		exit_code;
 
-	(void)argc;
-	(void)argv;
+	if (argc != 1)
+		return(ft_fprintf(2, "Usage: %s\n", argv[0]), 1);
 	controls();
 	env = set_env(envp);
 	while (1)
