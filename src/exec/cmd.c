@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 18:16:26 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 18:53:46 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,16 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	// printf("------------------------------\n");
 	if (exec_builtin(cmd, env, token) != -1)
 		return (free_cmd(cmd), 0);
-	if (ft_strlen(cmd->pathname) == 0)
+	if (cmd->pathname && !ft_strlen(cmd->pathname))
 		return (free_cmd(cmd), 0);
 	pid = fork();
 	if (pid == 0)
 	{
+		printf("ready to heredoc, delimiter: %s, token: %s\n", cmd->delimiter, token->str);
 		handle_here_doc(token, env, cmd);
 		all_dups(cmd, prev_pipe);
+		if (!cmd->pathname)
+			exit(0); // need to free all
 		execve(cmd->pathname, cmd->argv, cmd->envp);
 		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
 		free_cmd(cmd);

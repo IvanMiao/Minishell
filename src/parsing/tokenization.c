@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 17:26:22 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 18:30:51 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ t_tokentype	assign_tokens(char *str, t_token *last_token)
 	return (WORD);
 }
 
+/* 
+	this line:
+	if (!(order == EXPAND_DOLLAR && ft_strlen(clean_word) == 0))
+	is to assure that 
+	a non-existing dollar var cannot be added into token linked list
+*/
 void	modif_tokens_2(char *str, int *i, t_token **token, t_env *env)
 {
 	int			state;

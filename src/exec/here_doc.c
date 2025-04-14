@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/09 04:26:23 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 18:55:10 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	read_here_doc(char *limiter)
 void	here_doc(t_token *token, t_env *env, t_cmd *cmd)
 {
 	(void) env;
-	if (!token || !token->next)
+	if (!token)
 		return ;
 	read_here_doc(cmd->delimiter);
 }

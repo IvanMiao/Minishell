@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 18:17:47 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 18:34:25 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 	if (child == 0)
 	{
 		if (*prev_pipe != -1 && dup2(*prev_pipe, STDIN_FILENO) == -1)
-			errors(1);
+			errors(1); // need to free all
 		if (*prev_pipe != -1)
 			close(*prev_pipe);
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-			errors(1);
+			errors(1); // need to free all
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		ft_exec(token, env);
