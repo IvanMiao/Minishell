@@ -6,12 +6,15 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:01:13 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 15:44:09 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 17:52:19 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
+/* the third argument of ft_strncmp is len(builtin) + 1,
+	to be sure that exactly the builtin will be exectued
+	otherwise, cd1, cdaaa, cdbonjour... will also be exectued*/
 int	exec_builtin(t_cmd *cmd, t_env *env, t_token *token)
 {
 	int	flag;

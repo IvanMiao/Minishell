@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 		ctrl_d(history, env);
 		add_history(history);
 		token = init_tokens(history, env);
-		if (!token)
+		if (token)
 			print_token(token);
 		if (check_main(&token, history))
 			continue ;

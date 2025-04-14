@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/14 02:50:51 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/14 17:29:37 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ supp: ./test/create_supp.c
 	$(CC) $(CFLAGS) ./test/create_supp.c -o create_supp
 	./create_supp
 
-test: supp
+test: supp $(SRCS)
 	rm create_supp
 	@$(CC) $(CFLAGS) $(SRCS) $(SRC_TEST) -o test_minishell $(LIBS)
 	@echo "Test programme done."

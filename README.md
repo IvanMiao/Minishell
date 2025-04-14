@@ -30,7 +30,6 @@ delete `test_minishell`:
 4. Error messages
 5. redirections in pipex(like, two pipes, three commands, but there's a redirection in second command)
 6. free t_token when execve fails in pipex(add a *prev in t_token?)
-7. `echoBLABLA` still do `echo`, same for other builtins
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html)

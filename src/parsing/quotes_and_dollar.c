@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 03:42:32 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 17:00:37 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,12 @@ char	*update_clean_word(char *clean_word, char *str, int *i)
 static int	utils_update_state(int state, char c)
 {
 	if (!(c == '_' || ft_isalpha(c) || ft_isdigit(c)))
+	{
+		if ((state == ST_GENERAL && (c == '\'' || c == '"')))
+			return (EXPAND_DOLLAR);
 		return (UPDATE_WORD);
+	}
 	if ((c != '\'' && c != '"'))
-		return (EXPAND_DOLLAR);
-	if ((state == ST_GENERAL && (c == '\'' || c == '"')))
 		return (EXPAND_DOLLAR);
 	return (0);
 }
