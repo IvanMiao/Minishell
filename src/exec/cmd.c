@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 19:33:21 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/14 22:29:33 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 			exit(0); 
 		}// need to free all
 		execve(cmd->pathname, cmd->argv, cmd->envp);
-		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
+		ft_fprintf(2, "minishell: %s: command not found\n", cmd->pathname);
 		free_all(env, token, cmd); // need to check the token is the first token!
 		exit (127);
 	}
@@ -142,7 +142,7 @@ int	ft_exec(t_token *token, t_env *env)
 		exit (0);
 	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 	{
-		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
+		ft_fprintf(2, "minishell: %s: command not found\n", cmd->pathname);
 		free_cmd(cmd);
 		env_free(env);
 		token_lstclear(&token); // the token is not the first token!

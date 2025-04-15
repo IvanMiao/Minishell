@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 17:00:37 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 05:18:49 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,104 +129,6 @@ int	update_state(int *state, char *str, int *i)
 	}
 	return (UPDATE_WORD);
 }
-
-/*
-char	*remove_quotes(char *str)
-{
-	char	*result;
-	int		single_quote;
-	int		double_quotes;
-	int		i;
-	int		j;
-
-	result = malloc(ft_strlen(str) + 1);
-	if (!result)
-		return (NULL);
-	single_quote = 0;
-	double_quotes = 0;
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' && !double_quotes)
-			single_quote = !single_quote;
-		else if (str[i] == '"' && !single_quote)
-			double_quotes = !double_quotes;
-		else
-			result[j++] = str[i];
-		i++;
-	}
-	result[j] = '\0';
-	return (result);
-}
-
-char	*keep_string_quotes(char *str, int *i)
-{
-	char	*result;
-	char	quote;
-	int		start;
-	int		end;
-
-	quote = str[*i];
-	if (str[*i] == quote)
-		(*i)++;
-	start = *i;
-	while (str[*i] && str[*i] != quote)
-		(*i)++;
-	end = *i;
-	result = ft_substr(str, start, end - start);
-	if (str[*i] == quote)
-		(*i)++;
-	return (result);
-}
-*/
-
-/*void test_keep_string_quotes(char *input)
-{
-	int i = 0;
-	char *res = keep_string_quotes(input, &i);
-	printf("Input:    %s\n", input);
-	printf("Extract:  %s\n", res ? res : "(null)");
-	printf("Index:    %d\n", i);
-	printf("---------------------\n");
-	free(res);
-}
-
-int	main(void)
-{
-	test_keep_string_quotes("\"hello                               world\"");
-	test_keep_string_quotes("'abc def'");
-	test_keep_string_quotes("\"no end");
-	test_keep_string_quotes("''");
-	test_keep_string_quotes("\"\"");
-	test_keep_string_quotes("'123'");
-	return 0;
-}*/
-
-/*
-int	main(void)
-{
-	char	*str;
-	char	*cleaned;
-
-	while (1)
-	{
-		str = readline("minishell> ");
-		ctrl_d(str);
-		if (empty_line(str))
-			printf("Ligne vide.\n");
-		else if (check_quotes(str))
-			printf("Erreur : Citations non fermées.\n");
-		else
-		{
-			cleaned = remove_quotes(str);
-			printf("Sans guillemets : %s\n", cleaned);
-			free(cleaned);
-		}
-		free(str);
-	}
-	return (0);
-}*/
 
 /*
 int	main(void)
