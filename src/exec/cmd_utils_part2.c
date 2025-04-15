@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils_part2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/09 15:55:23 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 13:13:01 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,13 @@ char	*get_delimiter(t_token *token)
 		token = token->next;
 	}
 	return (NULL);
+}
+
+int	is_directory(t_cmd *cmd)
+{
+	struct stat	info;
+
+	if (stat(cmd->pathname, &info) != 0)
+		return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/14 18:13:04 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/15 15:41:27 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				ctrl/signals.c \
 				env/env_list.c env/env_free.c \
 				env/get_env.c \
-				parsing/check_command.c parsing/check_all_commands.c \
+				parsing/check_syntaxe.c \
 				parsing/quotes_and_dollar.c \
 				parsing/token_list.c parsing/tokenization.c \
 				exec/cmd.c exec/cmd_utils.c \

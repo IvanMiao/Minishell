@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 18:04:08 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:40:40 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_main(t_token **token, char *history)
 		free(history);
 		return (1);
 	}
-	if (check_all_commands(*token))
+	if (check_syntax(*token))
 	{
 		token_lstclear(token);
 		free(history);

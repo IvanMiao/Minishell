@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 15:21:42 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:40:11 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	env_free(t_env *env);
 // builtins
 int		ft_pwd(void);
 int		ft_echo(t_token *token);
-int		ft_cd(char *path);
+int		ft_cd(char *pathname);
 int		ft_exit(t_token *token);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, char *argument);
@@ -108,6 +108,7 @@ void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
+int		check_syntax(t_token *token);
 t_token	*token_lst(char *str, t_tokentype type, int value);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
@@ -118,13 +119,6 @@ int		check_quotes(char *str);
 int		update_state(int *state, char *str, int *i);
 char	*update_clean_word(char *clean_word, char *str, int *i);
 char	*expand_dollar(char *str, int *i, t_env *env, char *clean_word);
-
-int		check_command(t_token *token);
-int		check_command_in(t_token *token);
-int		check_command_out(t_token *token);
-int		check_command_delimiter(t_token *token);
-int		check_command_redirection(t_token *token);
-int		check_all_commands(t_token *token);
 
 // exec
 char	**get_real_cmd(t_token *token, t_env *env);
