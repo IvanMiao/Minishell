@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 15:42:26 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/15 18:45:13 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <dirent.h>
 
 // ----a enum for tokenization-----
 
@@ -59,6 +60,7 @@ typedef struct s_token
 	t_tokentype		type;
 	char			*str;
 	int				value;
+	struct s_token	*prev;
 	struct s_token	*next;
 }					t_token;
 
@@ -90,17 +92,18 @@ void	env_lstadd_back(t_env **lst, t_env *new);
 void	env_lstdelone(t_env **lst, t_env *target);
 t_env	*set_env(char **envp);
 char	*ft_get_env(t_env *env, char *name);
-char	*explain_dollar(t_env *env, t_token *token);
 void	env_free(t_env *env);
 
 // builtins
 int		ft_pwd(char **argv);
 int		ft_echo(t_token *token);
-int		ft_cd(char *pathname);
+int		ft_cd(t_token *token, t_env *env);
 int		ft_exit(t_token *token);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, char *argument);
 int		ft_unset(t_env *env, char *argument);
+
+int		count_args(t_token *token);
 
 // signals
 void	controls(void);
@@ -108,7 +111,6 @@ void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
-int		check_syntax(t_token *token);
 t_token	*token_lst(char *str, t_tokentype type, int value);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
@@ -120,7 +122,10 @@ int		update_state(int *state, char *str, int *i);
 char	*update_clean_word(char *clean_word, char *str, int *i);
 char	*expand_dollar(char *str, int *i, t_env *env, char *clean_word);
 
+int		check_syntax(t_token *token);
+
 // exec
+int		is_directory(t_cmd *cmd);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
@@ -141,5 +146,7 @@ void	print_last_status(t_token *token, int value);
 int		open_file(char *file, int value);
 void	errors(int value);
 void	error_here_doc(char *str);
+
+void	free_all(t_env *env, t_token *token, t_cmd *cmd);
 
 #endif

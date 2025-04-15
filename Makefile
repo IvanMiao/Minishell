@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+         #
+#    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/15 12:02:05 by cgerner          ###   ########.fr        #
+#    Updated: 2025/04/15 15:41:27 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				builtins/exit.c \
 				ctrl/signals.c \
 				env/env_list.c env/env_free.c \
-				env/get_env.c env/explain_dollar.c \
+				env/get_env.c \
 				parsing/check_syntaxe.c \
 				parsing/quotes_and_dollar.c \
 				parsing/token_list.c parsing/tokenization.c \
@@ -40,7 +40,7 @@ SRC_TEST	=	test_main.c
 
 all: $(NAME)
 
-$(NAME): $(SRCS)
+$(NAME): $(SRCS) $(SRC_MAIN)
 	@$(CC) $(CFLAGS) $(SRCS) $(SRC_MAIN) -o $(NAME) $(LIBS)
 	@echo "Compilation complete."
 
@@ -48,7 +48,7 @@ supp: ./test/create_supp.c
 	$(CC) $(CFLAGS) ./test/create_supp.c -o create_supp
 	./create_supp
 
-test: supp
+test: supp $(SRCS)
 	rm create_supp
 	@$(CC) $(CFLAGS) $(SRCS) $(SRC_TEST) -o test_minishell $(LIBS)
 	@echo "Test programme done."
@@ -66,4 +66,4 @@ fclean: clean
 re: fclean all
 	@echo "Recompiled."
 	
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re test supp val

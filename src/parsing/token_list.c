@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:16:15 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/13 18:05:25 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:34:08 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_token	*token_lst(char *str, t_tokentype type, int value)
 	token->str = ft_strdup(str);
 	token->value = value;
 	token->type = type;
+	token->prev = NULL;
 	token->next = NULL;
 	return (token);
 }
@@ -51,12 +52,15 @@ void	token_lstadd_back(t_token **lst, t_token *new)
 	}
 	last = token_lstlast(*lst);
 	last->next = new;
+	new->prev = last;
 }
 
 void	token_lstclear(t_token **lst)
 {
 	t_token	*temp;
-
+	
+	while ((*lst)->prev)
+		(*lst) = (*lst)->prev;
 	while (*lst)
 	{
 		temp = (*lst)->next;

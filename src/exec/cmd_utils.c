@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 14:27:54 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:39:06 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,22 @@ static void	free_split(char **all_path)
 
 static char	*get_builtin(char *first_cmd)
 {
-	if (!ft_strncmp(first_cmd, "cd", 2))
+	char	*tmp;
+
+	tmp = first_cmd;
+	if (!ft_strncmp(first_cmd, "cd", 2) && ft_strlen(tmp) == 2)
 		return ("cd");
-	if (!ft_strncmp(first_cmd, "pwd", 3))
+	if (!ft_strncmp(first_cmd, "pwd", 3) && ft_strlen(tmp) == 3)
 		return ("pwd");
-	if (!ft_strncmp(first_cmd, "env", 3))
+	if (!ft_strncmp(first_cmd, "env", 3) && ft_strlen(tmp) == 3)
 		return ("env");
-	if (!ft_strncmp(first_cmd, "export", 6))
+	if (!ft_strncmp(first_cmd, "export", 6) && ft_strlen(tmp) == 6)
 		return ("export");
-	if (!ft_strncmp(first_cmd, "unset", 5))
+	if (!ft_strncmp(first_cmd, "unset", 5) && ft_strlen(tmp) == 5)
 		return ("unset");
-	if (!ft_strncmp(first_cmd, "echo", 4))
+	if (!ft_strncmp(first_cmd, "echo", 4) && ft_strlen(tmp) == 4)
 		return ("echo");
-	if (!ft_strncmp(first_cmd, "exit", 4))
+	if (!ft_strncmp(first_cmd, "exit", 4) && ft_strlen(tmp) == 4)
 		return ("exit");
 	return (NULL);
 }

@@ -13,9 +13,9 @@ For test:
 - `./test_minishell`
 
 test with valgrind:
-- `valgrind --leak-check=full --show-leak-kinds=all --suppressions=readline.supp ./test_minishell`
+- `make val`
 
-delete `test_minishell`:
+delete `test_minishell` and `readline.supp`:
 - `make fclean`
 
 ## TODO
@@ -32,7 +32,7 @@ delete `test_minishell`:
 6. free t_token when execve fails in pipex(add a *prev in t_token?)
 
 ref:
-[Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html)
+[Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html), 
 [Exit Status](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Exit-Status.html)
 
 

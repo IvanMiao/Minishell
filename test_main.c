@@ -48,6 +48,7 @@ static void	print_token(t_token *token)
 		token = token->next;
 		i++;
 	}
+	printf("---------------\n");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -55,9 +56,10 @@ int	main(int argc, char **argv, char **envp)
 	char	*history;
 	t_env	*env;
 	t_token	*token;
+	int		exit_code;
 
-	(void)argc;
-	(void)argv;
+	if (argc != 1)
+		return(ft_fprintf(2, "Usage: %s\n", argv[0]), 1);
 	controls();
 	env = set_env(envp);
 	while (1)
@@ -72,9 +74,10 @@ int	main(int argc, char **argv, char **envp)
 			print_token(token);
 		if (check_main(&token, history))
 			continue ;
-		pipex(token, env);
+		exit_code = pipex(token, env);
 		token_lstclear(&token);
-		free (history);
+		free(history);
+		printf("----exit code----\n%d\n", exit_code);
 	}
 	env_free(env);
 	return (0);
