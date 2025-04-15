@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 22:29:33 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:33:31 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	// printf("delimiter is: %s\n", cmd->delimiter);
 	// printf("append?: %s\n", cmd->append? "true" : "false");
 	// printf("------------------------------\n");
-	if (exec_builtin(cmd, env, token) != -1)
-		return (free_cmd(cmd), 0); // need to fix, maybe move it in child
 	if (cmd->pathname && !ft_strlen(cmd->pathname))
 		return (free_cmd(cmd), 0);
 	pid = fork();
@@ -105,14 +103,14 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	{
 		handle_here_doc(token, env, cmd);
 		all_dups(cmd, prev_pipe);
-		if (!cmd->pathname)
+		if (exec_builtin(cmd, env, token) != -1 || !cmd->pathname)
 		{
 			free_all(env, token, cmd);
-			exit(0); 
-		}// need to free all
+			exit(0);
+		}
 		execve(cmd->pathname, cmd->argv, cmd->envp);
 		ft_fprintf(2, "minishell: %s: command not found\n", cmd->pathname);
-		free_all(env, token, cmd); // need to check the token is the first token!
+		free_all(env, token, cmd);
 		exit (127);
 	}
 	else
@@ -139,13 +137,14 @@ int	ft_exec(t_token *token, t_env *env)
 	handle_here_doc(token, env, cmd);
 	all_dups(cmd, NULL);
 	if (exec_builtin(cmd, env, token) != -1)
+	{
+		free_all(env, token, cmd);
 		exit (0);
+	}
 	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 	{
 		ft_fprintf(2, "minishell: %s: command not found\n", cmd->pathname);
-		free_cmd(cmd);
-		env_free(env);
-		token_lstclear(&token); // the token is not the first token!
+		free_all(env, token, cmd);
 	}
 	return (1);
 }

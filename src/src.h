@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 19:08:59 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:21:42 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_token
 	t_tokentype		type;
 	char			*str;
 	int				value;
+	struct s_token	*prev;
 	struct s_token	*next;
 }					t_token;
 
