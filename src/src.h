@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 15:40:11 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:45:16 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
 
 // parsing
-int		check_syntax(t_token *token);
 t_token	*token_lst(char *str, t_tokentype type, int value);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
@@ -119,6 +118,8 @@ int		check_quotes(char *str);
 int		update_state(int *state, char *str, int *i);
 char	*update_clean_word(char *clean_word, char *str, int *i);
 char	*expand_dollar(char *str, int *i, t_env *env, char *clean_word);
+
+int		check_syntax(t_token *token);
 
 // exec
 char	**get_real_cmd(t_token *token, t_env *env);
