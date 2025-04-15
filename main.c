@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 14:49:42 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/15 11:40:41 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_main(t_token **token, char *history)
 		free(history);
 		return (1);
 	}
-	if (check_all_commands(*token))
+	if (check_syntax(*token))
 	{
 		token_lstclear(token);
 		free(history);
@@ -67,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*history;
 	t_env	*env;
 	t_token	*token;
-	int		exit_code;
 
 	(void)argc;
 	(void)argv;
@@ -85,7 +84,7 @@ int	main(int argc, char **argv, char **envp)
 			print_token(token);
 		if (check_main(&token, history))
 			continue ;
-		exit_code = pipex(token, env);
+		pipex(token, env);
 		token_lstclear(&token);
 		free(history);
 	}

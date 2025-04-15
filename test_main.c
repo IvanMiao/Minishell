@@ -21,7 +21,7 @@ int	check_main(t_token **token, char *history)
 		free(history);
 		return (1);
 	}
-	if (check_all_commands(*token))
+	if (check_syntax(*token))
 	{
 		token_lstclear(token);
 		free(history);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/14 03:19:40 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:11:22 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 		handle_here_doc(token, env, cmd);
 		all_dups(cmd, prev_pipe);
 		execve(cmd->pathname, cmd->argv, cmd->envp);
-		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
+		ft_fprintf(2, "minishell: %s: command not found\n", cmd->pathname);
 		free_cmd(cmd);
 		env_free(env);
 		token_lstclear(&token); // need to check the token is the first token!
@@ -139,7 +139,7 @@ int	ft_exec(t_token *token, t_env *env)
 		exit (0);
 	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 	{
-		ft_fprintf(2, "minishell: %s : command not found\n", cmd->pathname);
+		ft_fprintf(2, "minishell: %s: command not found\n", cmd->pathname);
 		free_cmd(cmd);
 		env_free(env);
 		token_lstclear(&token); // the token is not the first token!
