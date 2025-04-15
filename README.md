@@ -29,7 +29,7 @@ delete `test_minishell` and `readline.supp`:
 3. builtin functions & system binaries in a single command
 4. Error messages
 5. redirections in pipex(like, two pipes, three commands, but there's a redirection in second command)
-6. free t_token when execve fails in pipex(add a *prev in t_token?)
+6. tokenization: dollar expand without double quotes, shell will do word spliting, using spaces in the dollar var to split tokens
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html), 

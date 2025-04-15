@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 15:45:16 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/15 15:52:46 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		ft_echo(t_token *token);
 int		ft_cd(char *pathname);
 int		ft_exit(t_token *token);
 int		ft_env(t_env *env);
-int		ft_export(t_env *env, char *argument);
+int		ft_export(t_env *env, t_token *token);
 int		ft_unset(t_env *env, char *argument);
 
 // signals
