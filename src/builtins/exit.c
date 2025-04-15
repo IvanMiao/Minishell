@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 14:22:28 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:41:28 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ long long	ft_atoi_2(char *str, int *error, int *i)
 		resultat = resultat * 10 + (str[*i] - '0');
 		(*i)++;
 	}
-	return (resultat * sign);
+	return ((resultat * sign) % 256);
 }
 
 long long	ft_atoi(char *str, int *error)

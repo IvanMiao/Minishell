@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 11:44:29 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:42:26 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*explain_dollar(t_env *env, t_token *token);
 void	env_free(t_env *env);
 
 // builtins
-int		ft_pwd(void);
+int		ft_pwd(char **argv);
 int		ft_echo(t_token *token);
 int		ft_cd(char *pathname);
 int		ft_exit(t_token *token);
