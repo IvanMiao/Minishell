@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 13:27:56 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:08:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_cd(t_token *token, t_env *env)
 {
 	char	*path;
 	int		ret;
+	DIR		*dir_fd;
 
 	if (count_args(token) > 1)
 	{
@@ -78,11 +79,13 @@ int	ft_cd(t_token *token, t_env *env)
 	path = get_cd_path(token, env, &ret);
 	if (ret != 0 || !path)
 		return (ret);
-	if (opendir(path) == 0 && access(path, F_OK) == 0)
+	dir_fd = opendir(path);
+	if (dir_fd == NULL && access(path, F_OK) == 0)
 	{
 		ft_fprintf(2, "minishell: cd: %s: Not a directory\n", path);
 		return (1);
 	}
+	closedir(dir_fd);
 	if (chdir(path) != 0)
 	{
 		ft_fprintf(2, "minishell: cd: %s: No such file or directory\n", path);
