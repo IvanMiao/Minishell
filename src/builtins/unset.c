@@ -6,11 +6,34 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:30:05 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/04 17:34:42 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 18:23:19 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+
+static bool	check_first_c(char *arg)
+{
+	if (*arg == '\0')
+	{
+		ft_fprintf(2, "minishell: export: `': not a valid identifier\n", NULL);
+		return (false);
+	}
+	if (*arg == '-' && *(arg + 1))
+	{
+		ft_putstr_fd("minishell: export: ", 2);
+		ft_putchar_fd(*arg, 2);
+		ft_putchar_fd(*(arg + 1), 2);
+		ft_putstr_fd(": invalid option\n", 2);
+		return (false);
+	}
+	if (*arg != '_' && !ft_isalpha(*arg))
+	{
+		ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", arg);
+		return (false);
+	}
+	return (true);
+}
 
 static int	check_arg(char *arg)
 {
@@ -19,6 +42,8 @@ static int	check_arg(char *arg)
 	i = 0;
 	while (arg[i] == SPACE || arg[i] == TAB)
 		i++;
+	if (!check_first_c(arg))
+		return (FAIL);
 	if (arg[i] != '_' && !ft_isalpha(arg[i]))
 	{
 		ft_fprintf(2, "minishell: unset: '%s': not a valid identifier\n", arg);
