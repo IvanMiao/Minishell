@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/16 05:40:16 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 15:13:04 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	main(int argc, char **argv, char **envp)
 	controls();
 	env = set_env(envp);
 	(&shell)->env = env;
+	(&shell)->exit_code = 0;
 	while (1)
 	{
 		history = readline("minishell$ ");

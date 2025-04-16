@@ -63,6 +63,7 @@ int	main(int argc, char **argv, char **envp)
 	controls();
 	env = set_env(envp);
 	(&shell)->env = env;
+	(&shell)->exit_code = 0;
 	while (1)
 	{
 		history = readline("minishell$ ");
