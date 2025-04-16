@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:19:26 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 16:58:06 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 17:46:53 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,14 @@ int	update_state(int *state, t_shell *shell, int *i)
 	else if (shell->str[*i] == '\'' && *state == ST_IN_SQ)
 		*state = ST_GENERAL;
 	last_token = token_lstlast(shell->token);
-	if (tmp_state != *state && last_token->type != R_DELIMITER)
+	if (tmp_state != *state)
 	{
-		(*i)++;
+		if (!last_token || last_token->type != R_DELIMITER)
+			(*i)++;
 		return (0);
 	}
 	if ((*state == ST_IN_DQ || *state == ST_GENERAL)
-		&& shell->str[*i] == '$' && shell->str[*i + 1] && last_token->type != R_DELIMITER)
+		&& shell->str[*i] == '$' && shell->str[*i + 1] && (!last_token || last_token->type != R_DELIMITER))
 	{
 		if (utils_update_state(*state, shell->str[*i + 1]))
 			return (utils_update_state(*state, shell->str[*i + 1]));
