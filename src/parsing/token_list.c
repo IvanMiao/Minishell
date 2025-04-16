@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:16:15 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/15 15:34:08 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 01:48:37 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	token_lstadd_back(t_token **lst, t_token *new)
 void	token_lstclear(t_token **lst)
 {
 	t_token	*temp;
-	
+
 	while ((*lst)->prev)
 		(*lst) = (*lst)->prev;
 	while (*lst)

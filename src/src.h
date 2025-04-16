@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 15:52:46 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 03:30:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,15 @@ typedef struct s_cmd
 	bool	append;
 }		t_cmd;
 
+typedef struct	s_shell
+{
+	char	*str;
+	t_token	*token;
+	t_env	*env;
+	t_cmd	*cmd;
+	int		exit_code;
+}		t_shell;
+
 // env
 t_env	*env_lstnew(char *content);
 t_env	*env_lstlast(t_env *lst);
@@ -112,12 +121,12 @@ t_token	*token_lst(char *str, t_tokentype type, int value);
 t_token	*token_lstlast(t_token *lst);
 void	token_lstadd_back(t_token **lst, t_token *new);
 void	token_lstclear(t_token **lst);
-t_token	*init_tokens(char *str, t_env *env);
+t_token	*init_tokens(t_shell *shell);
 
 int		check_quotes(char *str);
 int		update_state(int *state, char *str, int *i);
 char	*update_clean_word(char *clean_word, char *str, int *i);
-char	*expand_dollar(char *str, int *i, t_env *env, char *clean_word);
+char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state);
 
 int		check_syntax(t_token *token);
 
