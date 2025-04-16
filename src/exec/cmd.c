@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 16:29:46 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 15:49:13 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,18 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	cmd = set_cmd(token, env);
 	// printf("------------------------------\n");
 	// printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
-	// printf("infile is: %s\n", cmd->infile);
+	// printf("infile is: %s\n", cmd->infisle);
 	// printf("outfile is: %s\n", cmd->outfile);
 	// printf("delimiter is: %s\n", cmd->delimiter);
 	// printf("append?: %s\n", cmd->append? "true" : "false");
 	// printf("------------------------------\n");
 	if (exec_builtin(cmd, env, token) != -1 || !cmd->pathname)
 	{
+		if (cmd->delimiter)
+			handle_here_doc(token, env, cmd);
 		free_cmd(cmd);
 		return(0);
 	}
-	if (cmd->pathname && !ft_strlen(cmd->pathname))
-		return (free_cmd(cmd), 0);
 	pid = fork();
 	if (pid == 0)
 	{
