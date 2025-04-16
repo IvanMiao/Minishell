@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/15 15:40:40 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 05:40:16 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,31 +48,18 @@ int	exit_history(int value)
 	return (value);
 }
 
-static void	print_token(t_token *token)
-{
-	int	i;
-
-	i = 1;
-	while (token)
-	{
-		printf("Token[%d] : [%s] (type %d, value %d)\n",
-			i, token->str, token->type, token->value);
-		token = token->next;
-		i++;
-	}
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*history;
 	t_env	*env;
 	t_token	*token;
-	//int		exit_code;
+	t_shell	shell;
 
 	if (argc != 1)
 		return(ft_fprintf(2, "Usage: %s\n", argv[0]), 1);
 	controls();
 	env = set_env(envp);
+	(&shell)->env = env;
 	while (1)
 	{
 		history = readline("minishell$ ");
@@ -80,12 +67,11 @@ int	main(int argc, char **argv, char **envp)
 			exit_history(1);
 		ctrl_d(history, env);
 		add_history(history);
-		token = init_tokens(history, env);
-		if (!token)
-			print_token(token);
+		(&shell)->str = history;
+		token = init_tokens(&shell);
 		if (check_main(&token, history))
 			continue ;
-		pipex(token, env);
+		(&shell)->exit_code = pipex(token, env);
 		token_lstclear(&token);
 		free(history);
 	}

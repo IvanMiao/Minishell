@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:01:13 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 16:27:15 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:04:00 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	exec_builtin(t_cmd *cmd, t_env *env, t_token *token)
 	if (!ft_strncmp(cmd->pathname, "env", 4))
 		flag = ft_env(env);
 	if (!ft_strncmp(cmd->pathname, "export", 7))
-		flag = ft_export(env, token->next->str);
+		flag = ft_export(env, token);
 	if (!ft_strncmp(cmd->pathname, "unset", 6))
 		flag = ft_unset(env, token->next->str);
 	if (!ft_strncmp(cmd->pathname, "echo", 5))

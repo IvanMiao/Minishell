@@ -6,12 +6,19 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 18:30:51 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 05:36:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 #include "parsing.h"
+
+static bool	meet_end_char(t_shell *shell, int *i)
+{
+	return (shell->str[*i] == '|' || shell->str[*i] == '<'
+		|| shell->str[*i] == '>' || shell->str[*i] == ' '
+		|| shell->str[*i] == '\t');
+}
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
 {
@@ -36,13 +43,7 @@ t_tokentype	assign_tokens(char *str, t_token *last_token)
 	return (WORD);
 }
 
-/* 
-	this line:
-	if (!(order == EXPAND_DOLLAR && ft_strlen(clean_word) == 0))
-	is to assure that 
-	a non-existing dollar var cannot be added into token linked list
-*/
-void	modif_tokens_2(char *str, int *i, t_token **token, t_env *env)
+void	modif_tokens_2(t_shell *shell, int *i)
 {
 	int			state;
 	char		*clean_word;
@@ -51,70 +52,69 @@ void	modif_tokens_2(char *str, int *i, t_token **token, t_env *env)
 
 	state = ST_GENERAL;
 	clean_word = ft_strdup("");
-	while (str[*i])
+	while (shell->str[*i])
 	{
-		if (state == ST_GENERAL && (str[*i] == '|' || str[*i] == '<'
-				|| str[*i] == '>' || str[*i] == ' ' || str[*i] == '\t'))
+		if (state == ST_GENERAL && meet_end_char(shell, i))
 			break ;
-		order = update_state(&state, str, i);
+		order = update_state(&state, shell->str, i);
 		if (order == EXPAND_DOLLAR)
-			clean_word = expand_dollar(str, i, env, clean_word);
+			clean_word = expand_dollar(shell, i, clean_word, &state);
 		else if (order == UPDATE_WORD)
 		{
-			clean_word = update_clean_word(clean_word, str, i);
+			clean_word = update_clean_word(clean_word, shell->str, i);
 			(*i)++;
 		}
 	}
-	type = assign_tokens(clean_word, token_lstlast(*token));
+	type = assign_tokens(clean_word, token_lstlast(shell->token));
 	if (!(order == EXPAND_DOLLAR && ft_strlen(clean_word) == 0))
-		token_lstadd_back(token, token_lst(clean_word, type, 0));
+		token_lstadd_back(&(shell->token), token_lst(clean_word, type, 0));
 	free(clean_word);
 }
 //printf("char: %c, state: %d\n", str[*i], state);
 
-void	modif_tokens(char *str, int *i, t_token **token, t_env *env)
+void	modif_tokens(t_shell *shell, int *i)
 {
 	int			length_op;
 	char		*operation;
 	t_tokentype	type;
 	t_token		*last_token;
 
-	while (str[*i] == ' ' || str[*i] == '\t')
+	while (shell->str[*i] == ' ' || shell->str[*i] == '\t')
 		(*i)++;
-	if (str[*i] == '\0')
+	if (shell->str[*i] == '\0')
 		return ;
-	if (str[*i] == '|' || str[*i] == '<' || str[*i] == '>')
+	if (shell->str[*i] == '|' || shell->str[*i] == '<' || shell->str[*i] == '>')
 	{
 		length_op = 1;
-		if (str[*i + 1] == str[*i] && (str[*i] == '<' || str[*i] == '>'))
+		if (shell->str[*i + 1] == shell->str[*i]
+			&& (shell->str[*i] == '<' || shell->str[*i] == '>'))
 			length_op = 2;
-		operation = ft_substr(str, *i, length_op);
-		last_token = token_lstlast(*token);
+		operation = ft_substr(shell->str, *i, length_op);
+		last_token = token_lstlast(shell->token);
 		type = assign_tokens(operation, last_token);
-		token_lstadd_back(token, token_lst(operation, type, 0));
+		token_lstadd_back(&(shell->token), token_lst(operation, type, 0));
 		free(operation);
 		*i += length_op;
 	}
 	else
-		modif_tokens_2(str, i, token, env);
+		modif_tokens_2(shell, i);
 }
 
 //Pas sur de l'affichage du 1er perror
-t_token	*init_tokens(char *str, t_env *env)
+t_token	*init_tokens(t_shell *shell)
 {
 	int		i;
-	t_token	*token;
 
 	i = 0;
-	token = NULL;
-	if (check_quotes(str))
+	shell->token = NULL;
+	if (check_quotes(shell->str))
 	{
 		perror("Error: Unclosed quotes");
 		return (NULL);
 	}
-	while (str[i])
-		modif_tokens(str, &i, &token, env);
-	return (token);
+	while (shell->str[i])
+		modif_tokens(shell, &i);
+	return (shell->token);
 }
 
 /*

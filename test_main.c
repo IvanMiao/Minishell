@@ -56,12 +56,13 @@ int	main(int argc, char **argv, char **envp)
 	char	*history;
 	t_env	*env;
 	t_token	*token;
-	int		exit_code;
+	t_shell	shell;
 
 	if (argc != 1)
 		return(ft_fprintf(2, "Usage: %s\n", argv[0]), 1);
 	controls();
 	env = set_env(envp);
+	(&shell)->env = env;
 	while (1)
 	{
 		history = readline("minishell$ ");
@@ -69,15 +70,16 @@ int	main(int argc, char **argv, char **envp)
 			exit_history(1);
 		ctrl_d(history, env);
 		add_history(history);
-		token = init_tokens(history, env);
+		(&shell)->str = history;
+		token = init_tokens(&shell);
 		if (token)
 			print_token(token);
 		if (check_main(&token, history))
 			continue ;
-		exit_code = pipex(token, env);
+		(&shell)->exit_code = pipex(token, env);
 		token_lstclear(&token);
 		free(history);
-		printf("----exit code----\n%d\n", exit_code);
+		printf("----exit code----\n%d\n", (&shell)->exit_code);
 	}
 	env_free(env);
 	return (0);

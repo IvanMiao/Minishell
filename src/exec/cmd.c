@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 16:09:31 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:04:36 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 	// printf("------------------------------\n");
 	if (exec_builtin(cmd, env, token) != -1 || !cmd->pathname)
 	{
-			free_cmd(cmd);
-			return(0);
+		free_cmd(cmd);
+		return(0);
 	}
 	if (cmd->pathname && !ft_strlen(cmd->pathname))
 		return (free_cmd(cmd), 0);
