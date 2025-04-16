@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/15 15:41:28 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:47:43 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	ft_exit(t_token *token)
 	if (argc > 1)
 	{
 		ft_fprintf(2, "minishell: exit: too many arguments\n", NULL);
-		return (-1);
+		return (1);
 	}
 	exit(nb);
 }

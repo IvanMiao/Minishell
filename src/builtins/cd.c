@@ -6,37 +6,79 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 18:45:58 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/16 13:27:56 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
+char	*if_options_cd(char *str)
+{
+	static char	options[3];
+
+	if (str[0] == '-' && str[1] == '-' && str[2])
+	{
+		options[0] = '-';
+		options[1] = '-';
+		options[2] = str[2];
+		options[3] = '\0';
+		return (options);
+	}
+	return (0);
+}
+
+char	*check_cd_options(t_token *token, t_env *env, int *ret)
+{
+	char	*path;
+	char	*invalid;
+
+	invalid = if_options_cd(token->next->str);
+	if (invalid)
+	{
+		ft_fprintf(2, "minishell: cd: --: invalid option\n", NULL);
+		*ret = 2;
+		return (NULL);
+	}
+	path = ft_get_env(env, "HOME");
+	if (!path)
+	{
+		ft_fprintf(2, "minishell: cd: HOME not set\n", NULL);
+		*ret = 1;
+		return (NULL);
+	}
+	if (ft_strlen(path) == 0)
+	{
+		*ret = 0;
+		return (NULL);
+	}
+	return (path);
+}
+
+char	*get_cd_path(t_token *token, t_env *env, int *ret)
+{
+	if (token->next == NULL)
+		return (ft_get_env(env, "HOME"));
+	if (ft_strncmp(token->next->str, "~", 1) == 0
+		|| ft_strncmp(token->next->str, "-", 1) == 0)
+		return (check_cd_options(token, env, ret));
+	return (token->next->str);
+}
+
 int	ft_cd(t_token *token, t_env *env)
 {
 	char	*path;
-	int		argc;
+	int		ret;
 
-	argc = count_args(token);
-	if (argc > 1)
+	if (count_args(token) > 1)
 	{
 		ft_fprintf(2, "minishell: cd: too many arguments\n", NULL);
 		return (1);
 	}
-	if (token->next == NULL || ft_strncmp(token->next->str, "~", 1) == 0)
-	{
-		path = ft_get_env(env, "HOME");
-		if (!path)
-		{
-			ft_fprintf(2, "minishell: cd: HOME not set\n", NULL);
-			return (1);
-		}
-		if (ft_strlen(path) == 0)
-			return (0);
-	}
-	else
-		path = token->next->str;
-	if (opendir(path) == 0)
+	ret = 0;
+	path = get_cd_path(token, env, &ret);
+	if (ret != 0 || !path)
+		return (ret);
+	if (opendir(path) == 0 && access(path, F_OK) == 0)
 	{
 		ft_fprintf(2, "minishell: cd: %s: Not a directory\n", path);
 		return (1);
