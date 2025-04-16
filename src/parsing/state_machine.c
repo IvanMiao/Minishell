@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:19:26 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 05:48:52 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 15:24:36 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	utils_update_state(int state, char c)
 {
 	if (!(c == '_' || ft_isalpha(c) || ft_isdigit(c)))
 	{
-		if ((state == ST_GENERAL && (c == '\'' || c == '"')))
+		if ((state == ST_GENERAL && (c == '\'' || c == '"' || c == '?')))
 			return (EXPAND_DOLLAR);
 		return (UPDATE_WORD);
 	}

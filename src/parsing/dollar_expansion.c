@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:47:23 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 05:46:53 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 15:18:15 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,18 @@ static char	*decide_expand(char *dol, char *clean_word,
 	return (res);
 }
 
+static char	*expand_code(t_shell *shell, char *clean_word)
+{
+	char	*code;
+	char	*res;
+
+	code = ft_itoa(shell->exit_code);
+	res = ft_strjoin(clean_word, code);
+	free(code);
+	free(clean_word);
+	return (res);
+}
+
 /*
 following the rules for environment variables
 we check if there is a variable exists
@@ -96,6 +108,8 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state)
 	(*i)++;
 	if (shell->str[*i] != '_' && !ft_isalpha(shell->str[*i]))
 	{
+		if (shell->str[*i] == '?')
+			clean_word = expand_code(shell, clean_word);
 		if (!(shell->str[*i] == '\'' || shell->str[*i] == '"'))
 			(*i)++;
 		return (clean_word);
