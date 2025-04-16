@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:01:13 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 16:36:05 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 15:04:00 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	exec_builtin(t_cmd *cmd, t_env *env, t_token *token)
 
 	flag = -1;
 	if (!cmd->pathname)
-		return(flag);
+		return (flag);
 	if (!ft_strncmp(cmd->pathname, "cd", 3))
-		flag = ft_cd(cmd->pathname);
+		flag = ft_cd(token, env);
 	if (!ft_strncmp(cmd->pathname, "pwd", 4))
-		flag = ft_pwd();
+		flag = ft_pwd(cmd->argv);
 	if (!ft_strncmp(cmd->pathname, "env", 4))
 		flag = ft_env(env);
 	if (!ft_strncmp(cmd->pathname, "export", 7))

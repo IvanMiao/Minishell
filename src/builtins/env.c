@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:35:06 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/04 17:07:44 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 13:35:00 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,17 @@ t_env	*set_env(char **envp)
 	int		i;
 
 	i = 1;
-	if (envp && envp[0])
-		env = env_lstnew(envp[0]);
+	if (!envp || !envp[0])
+		return (NULL);
+	env = env_lstnew(envp[0]);
+	if (!env)
+		return (NULL);
 	tmp = env;
 	while (envp[i])
 	{
 		tmp->next = env_lstnew(envp[i]);
+		if (!tmp->next)
+			return (env);
 		tmp = tmp->next;
 		i++;
 	}
@@ -35,6 +40,8 @@ int	ft_env(t_env *env)
 {
 	t_env	*copy;
 
+	if (!env)
+		return (1);
 	copy = env;
 	while (copy)
 	{

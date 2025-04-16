@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 03:30:47 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 15:04:46 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <dirent.h>
 
 // ----a enum for tokenization-----
 
@@ -103,13 +104,15 @@ char	*ft_get_env(t_env *env, char *name);
 void	env_free(t_env *env);
 
 // builtins
-int		ft_pwd(void);
+int		ft_pwd(char **argv);
 int		ft_echo(t_token *token);
-int		ft_cd(char *pathname);
+int		ft_cd(t_token *token, t_env *env);
 int		ft_exit(t_token *token);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, t_token *token);
 int		ft_unset(t_env *env, char *argument);
+
+int		count_args(t_token *token);
 
 // signals
 void	controls(void);
@@ -131,6 +134,7 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state);
 int		check_syntax(t_token *token);
 
 // exec
+int		is_directory(t_cmd *cmd);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
