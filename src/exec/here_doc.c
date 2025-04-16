@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/16 18:05:29 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/16 18:47:28 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static char	*heredoc_expand(char *str, t_env *env)
 	char	*env_word;
 	char	*result;
 	char	*result_expand;
+	char	*char_str;
 	int		i;
 	int		j;
 
@@ -41,8 +42,16 @@ static char	*heredoc_expand(char *str, t_env *env)
 			result = ft_strjoin(result_expand, env_word);
 			free(result_expand);
 			result_expand = result;
-			free(env_word);
 		}
+		else
+		{
+			char_str = ft_substr(str, i, 1);
+			result = ft_strjoin(result_expand, char_str);
+			free(result_expand);
+			result_expand = result;
+			i++;
+		}
+		i++;
 	}
 	return (result_expand);
 }

@@ -6,7 +6,7 @@
 #    By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/16 18:07:10 by cgerner          ###   ########.fr        #
+#    Updated: 2025/04/16 18:09:59 by cgerner          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ test: supp $(SRCS)
 	@echo "Test programme done."
 
 val: test
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --trace-children=yes --suppressions=readline.supp ./test_minishell
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=readline.supp ./test_minishell
 
 clean:
 	@rm -f $(OBJS)
