@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:30:05 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 18:23:19 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 22:57:17 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,15 @@ static int	check_arg(char *arg)
 	return (0);
 }
 
-int	ft_unset(t_env *env, char *argument)
+int	ft_unset(t_env *env, t_token *token)
 {
+	char	*argument;
 	t_env	*copy;
 	int		size;
 
+	if (!token || !token->next)
+		return (0);
+	argument = token->next->str;
 	copy = env;
 	size = ft_strlen(argument);
 	if (check_arg(argument) == FAIL)

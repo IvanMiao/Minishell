@@ -6,18 +6,18 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 19:06:44 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 22:54:46 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-static bool	check_first_c(char *arg)
+static int	check_first_c(char *arg)
 {
 	if (*arg == '\0')
 	{
 		ft_fprintf(2, "minishell: export: `': not a valid identifier\n", NULL);
-		return (false);
+		return (-1);
 	}
 	if (*arg == '-' && *(arg + 1))
 	{
@@ -25,14 +25,14 @@ static bool	check_first_c(char *arg)
 		ft_putchar_fd(*arg, 2);
 		ft_putchar_fd(*(arg + 1), 2);
 		ft_putstr_fd(": invalid option\n", 2);
-		return (false);
+		return (-2);
 	}
 	if (*arg != '_' && !ft_isalpha(*arg))
 	{
 		ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", arg);
-		return (false);
+		return (-1);
 	}
-	return (true);
+	return (0);
 }
 
 /* check if it is a unvalid identifier */
@@ -48,20 +48,20 @@ static int	check_newenv(char *arg)
 		distance = (int)ft_strlen(arg);
 	else
 		distance = name - arg;
-	if (!check_first_c(arg))
-		return (FAIL);
+	if (check_first_c(arg) < 0)
+		return (check_first_c(arg));
 	while (i < distance)
 	{
 		if (arg[i] != '_' && !ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
 		{
 			ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n",
 				arg);
-			return (FAIL);
+			return (-1);
 		}
 		i++;
 	}
 	if (!name)
-		return (FAIL);
+		return (0);
 	return (distance);
 }
 
@@ -88,8 +88,8 @@ static bool	check_env_replace(t_env *env, char *arg, int dist_arg)
 
 	copy = env;
 	flag = false;
-	if (dist_arg == FAIL)
-		return (false);
+	if (dist_arg < 0)
+		return (dist_arg);
 	while (copy)
 	{
 		if ((int)ft_strlen(copy->name) == dist_arg
@@ -119,7 +119,7 @@ int	ft_export(t_env *env, t_token *token)
 	{
 		arg = token->str;
 		dist_arg = check_newenv(arg);
-		if (dist_arg == FAIL || check_env_replace(env, arg, dist_arg) == true)
+		if (dist_arg < 0 || check_env_replace(env, arg, dist_arg) == true)
 		{
 			token = token->next;
 			continue ;
@@ -128,6 +128,8 @@ int	ft_export(t_env *env, t_token *token)
 		env_lstadd_back(&env, new);
 		token = token->next;
 	}
+	if (dist_arg < 0)
+		return (-dist_arg);
 	return (0);
 }
 

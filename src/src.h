@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 17:04:24 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 23:17:06 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_token
 	int				value;
 	struct s_token	*prev;
 	struct s_token	*next;
-}					t_token;
+}		t_token;
 
 // ----end token struct----
 
@@ -72,7 +72,7 @@ typedef struct s_env
 	char			*name;
 	char			*word;
 	struct s_env	*next;
-}					t_env;
+}		t_env;
 
 typedef struct s_cmd
 {
@@ -85,7 +85,7 @@ typedef struct s_cmd
 	bool	append;
 }		t_cmd;
 
-typedef struct	s_shell
+typedef struct s_shell
 {
 	char	*str;
 	t_token	*token;
@@ -110,7 +110,7 @@ int		ft_cd(t_token *token, t_env *env);
 int		ft_exit(t_token *token);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, t_token *token);
-int		ft_unset(t_env *env, char *argument);
+int		ft_unset(t_env *env, t_token *token);
 
 int		count_args(t_token *token);
 
@@ -135,7 +135,6 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state);
 int		check_syntax(t_token *token);
 
 // exec
-int		is_directory(t_cmd *cmd);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
@@ -157,6 +156,7 @@ int		open_file(char *file, int value);
 void	errors(int value);
 void	error_here_doc(char *str);
 
+int		is_directory(t_cmd *cmd);
 void	free_all(t_env *env, t_token *token, t_cmd *cmd);
 
 #endif

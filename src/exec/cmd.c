@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 15:53:40 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 23:22:56 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe)
 		if (cmd->delimiter)
 			handle_here_doc(token, env, cmd);
 		free_cmd(cmd);
-		return(0);
+		return (0);
 	}
 	pid = fork();
 	if (pid == 0)

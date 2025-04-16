@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:19:26 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 18:45:53 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 23:21:35 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	utils_update_state(int state, char c)
 	if (!(c == '_' || ft_isalpha(c) || ft_isdigit(c)))
 	{
 		if ((state == ST_GENERAL && (c == '\'' || c == '"' || c == '?')))
+			return (EXPAND_DOLLAR);
+		else if (state == ST_IN_DQ && c == '?')
 			return (EXPAND_DOLLAR);
 		return (UPDATE_WORD);
 	}
@@ -52,7 +54,8 @@ int	update_state(int *state, t_shell *shell, int *i)
 		return (UPDATE_WORD);
 	}
 	if ((*state == ST_IN_DQ || *state == ST_GENERAL)
-		&& shell->str[*i] == '$' && shell->str[*i + 1] && (!last_token || last_token->type != R_DELIMITER))
+		&& shell->str[*i] == '$' && shell->str[*i + 1]
+		&& (!last_token || last_token->type != R_DELIMITER))
 	{
 		if (utils_update_state(*state, shell->str[*i + 1]))
 			return (utils_update_state(*state, shell->str[*i + 1]));
