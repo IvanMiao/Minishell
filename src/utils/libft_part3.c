@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:56:14 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 13:49:01 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/16 17:53:31 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,12 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t len)
 		}
 		a++;
 	}
+	return (0);
+}
+
+int	ft_isalnum(int c)
+{
+	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+		return (1);
 	return (0);
 }

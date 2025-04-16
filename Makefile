@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
+#    By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/16 15:58:08 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/16 18:07:10 by cgerner          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				exec/here_doc.c exec/pipex.c \
 				exec/exec_builtin.c \
 				utils/libft_part1.c utils/libft_part2.c \
+				utils/libft_part3.c \
 				utils/ft_split.c utils/ft_itoa.c \
 				utils/ft_fprintf.c)
 
