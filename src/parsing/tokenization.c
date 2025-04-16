@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/16 15:36:28 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/16 16:44:24 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	modif_tokens_2(t_shell *shell, int *i)
 	{
 		if (state == ST_GENERAL && meet_end_char(shell, i))
 			break ;
-		order = update_state(&state, shell->str, i);
+		order = update_state(&state, shell, i);
 		if (order == EXPAND_DOLLAR)
 			clean_word = expand_dollar(shell, i, clean_word, &state);
 		else if (order == UPDATE_WORD)
