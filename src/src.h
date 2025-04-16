@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 15:04:46 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/16 17:04:24 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,8 @@ void	token_lstclear(t_token **lst);
 t_token	*init_tokens(t_shell *shell);
 
 int		check_quotes(char *str);
-int		update_state(int *state, char *str, int *i);
+char	*remove_quotes(char *str);
+int		update_state(int *state, t_shell *shell, int *i);
 char	*update_clean_word(char *clean_word, char *str, int *i);
 char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state);
 
