@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 03:23:08 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 03:53:43 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	pid_t	pid;
 	t_cmd	*cmd;
 	int		status;
+	int		exit_builtin;
 
 	cmd = set_cmd(token, env);
 	// printf("------------------------------\n");
@@ -71,8 +72,9 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		handle_here_doc(token, env, cmd);
 		return (free_cmd(cmd), 0);
 	}
-	if (exec_builtin_parent(cmd, env, token) != -1)
-		return (free_cmd(cmd), 0);
+	exit_builtin = exec_builtin_parent(cmd, env, token);
+	if (exit_builtin != -1)
+		return (free_cmd(cmd), exit_builtin);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -100,10 +102,13 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 
 int	exec_child(t_token *token, t_env *env, t_cmd *cmd)
 {
+	int	exit_builtin;
+	
 	sig_in_child();
 	handle_here_doc(token, env, cmd);
 	all_dups(cmd, NULL);
-	if (exec_builtin(cmd, env, token) != -1)
+	exit_builtin = exec_builtin(cmd, env, token);
+	if (exit_builtin != -1)
 	{
 		free_all(env, token, cmd);
 		exit (0);
