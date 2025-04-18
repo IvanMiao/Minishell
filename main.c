@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/16 15:13:04 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 03:31:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	shell;
 
 	if (argc != 1)
-		return(ft_fprintf(2, "Usage: %s\n", argv[0]), 1);
+		return (ft_fprintf(2, "Usage: %s\n", argv[0]), 1);
 	controls();
 	env = set_env(envp);
 	(&shell)->env = env;
@@ -77,5 +77,5 @@ int	main(int argc, char **argv, char **envp)
 		free(history);
 	}
 	env_free(env);
-	return (0);
+	return (shell.exit_code);
 }

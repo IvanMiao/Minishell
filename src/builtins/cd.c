@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 16:08:39 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/17 21:07:42 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ char	*get_cd_path(t_token *token, t_env *env, int *ret)
 {
 	if (token->next == NULL)
 		return (ft_get_env(env, "HOME"));
-	if (ft_strncmp(token->next->str, "~", 1) == 0
-		|| ft_strncmp(token->next->str, "-", 1) == 0)
+	if (ft_strncmp(token->next->str, "~", 2) == 0
+		|| ft_strncmp(token->next->str, "-", 2) == 0)
 		return (check_cd_options(token, env, ret));
 	return (token->next->str);
 }

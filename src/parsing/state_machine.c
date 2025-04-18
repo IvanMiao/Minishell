@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:19:26 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 23:21:35 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 02:34:03 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parsing.h"
 
 /* DEEPTHOUGHT of the state machine*/
-static int	utils_update_state(int state, char c)
+static int	expand_or_not(int state, char c)
 {
 	if (!(c == '_' || ft_isalpha(c) || ft_isdigit(c)))
 	{
@@ -46,7 +46,7 @@ int	update_state(int *state, t_shell *shell, int *i)
 	last_token = token_lstlast(shell->token);
 	if (tmp_state != *state)
 	{
-		if (!last_token || (last_token->type != R_DELIMITER))
+		if (!last_token || last_token->type != R_DELIMITER)
 		{
 			(*i)++;
 			return (0);
@@ -57,8 +57,23 @@ int	update_state(int *state, t_shell *shell, int *i)
 		&& shell->str[*i] == '$' && shell->str[*i + 1]
 		&& (!last_token || last_token->type != R_DELIMITER))
 	{
-		if (utils_update_state(*state, shell->str[*i + 1]))
-			return (utils_update_state(*state, shell->str[*i + 1]));
+		if (expand_or_not(*state, shell->str[*i + 1]))
+			return (expand_or_not(*state, shell->str[*i + 1]));
 	}
 	return (UPDATE_WORD);
+}
+
+/* if no dollar sign is found,
+	and the current state tells us to add a character
+	we call this function */
+char	*update_clean_word(char *clean_word, char *str, int *i)
+{
+	char	tmp[2];
+	char	*res;
+
+	tmp[0] = str[*i];
+	tmp[1] = '\0';
+	res = ft_strjoin(clean_word, tmp);
+	free(clean_word);
+	return (res);
 }

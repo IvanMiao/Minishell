@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntaxe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:33:57 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/15 12:49:26 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/18 02:29:44 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_pipe(t_token *token)
 		{
 			if (!last || !token->next || token->next->type == PIPE
 				|| (last->type >= 4 && last->type <= 7))
-				return (printf("%s`|'\n", msg), 2);
+				return (ft_fprintf(2, "%s`|'\n", msg), 2);
 		}
 		last = token;
 		token = token->next;
@@ -40,20 +40,20 @@ int	check_redir_in_delim(t_token *token, char *msg)
 		if (token->type == R_IN)
 		{
 			if (!token->next)
-				return (printf("%s`newline'\n", msg), 2);
+				return (ft_fprintf(2, "%s`newline'\n", msg), 2);
 			if (token->next->type == R_IN)
-				return (printf("%s`<'\n", msg), 2);
+				return (ft_fprintf(2, "%s`<'\n", msg), 2);
 			if (token->next->type == R_DELIMITER)
-				return (printf("%s`<<'\n", msg), 2);
+				return (ft_fprintf(2, "%s`<<'\n", msg), 2);
 		}
 		else if (token->type == R_DELIMITER)
 		{
 			if (!token->next)
-				return (printf("%s`newline'\n", msg), 2);
+				return (ft_fprintf(2, "%s`newline'\n", msg), 2);
 			if (token->next->type == R_DELIMITER)
-				return (printf("%s`<<'\n", msg), 2);
+				return (ft_fprintf(2, "%s`<<'\n", msg), 2);
 			if (token->next->type == R_IN)
-				return (printf("%s`<'\n", msg), 2);
+				return (ft_fprintf(2, "%s`<'\n", msg), 2);
 		}
 		token = token->next;
 	}
@@ -67,20 +67,20 @@ int	check_redir_out_append(t_token *token, char *msg)
 		if (token->type == R_OUT)
 		{
 			if (!token->next)
-				return (printf("%s`newline'\n", msg), 2);
+				return (ft_fprintf(2, "%s`newline'\n", msg), 2);
 			if (token->next->type == R_OUT)
-				return (printf("%s`>'\n", msg), 2);
+				return (ft_fprintf(2, "%s`>'\n", msg), 2);
 			if (token->next->type == R_REDIRECTION)
-				return (printf("%s`>>'\n", msg), 2);
+				return (ft_fprintf(2, "%s`>>'\n", msg), 2);
 		}
 		else if (token->type == R_REDIRECTION)
 		{
 			if (!token->next)
-				return (printf("%s`newline'\n", msg), 2);
+				return (ft_fprintf(2, "%s`newline'\n", msg), 2);
 			if (token->next->type == R_REDIRECTION)
-				return (printf("%s`>>'\n", msg), 2);
+				return (ft_fprintf(2, "%s`>>'\n", msg), 2);
 			if (token->next->type == R_OUT)
-				return (printf("%s`>'\n", msg), 2);
+				return (ft_fprintf(2, "%s`>'\n", msg), 2);
 		}
 		token = token->next;
 	}

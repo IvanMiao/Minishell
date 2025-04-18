@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/16 23:25:35 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/17 04:31:33 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	count_args(t_token *token)
 	return (count);
 }
 
-int	ft_exit(t_token *token)
+int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
 {
 	long long	nb;
 	int			error;
@@ -97,12 +97,14 @@ int	ft_exit(t_token *token)
 		if (!is_numeric(arg->str))
 		{
 			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", arg->str);
+			free_all(env, token, cmd);
 			exit(255);
 		}
 		nb = ft_atoi(arg->str, &error);
 		if (error)
 		{
 			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", arg->str);
+			free_all(env, token, cmd);
 			exit(255);
 		}
 	}
@@ -111,6 +113,7 @@ int	ft_exit(t_token *token)
 		ft_fprintf(2, "minishell: exit: too many arguments\n", NULL);
 		return (1);
 	}
+	free_all(env, token, cmd);
 	exit(nb);
 }
 

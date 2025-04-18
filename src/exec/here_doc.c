@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/16 17:32:36 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/17 21:02:26 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,22 @@ static char	*heredoc_expand(char *str, t_env *env)
 }
 */
 
-void	read_here_doc(char *limiter, bool flag_expand, t_env *env)
+void	read_here_doc(char *delimiter, bool flag_expand, t_env *env)
 {
 	char	*str;
 	int		fd;
 
 	(void)env; // tmp
+	(void)flag_expand; // tmp
 	fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+		return ;
 	while (1)
 	{
 		str = readline("> ");
-		if (flag_expand == true)
-		if (ft_strlen(str) == ft_strlen(limiter)
-			&& ft_strncmp(str, limiter, ft_strlen(limiter)) == 0)
+		//if (flag_expand == true)
+		if (ft_strlen(str) == ft_strlen(delimiter)
+			&& ft_strncmp(str, delimiter, ft_strlen(delimiter)) == 0)
 			break ;
 		ft_fprintf(fd, "%s\n", str);
 		free(str);
@@ -62,30 +65,19 @@ void	read_here_doc(char *limiter, bool flag_expand, t_env *env)
 	return ;
 }
 
-void	here_doc(t_token *token, t_env *env, t_cmd *cmd, bool flag_expand)
-{
-	(void) env;
-	if (!token)
-		return ;
-	read_here_doc(cmd->delimiter, flag_expand, env);
-}
-
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
 {
 	bool	flag_expand;
 	char	*delimiter;
 
+	(void)token; //tmp
 	flag_expand = true;
-	while (token)
+	if (cmd->delimiter)
 	{
-		if (token->type == R_DELIMITER && token->next)
-		{
-			delimiter = remove_quotes(token->next->str);
-			if (ft_strncmp(delimiter, token->next->str, ft_strlen(token->next->str) + 1) != 0)
-				flag_expand = false;
-			here_doc(token->next, env, cmd, flag_expand);
-			break ;
-		}
-		token = token->next;
+		delimiter = remove_quotes(cmd->delimiter);
+		printf("demiliter is : %s\n", delimiter);
+		if (ft_strncmp(delimiter, cmd->delimiter, ft_strlen(cmd->delimiter) + 1) != 0)
+			flag_expand = false;
+		read_here_doc(delimiter, flag_expand, env);
 	}
 }

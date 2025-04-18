@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils_part2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 13:13:01 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/18 03:05:12 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	is_directory(t_cmd *cmd)
 {
 	struct stat	info;
 
-	if (stat(cmd->pathname, &info) != 0)
-		return (0);
-	return (1);
+	if (stat(cmd->pathname, &info) != 0
+		|| access(cmd->pathname, F_OK) != 0)
+		return (1);
+	return (0);
 }
