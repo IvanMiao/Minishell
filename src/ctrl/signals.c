@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 04:14:36 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/15 15:13:54 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/18 03:32:41 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ctrl_c(int code)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	signal(SIGINT, ctrl_c); // doute
 }
 
 void	ctrl_d(char *s, t_env *env)
@@ -48,6 +49,31 @@ void	controls(void)
 	signal(SIGTSTP, SIG_IGN);
 }
 
+void	sig_in_parent(int value)
+{
+	struct sigaction	sa_ign;
+	struct sigaction	sa_int_old;
+	struct sigaction	sa_quit_old;
+
+	sa_ign.sa_handler = SIG_IGN;
+	sigemptyset(&sa_ign.sa_mask);
+	sa_ign.sa_flags = 0;
+	sigaction(SIGINT, &sa_ign, &sa_int_old);
+	sigaction(SIGQUIT, &sa_ign, &sa_quit_old);
+	if (value == 2)
+		controls();
+}
+
+void	sig_in_child(void)
+{
+	struct sigaction	sa_dfl;
+
+	sa_dfl.sa_handler = SIG_DFL;
+	sigemptyset(&sa_dfl.sa_mask);
+	sa_dfl.sa_flags = 0;
+	sigaction(SIGINT, &sa_dfl, NULL);
+	sigaction(SIGQUIT, &sa_dfl, NULL);
+}
 /*
 // Ctrl D = add a EOF to stdin
 // if only a EOF in this line, show "exit" and exit

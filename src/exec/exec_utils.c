@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/15 15:39:21 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 03:31:07 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,21 @@ void	errors(int value)
 	}
 }
 
+void	error_execve(t_cmd *cmd, t_env *env, t_token *token)
+{
+	ft_fprintf(2, "minishell: %s: command not found\n", cmd->pathname);
+	if (cmd->delimiter)
+		unlink("./.heredoc.tmp");
+	free_all(env, token, cmd);
+	exit(127);
+}
+
 void	free_all(t_env *env, t_token *token, t_cmd *cmd)
 {
-	env_free(env);
-	token_lstclear(&token);
-	free_cmd(cmd);
+	if (env)
+		env_free(env);
+	if (token)
+		token_lstclear(&token);
+	if (cmd)
+		free_cmd(cmd);
 }

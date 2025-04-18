@@ -6,12 +6,14 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 17:04:24 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 03:32:05 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SRC_H
 # define SRC_H
+
+# define _POSIX_C_SOURCE	200809L
 
 # define FAIL	-1
 
@@ -35,6 +37,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <dirent.h>
+# include <errno.h>
 
 // ----a enum for tokenization-----
 
@@ -62,7 +65,7 @@ typedef struct s_token
 	int				value;
 	struct s_token	*prev;
 	struct s_token	*next;
-}					t_token;
+}		t_token;
 
 // ----end token struct----
 
@@ -72,7 +75,7 @@ typedef struct s_env
 	char			*name;
 	char			*word;
 	struct s_env	*next;
-}					t_env;
+}		t_env;
 
 typedef struct s_cmd
 {
@@ -85,7 +88,7 @@ typedef struct s_cmd
 	bool	append;
 }		t_cmd;
 
-typedef struct	s_shell
+typedef struct s_shell
 {
 	char	*str;
 	t_token	*token;
@@ -107,10 +110,10 @@ void	env_free(t_env *env);
 int		ft_pwd(char **argv);
 int		ft_echo(t_token *token);
 int		ft_cd(t_token *token, t_env *env);
-int		ft_exit(t_token *token);
+int		ft_exit(t_token *token, t_env *env, t_cmd *cmd);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, t_token *token);
-int		ft_unset(t_env *env, char *argument);
+int		ft_unset(t_env *env, t_token *token);
 
 int		count_args(t_token *token);
 
@@ -118,6 +121,8 @@ int		count_args(t_token *token);
 void	controls(void);
 void	ctrl_d(char *s, t_env *env);
 void	ctrl_c(int code);
+void	sig_in_parent(int value);
+void	sig_in_child(void);
 
 // parsing
 t_token	*token_lst(char *str, t_tokentype type, int value);
@@ -135,7 +140,7 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state);
 int		check_syntax(t_token *token);
 
 // exec
-int		is_directory(t_cmd *cmd);
+t_cmd	*set_cmd(t_token *token, t_env *env);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
@@ -146,17 +151,21 @@ bool	check_append(t_token *token);
 void	free_cmd(t_cmd *cmd);
 
 int		exec_builtin(t_cmd *cmd, t_env *env, t_token *token);
-int		exec_simple_cmd(t_token *token, t_env *env, int *prev_pipe);
-int		ft_exec(t_token *token, t_env *env);
+int		exec_builtin_child(t_cmd *cmd, t_env *env, t_token *token);
+int		exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token);
+int		exec_simple_cmd(t_token *token, t_env *env);
+int		exec_child(t_token *token, t_env *env, t_cmd *cmd);
+pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 
 int		pipex(t_token *token, t_env *env);
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
 
-void	print_last_status(t_token *token, int value);
 int		open_file(char *file, int value);
 void	errors(int value);
 void	error_here_doc(char *str);
+void	error_execve(t_cmd *cmd, t_env *env, t_token *token);
 
+int		is_directory(t_cmd *cmd);
 void	free_all(t_env *env, t_token *token, t_cmd *cmd);
 
 #endif

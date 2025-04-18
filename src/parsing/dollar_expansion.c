@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:47:23 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 15:18:15 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 02:33:57 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 */
 static char	*make_token(char *dol, char *clean_word, t_shell *shell)
 {
-	int			i;
-	int			j;
-	char		*tmp;
-	char		*res;
+	int		i;
+	int		j;
+	char	*tmp;
+	char	*res;
 
 	i = 0;
 	while (dol[i] == SPACE || dol[i] == TAB)
@@ -40,7 +40,6 @@ static char	*make_token(char *dol, char *clean_word, t_shell *shell)
 			i++;
 		tmp = ft_substr(dol, j, i - j);
 		res = ft_strjoin(clean_word, tmp);
-		//printf("dollar token: %s, len: %ld\n", res, ft_strlen(res));
 		token_lstadd_back(&(shell->token), token_lst(res, WORD, 0));
 		free(tmp);
 		free(res);
@@ -51,6 +50,7 @@ static char	*make_token(char *dol, char *clean_word, t_shell *shell)
 	}
 	return (clean_word);
 }
+//printf("dollar token: %s, len: %ld\n", res, ft_strlen(res));
 
 /*
 	1) spaces in dollar var: we do make_token()
@@ -64,10 +64,7 @@ static char	*decide_expand(char *dol, char *clean_word,
 
 	if (dol && (ft_strchr(dol, SPACE) || ft_strchr(dol, TAB))
 		&& *state == ST_GENERAL)
-	{
-		// printf("dollar var is: %s\n", dol);
 		res = make_token(dol, clean_word, shell);
-	}
 	else
 	{
 		tmp = ft_strjoin(clean_word, dol);
@@ -76,6 +73,7 @@ static char	*decide_expand(char *dol, char *clean_word,
 	}
 	return (res);
 }
+// printf("dollar var is: %s\n", dol);
 
 static char	*expand_code(t_shell *shell, char *clean_word)
 {
@@ -125,20 +123,5 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state)
 	if (!dol)
 		return (clean_word);
 	res = decide_expand(dol, clean_word, state, shell);
-	return (res);
-}
-
-/* if no dollar sign is found,
-	and the current state tells us to add a character
-	we call this function*/
-char	*update_clean_word(char *clean_word, char *str, int *i)
-{
-	char	tmp[2];
-	char	*res;
-
-	tmp[0] = str[*i];
-	tmp[1] = '\0';
-	res = ft_strjoin(clean_word, tmp);
-	free(clean_word);
 	return (res);
 }

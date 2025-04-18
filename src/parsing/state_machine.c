@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:19:26 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 18:46:10 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/18 11:49:18 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 #include "parsing.h"
 
 /* DEEPTHOUGHT of the state machine*/
-static int	utils_update_state(int state, char c)
+static int	expand_or_not(int state, char c)
 {
 	if (!(c == '_' || ft_isalpha(c) || ft_isdigit(c)))
 	{
 		if ((state == ST_GENERAL && (c == '\'' || c == '"' || c == '?')))
+			return (EXPAND_DOLLAR);
+		else if (state == ST_IN_DQ && c == '?')
 			return (EXPAND_DOLLAR);
 		return (UPDATE_WORD);
 	}
@@ -52,10 +54,26 @@ int	update_state(int *state, t_shell *shell, int *i)
 		return (UPDATE_WORD);
 	}
 	if ((*state == ST_IN_DQ || *state == ST_GENERAL)
-		&& shell->str[*i] == '$' && shell->str[*i + 1] && (!last_token || last_token->type != R_DELIMITER))
+		&& shell->str[*i] == '$' && shell->str[*i + 1]
+		&& (!last_token || last_token->type != R_DELIMITER))
 	{
-		if (utils_update_state(*state, shell->str[*i + 1]))
-			return (utils_update_state(*state, shell->str[*i + 1]));
+		if (expand_or_not(*state, shell->str[*i + 1]))
+			return (expand_or_not(*state, shell->str[*i + 1]));
 	}
 	return (UPDATE_WORD);
+}
+
+/* if no dollar sign is found,
+	and the current state tells us to add a character
+	we call this function */
+char	*update_clean_word(char *clean_word, char *str, int *i)
+{
+	char	tmp[2];
+	char	*res;
+
+	tmp[0] = str[*i];
+	tmp[1] = '\0';
+	res = ft_strjoin(clean_word, tmp);
+	free(clean_word);
+	return (res);
 }
