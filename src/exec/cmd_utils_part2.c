@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 03:05:12 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 17:36:37 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ char	*get_outfile(t_token *token)
 			&& token->next && token->next->type == OUTFILE)
 		{
 			res = token->next->str;
-			fd = open_file(res, 1);
+			if (token->type == R_REDIRECTION)
+				fd = open_file(res, 4);
+			else
+				fd = open_file(res, 3);
 			close(fd);
 		}
 		token = token->next;
