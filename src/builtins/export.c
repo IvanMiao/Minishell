@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/16 22:54:46 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 03:46:17 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,15 @@ static int	check_newenv(char *arg)
 	int		distance;
 	int		i;
 
-	i = 0;
 	name = ft_strchr(arg, '=');
 	if (!name)
 		distance = (int)ft_strlen(arg);
 	else
 		distance = name - arg;
-	if (check_first_c(arg) < 0)
-		return (check_first_c(arg));
+	i = check_first_c(arg);
+	if (i < 0)
+		return (i);
+	i = 0;
 	while (i < distance)
 	{
 		if (arg[i] != '_' && !ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
