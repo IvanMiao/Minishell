@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 03:53:43 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 17:18:48 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,20 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	int		exit_builtin;
 
 	cmd = set_cmd(token, env);
-	// printf("------------------------------\n");
-	// printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
-	// printf("infile is: %s\n", cmd->infile);
-	// printf("outfile is: %s\n", cmd->outfile);
-	// printf("delimiter is: %s\n", cmd->delimiter);
-	// printf("append?: %s\n", cmd->append? "true" : "false");
-	// printf("------------------------------\n");
+	printf("------------------------------\n");
+	printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
+	printf("infile is: %s\n", cmd->infile);
+	printf("outfile is: %s\n", cmd->outfile);
+	printf("delimiter is: %s\n", cmd->delimiter);
+	printf("append?: %s\n", cmd->append? "true" : "false");
+	printf("------------------------------\n");
 	if (!cmd->pathname && cmd->delimiter)
 	{
 		handle_here_doc(token, env, cmd);
 		return (free_cmd(cmd), 0);
 	}
+	if (is_directory(cmd))
+		return (0);
 	exit_builtin = exec_builtin_parent(cmd, env, token);
 	if (exit_builtin != -1)
 		return (free_cmd(cmd), exit_builtin);
@@ -103,7 +105,7 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 int	exec_child(t_token *token, t_env *env, t_cmd *cmd)
 {
 	int	exit_builtin;
-	
+
 	sig_in_child();
 	handle_here_doc(token, env, cmd);
 	all_dups(cmd, NULL);

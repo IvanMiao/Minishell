@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/18 12:51:08 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:22:44 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ t_tokentype	assign_tokens(char *str, t_token *last_token)
 		return (R_IN);
 	if (ft_strncmp(str, ">", 1) == 0)
 		return (R_OUT);
-	if (ft_strncmp(str, "$", 1) == 0)
-		return (DOLLAR);
 	if (last_token && (last_token->type == R_IN
 			|| last_token->type == R_DELIMITER))
 		return (INFILE);
 	if (last_token && (last_token->type == R_OUT
 			|| last_token->type == R_REDIRECTION))
 		return (OUTFILE);
+	if (ft_strncmp(str, "$", 1) == 0)
+		return (DOLLAR);
 	return (WORD);
 }
 

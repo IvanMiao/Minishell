@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 12:33:57 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/18 13:09:00 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:05:43 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	check_redir_in_delim(t_token *token, char *msg)
 		{
 			if (!token->next)
 				return (ft_fprintf(2, "%s`newline'\n", msg), 2);
-			if (token->next->type == R_DELIMITER)
-				return (ft_fprintf(2, "%s`<<'\n", msg), 2);
-			if (token->next->type == R_IN)
+			else if (token->next->type == R_IN)
 				return (ft_fprintf(2, "%s`<'\n", msg), 2);
+			else if (token->next->type == R_DELIMITER)
+				return (ft_fprintf(2, "%s`<<'\n", msg), 2);
 		}
 		token = token->next;
 	}
