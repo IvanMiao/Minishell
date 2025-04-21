@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/20 07:01:13 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 16:11:02 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	if (!cmd->pathname)
 		return (free_cmd(cmd), 0);
 	if (is_directory(cmd))
+		return (free_cmd(cmd), 126);
+	if (file_exist(cmd))
 		return (free_cmd(cmd), 126);
 	exit_builtin = exec_builtin_parent(cmd, env, token);
 	if (exit_builtin != -1)

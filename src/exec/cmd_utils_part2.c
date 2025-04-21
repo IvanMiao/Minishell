@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/20 07:02:41 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 15:51:53 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,4 @@ char	*get_delimiter(t_token *token)
 		token = token->next;
 	}
 	return (delimiter);
-}
-
-int	is_directory(t_cmd *cmd)
-{
-	struct stat	info;
-
-	if (stat(cmd->pathname, &info) != 0)
-		return (0);
-	if (S_ISDIR(info.st_mode))
-		ft_fprintf(2, "minishell: %s: Is a directory\n", cmd->pathname);
-	return (S_ISDIR(info.st_mode));
 }

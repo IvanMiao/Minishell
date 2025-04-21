@@ -1,0 +1,190 @@
+echo
+echo bonjour
+echobonjour
+
+echo Hola Que Tal
+echo          Hola
+echo   	Hola   Que   Tal
+echo "        " | cat -e
+echo            | cat -e
+""''echo hola""'''' que""'' tal""''
+
+echo ""
+echo ''
+echo "bonjour"
+echo 'bonjour'
+
+echo $
+echo $:$= | cat -e
+echo " $ " | cat -e
+echo ' $ ' | cat -e
+echo $HOME
+echo the terminal is [$TERM]
+echo the terminal is [$TERM4
+echo the terminal is [$TERM4]
+echo $NOTEXIST
+echo $UID
+echo $HOME9
+echo $9HOME
+echo $HOME%
+echo Le path de mon HOME est $HOME
+EechoE
+.echo.
+
+echo $""
+echo "$"""
+echo '$'''
+echo $"HOME"
+echo $''HOME
+echo $""HOME
+echo "$HO"ME
+echo '$HO'ME
+echo "$HO""ME"
+echo '$HO''ME'
+echo "'$HO''ME'"
+echo ""$HOME
+echo "" $HOME
+echo ''$HOME
+echo '' $HOME
+echo $"HO""ME"
+echo $'HO''ME'
+echo $'HOME'
+echo "$"HOME
+echo $=HOME
+echo $"HOLA"
+echo $'HOLA'
+echo $DONTEXIST Hola
+
+echo "hola"
+echo 'hola'
+echo ''hola''
+echo ''h'o'la''
+echo "''h'o'la''"
+echo "'"h'o'la"'"
+echo"'hola'"
+echo "'hola'"
+echo '"hola"'
+echo '''ho"''''l"a'''
+echo hola""""""""""""
+echo hola"''''''''''"
+echo hola''''''''''''
+echo hola'""""""""""'
+e"cho hola"
+e'cho hola'
+echo "hola     " | cat -e
+echo ""hola
+echo "" hola
+echo ""             hola
+echo ""hola
+echo "" hola
+echo hola""bonjour
+"e"'c'ho 'b'"o"nj"o"'u'r
+""e"'c'ho 'b'"o"nj"o"'u'r"
+echo "$DONTEXIST"Makefile
+echo "$DONTEXIST""Makefile"
+echo "$DONTEXIST" "Makefile"
+
+### dollar ###
+echo $?
+$?
+$?$?
+?$HOME
+$
+$HOME
+$HOMEdskjhfkdshfsd
+"$HOMEdskjhfkdshfsd"
+'$HOMEdskjhfkdshfsd'
+$DONTEXIST
+$LESS$VAR
+
+lsdafkdakjg; echo $?
+
+### export ###
+export HOLA=bonjour
+export       HOLA=bonjour
+export Hola
+export Hola9hey
+export ""
+export =
+export %
+export $?
+export ?=2
+export bonjour=hello; echo $bonjour
+export shit='"'; echo " $shit " | cat -e
+export HOLA9=bonjour | echo $HOLA9
+export _HOLA=bonjour | echo $_HOLA
+export ___HOLA=bonjour | echo $__HOLA
+export _HO_LA_=bonjour | echo $_HO_LA_
+export HOL@=bonjour
+export HOLA-=bonjour
+export HO-LA=bonjour
+export HOL.A=bonjour
+export HOL}A=bonjour
+export HOL{A=bonjour
+export HO*LA=bonjour
+export HO#LA=bonjour
+export HO@LA=bonjour
+export HO!LA=bonjour
+export HO$?LA=bonjour 
+export +HOLA=bonjour
+export HOL+A=bonjour
+export HOLA=bonjour
+export HOLA=$HOME
+
+### builtin
+echo hello world
+echo "hello world"
+echo 'hello world'
+echo hello'world'
+echo hello""world
+echo ''
+echo "$PWD"
+echo '$PWD'
+echo "aspas ->'"
+echo "aspas -> ' "
+echo 'aspas ->"'
+echo 'aspas -> " '
+echo "> >> < * ? [ ] | [ ] || && ( ) & # $ \ <<"
+echo '> >> < * ? [ ] | [ ] || && ( ) & # $ \ <<'
+echo "exit_code ->$? user ->$USER home -> $HOME"
+echo 'exit_code ->$? user ->$USER home -> $HOME'
+echo "$"
+echo '$'
+echo $
+echo $?
+echo $?HELLO
+pwd
+pwd oi
+export hello
+export HELLO=123
+export A-
+export HELLO=123 A
+export HELLO="123 A-"
+export hello world
+export HELLO-=123
+export =
+export 123
+unset
+unset HELLO
+unset HELLO1 HELLO2
+unset HOME
+unset PATH
+unset SHELL
+cd $PWD
+cd $PWD hi 
+cd 123123
+exit 123
+exit 298
+exit +100
+exit "+100"
+exit +"100"
+exit -100
+exit "-100"
+exit -"100"
+exit hello
+exit 42 world
+exit 9223372036854775807
+exit 9223372036854775808
+exit -9223372036854775807
+exit -9223372036854775808
+exit -9223372036854775809
