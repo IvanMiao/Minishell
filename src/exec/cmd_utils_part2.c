@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 17:36:37 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/20 07:02:41 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,26 @@ bool	check_append(t_token *token)
 
 char	*get_delimiter(t_token *token)
 {
+	char	*delimiter;
+	
+	delimiter = NULL;
 	while (token && token->type != PIPE)
 	{
 		if (token->type == R_DELIMITER && token->next
 			&& token->next->type == INFILE)
-			return (token->next->str);
+			delimiter = token->next->str;
 		token = token->next;
 	}
-	return (NULL);
+	return (delimiter);
 }
 
 int	is_directory(t_cmd *cmd)
 {
 	struct stat	info;
 
-	if (stat(cmd->pathname, &info) != 0
-		|| access(cmd->pathname, F_OK) != 0)
-		return (1);
-	return (0);
+	if (stat(cmd->pathname, &info) != 0)
+		return (0);
+	if (S_ISDIR(info.st_mode))
+		ft_fprintf(2, "minishell: %s: Is a directory\n", cmd->pathname);
+	return (S_ISDIR(info.st_mode));
 }

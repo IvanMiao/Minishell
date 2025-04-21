@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/18 18:19:28 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/19 06:07:24 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
 	printf("exit\n");
 	argc = count_args(token);
 	arg = token->next;
-	if (arg)
+	if (arg && (arg->type == WORD || arg->type == DOLLAR))
 	{
 		if (!is_numeric(arg->str))
 		{

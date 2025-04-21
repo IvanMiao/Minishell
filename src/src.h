@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 17:54:19 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 07:33:13 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int		ft_echo(t_token *token);
 int		ft_cd(t_token *token, t_env *env);
 int		ft_exit(t_token *token, t_env *env, t_cmd *cmd);
 int		ft_env(t_env *env);
-int		ft_export(t_env *env, t_token *token);
+int		ft_export(t_env *env, t_cmd *cmd);
 int		ft_unset(t_env *env, t_token *token);
 
 int		count_args(t_token *token);
@@ -160,6 +160,7 @@ pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 int		pipex(t_token *token, t_env *env);
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
 
+// exec utils
 int		open_file(char *file, int value);
 void	errors(int value);
 void	error_here_doc(char *str);
