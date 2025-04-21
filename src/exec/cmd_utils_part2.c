@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 16:44:49 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/21 17:15:58 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**get_delimiter(t_token *token)
 {
 	char	**delimiter;
 	int		count;
-	t_token *tmp;
+	t_token	*tmp;
 
 	delimiter = NULL;
 	count = 0;
@@ -83,7 +83,7 @@ char	**get_delimiter(t_token *token)
 		tmp = tmp->next;
 	}
 	if (count == 0)
-		return (0);
+		return (NULL);
 	delimiter = malloc(sizeof(char *) * (count + 1));
 	if (!delimiter)
 		return (NULL);

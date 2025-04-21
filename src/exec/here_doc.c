@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/21 16:38:59 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/21 17:08:13 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env, int i)
 	char	*result_expand;
 	int		fd;
 
-	fd = open("./heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return ;
 	while (1)
@@ -74,9 +74,9 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env, int i)
 		{
 			if (i == 1)
 			{
-				close(fd);
-				unlink("./heredoc.tmp");
-				fd = open("./heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				// close(fd);
+				// unlink("./heredoc.tmp");
+				fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 				if (fd < 0)
 					return ;
 				break ;
@@ -111,10 +111,10 @@ void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
 	(void)token;
 	i = 0;
 	i_max = 0;
-	while (cmd->delimiter[i_max])
-		i_max++;
 	if (!cmd->delimiter)
 		return ;
+	while (cmd->delimiter[i_max])
+		i_max++;
 	while (cmd->delimiter[i])
 	{
 		flag_expand = true;
