@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 03:46:17 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 07:35:31 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	check_first_c(char *arg)
 	}
 	if (*arg != '_' && !ft_isalpha(*arg))
 	{
-		ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", arg);
+		ft_fprintf(2, "minishell: export: `%s': not a valid identifier\n", arg);
 		return (-1);
 	}
 	return (0);
@@ -55,7 +55,7 @@ static int	check_newenv(char *arg)
 	{
 		if (arg[i] != '_' && !ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
 		{
-			ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n",
+			ft_fprintf(2, "minishell: export: `%s': not a valid identifier\n",
 				arg);
 			return (-1);
 		}
@@ -109,25 +109,27 @@ static bool	check_env_replace(t_env *env, char *arg, int dist_arg)
 	add a node to t_env if everything is ok,
 	replace the content if two names are the same 
 */
-int	ft_export(t_env *env, t_token *token)
+int	ft_export(t_env *env, t_cmd	*cmd)
 {
 	t_env	*new;
+	int		i;
 	int		dist_arg;
-	char	*arg;
 
-	token = token->next;
-	while (token && (token->type == DOLLAR || token->type == WORD))
+	if (cmd->argv && cmd->argv[0])
+		i = 1;
+	if (!(cmd->argv[i]))
+		return (0);
+	while (cmd->argv[i])
 	{
-		arg = token->str;
-		dist_arg = check_newenv(arg);
-		if (dist_arg < 0 || check_env_replace(env, arg, dist_arg) == true)
+		dist_arg = check_newenv(cmd->argv[i]);
+		if (dist_arg < 0 || check_env_replace(env, cmd->argv[i], dist_arg) == true)
 		{
-			token = token->next;
+			i++;
 			continue ;
 		}
-		new = env_lstnew(arg);
+		new = env_lstnew(cmd->argv[i]);
 		env_lstadd_back(&env, new);
-		token = token->next;
+		i++;
 	}
 	if (dist_arg < 0)
 		return (-dist_arg);

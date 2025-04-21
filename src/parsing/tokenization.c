@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/18 15:22:44 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/21 11:13:36 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ static bool	meet_end_char(t_shell *shell, int *i)
 
 t_tokentype	assign_tokens(char *str, t_token *last_token)
 {
-	if (ft_strncmp(str, "<<", 2) == 0)
+	if (ft_strncmp(str, "<<", 3) == 0)
 		return (R_DELIMITER);
-	if (ft_strncmp(str, ">>", 2) == 0)
+	if (ft_strncmp(str, ">>", 3) == 0)
 		return (R_REDIRECTION);
-	if (ft_strncmp(str, "|", 1) == 0)
+	if (ft_strncmp(str, "|", 2) == 0)
 		return (PIPE);
-	if (ft_strncmp(str, "<", 1) == 0)
+	if (ft_strncmp(str, "<", 2) == 0)
 		return (R_IN);
-	if (ft_strncmp(str, ">", 1) == 0)
+	if (ft_strncmp(str, ">", 2) == 0)
 		return (R_OUT);
 	if (last_token && (last_token->type == R_IN
 			|| last_token->type == R_DELIMITER))

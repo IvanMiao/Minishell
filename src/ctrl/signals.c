@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 04:14:36 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 03:32:41 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 15:11:23 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	sig_in_child(void)
 	sigaction(SIGINT, &sa_dfl, NULL);
 	sigaction(SIGQUIT, &sa_dfl, NULL);
 }
+
 /*
 // Ctrl D = add a EOF to stdin
 // if only a EOF in this line, show "exit" and exit

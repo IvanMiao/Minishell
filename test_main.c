@@ -51,6 +51,41 @@ static void	print_token(t_token *token)
 	printf("---------------\n");
 }
 
+static void	print_cmd(t_token *token, t_env *env)
+{
+	t_token	*start;
+	t_cmd	*cmd[1024];
+	int		i;
+
+	start = token;
+	i = 0;
+	while (token)
+	{
+		if (token->type == PIPE)
+		{
+			cmd[i] = set_cmd(start, env);
+			start = token->next;
+			i++;
+		}
+		token = token->next;
+	}
+	cmd[i] = set_cmd(start, env);
+	for (int k = 0; k <= i; k++)
+	{
+		printf("------------------------------\n");
+		printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd[k]->pathname);
+		for (int j = 0; cmd[k]->argv[j]; j++)
+			printf("argv[%d]: %s\n", j, cmd[k]->argv[j]);
+		printf("infile is: %s\n", cmd[k]->infile);
+		printf("outfile is: %s\n", cmd[k]->outfile);
+		printf("delimiter is: %s\n", cmd[k]->delimiter);
+		printf("append?: %s\n", cmd[k]->append? "true" : "false");
+		printf("------------------------------\n");
+	}
+	for (int k = 0; k <= i; k++)
+		free_cmd(cmd[k]);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*history;
@@ -77,6 +112,7 @@ int	main(int argc, char **argv, char **envp)
 			print_token(token);
 		if (check_main(&token, history))
 			continue ;
+		print_cmd(token, env);
 		(&shell)->exit_code = pipex(token, env);
 		token_lstclear(&token);
 		free(history);

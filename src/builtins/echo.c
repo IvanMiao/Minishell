@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:08:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/16 23:23:54 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/18 18:19:03 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,12 @@ int	ft_echo(t_token *token)
 	t_token	*copy;
 
 	new_line = 1;
-	if (token->next == NULL)
+	copy = token;
+	while (copy && copy->type != WORD && copy->type != DOLLAR && copy->type != PIPE)
+		copy = copy->next;
+	if (copy->next == NULL)
 		return (printf("\n"), 0);
-	copy = token->next;
+	copy = copy->next;
 	while (copy && (copy->type == WORD || copy->type == DOLLAR)
 		&& if_n(copy->str))
 	{
@@ -57,3 +60,22 @@ int	ft_echo(t_token *token)
 		printf("\n");
 	return (0);
 }
+
+/*
+int	main()
+{
+	t_token	*token;
+	t_token *next;
+	int		fd;
+
+	token = malloc(sizeof(t_token));
+	next = malloc(sizeof(t_token));
+	token->next = next;
+	next->type = WORD;
+	next->str = "bonjour";
+	fd = open("ohlala", O_WRONLY | O_CREAT | O_APPEND, 0777);
+	dup2(fd, STDOUT_FILENO);
+	ft_echo(token);
+	return 0;
+}
+*/

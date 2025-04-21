@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 17:18:48 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:10:54 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,20 +60,16 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	int		exit_builtin;
 
 	cmd = set_cmd(token, env);
-	printf("------------------------------\n");
-	printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd->pathname);
-	printf("infile is: %s\n", cmd->infile);
-	printf("outfile is: %s\n", cmd->outfile);
-	printf("delimiter is: %s\n", cmd->delimiter);
-	printf("append?: %s\n", cmd->append? "true" : "false");
-	printf("------------------------------\n");
 	if (!cmd->pathname && cmd->delimiter)
 	{
 		handle_here_doc(token, env, cmd);
+		unlink("./.heredoc.tmp");
 		return (free_cmd(cmd), 0);
 	}
+	if (!cmd->pathname)
+		return (free_cmd(cmd), 0);
 	if (is_directory(cmd))
-		return (0);
+		return (free_cmd(cmd), 126);
 	exit_builtin = exec_builtin_parent(cmd, env, token);
 	if (exit_builtin != -1)
 		return (free_cmd(cmd), exit_builtin);
@@ -129,6 +125,7 @@ pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe)
 	if (!cmd->pathname && cmd->delimiter)
 	{
 		handle_here_doc(token, env, cmd);
+		unlink("./.heredoc.tmp");
 		return (free_cmd(cmd), 0);
 	}
 	pid = fork();

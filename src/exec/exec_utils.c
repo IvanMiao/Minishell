@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/18 15:54:05 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/21 11:18:05 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ int	open_file(char *file, int value)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (value == 2)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else if (value == 3)
+		fd = open(file, O_CREAT | O_TRUNC, 0777);
+	else
+		fd = open(file, O_CREAT, 0777);
 	if (fd == -1)
 	{
 		ft_fprintf(2, "minishell: ", NULL);

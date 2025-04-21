@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 17:18:04 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:32:53 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ char	*get_outfile(t_token *token)
 			&& token->next && token->next->type == OUTFILE)
 		{
 			res = token->next->str;
-			fd = open_file(res, 1);
+			if (token->type == R_REDIRECTION)
+				fd = open_file(res, 4);
+			else
+				fd = open_file(res, 3);
 			close(fd);
 		}
 		token = token->next;
@@ -63,18 +66,34 @@ bool	check_append(t_token *token)
 	return (res);
 }
 
-char	*get_delimiter(t_token *token)
+char	**get_delimiter(t_token *token)
 {
-	char	*delimiter;
+	char	**delimiter;
+	int		count;
+	t_token *tmp;
 
 	delimiter = NULL;
+	tmp = token;
+	while (tmp && tmp->type != PIPE)
+	{
+		if (tmp->type == R_DELIMITER && tmp->next
+			&& tmp->next->type == INFILE)
+			count++;
+		tmp = tmp->next;
+	}
+	if (count == 0)
+		return (0);
+	delimiter = malloc(sizeof(char *) * (count + 1));
+	if (!delimiter)
+		return (NULL);
+	count = 0;
 	while (token && token->type != PIPE)
 	{
-		if (token->type == R_DELIMITER && token->next
-			&& token->next->type == INFILE)
-			delimiter = token->next->str;
+		if (token->type == R_DELIMITER && token->next && token->next->type == INFILE)
+			delimiter[count++] = ft_strdup(token->next->str);
 		token = token->next;
 	}
+	delimiter[count] = NULL;
 	return (delimiter);
 }
 
@@ -85,9 +104,6 @@ int	is_directory(t_cmd *cmd)
 	if (stat(cmd->pathname, &info) != 0)
 		return (0);
 	if (S_ISDIR(info.st_mode))
-	{
 		ft_fprintf(2, "minishell: %s: Is a directory\n", cmd->pathname);
-		free_cmd(cmd);
-	}
 	return (S_ISDIR(info.st_mode));
 }
