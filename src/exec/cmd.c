@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/17 07:50:15 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 18:51:02 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_cmd	*set_cmd(t_token *token, t_env *env)
 	cmd->argv = get_real_cmd(token, env);
 	cmd->envp = get_env(env);
 	cmd->pathname = cmd->argv[0];
+	cmd->open_error = check_direction_file(token);
 	cmd->infile = get_infile(token);
 	cmd->outfile = get_outfile(token);
 	cmd->delimiter = get_delimiter(token);

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:51:42 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 16:09:21 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 19:46:32 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_directory(t_cmd *cmd)
 	return (S_ISDIR(info.st_mode));
 }
 
-int	file_exist(t_cmd *cmd)
+int	file_nonexist(t_cmd *cmd)
 {
 	if (ft_strchr(cmd->pathname, '/'))
 	{
@@ -35,4 +35,25 @@ int	file_exist(t_cmd *cmd)
 		}
 	}
 	return (0);
+}
+
+int	check_cmd(t_cmd *cmd, t_token *token, t_env *env)
+{
+	if (!cmd->pathname && cmd->delimiter)
+	{
+		handle_here_doc(token, env, cmd);
+		unlink("./.heredoc.tmp");
+		if (cmd->open_error == true)
+			return (1);
+		return (0);
+	}
+	if (cmd->open_error == true)
+		return (1);
+	if (!cmd->pathname)
+		return (0);
+	if (is_directory(cmd))
+		return (126);
+	if (file_nonexist(cmd))
+		return (127);
+	return (-1);
 }

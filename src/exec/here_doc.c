@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/20 05:25:59 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 19:48:46 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ static char	*heredoc_expand(char *str, t_env *env)
 			while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 				i++;
 			tmp = ft_substr(str, j, i - j);
-			env_word = ft_get_env(env, tmp);
-			free(tmp);
-			if (!env_word)
+			if (ft_get_env(env, tmp))
+				env_word = ft_strdup(ft_get_env(env, tmp));
+			else
 				env_word = ft_strdup("");
+			free(tmp);
 			result = ft_strjoin(result_expand, env_word);
 			free(result_expand);
 			result_expand = result;
@@ -50,6 +51,7 @@ static char	*heredoc_expand(char *str, t_env *env)
 			char_str = ft_substr(str, i, 1);
 			result = ft_strjoin(result_expand, char_str);
 			free(result_expand);
+			free(char_str);
 			result_expand = result;
 			i++;
 		}
@@ -82,6 +84,7 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env)
 			ft_fprintf(fd, "%s\n", str);
 		free(str);
 	}
+	close(fd);
 	return ;
 }
 

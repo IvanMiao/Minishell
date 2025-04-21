@@ -24,13 +24,12 @@ delete `test_minishell` and `readline.supp`:
 
 
 ### Fix
-1. `$?`(in ~~tokenization~~ and in exec)
+1.`<<eof cat | grep a`
 2. **!!** exit.c cd.c export.c with directions (modify count_args()) `export > a hola=bonjour`
 3. builtin functions & system binaries in a single command
-4. Error messages: 1.cmd, no such file or directory 2. open error, permisson 3. ...
-5. redirections in pipex(like, two pipes, three commands, but there's a redirection in second command)
-6. heredoc with dollar expansion
-7. multiple herdocs(?)
+4. redirections in pipex(like, two pipes, three commands, but there's a redirection in second command)
+5. heredoc with dollar expansion
+6. multiple herdocs(?)
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html), 
