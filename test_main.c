@@ -78,7 +78,8 @@ static void	print_cmd(t_token *token, t_env *env)
 			printf("argv[%d]: %s\n", j, cmd[k]->argv[j]);
 		printf("infile is: %s\n", cmd[k]->infile);
 		printf("outfile is: %s\n", cmd[k]->outfile);
-		printf("delimiter is: %s\n", cmd[k]->delimiter);
+		for (int l = 0; cmd[k]->delimiter[l]; l++)
+			printf("delimiter is: %s\n", cmd[k]->delimiter[l]);
 		printf("append?: %s\n", cmd[k]->append? "true" : "false");
 		printf("------------------------------\n");
 	}

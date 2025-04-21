@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 14:32:53 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/21 16:37:59 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	**get_delimiter(t_token *token)
 	t_token *tmp;
 
 	delimiter = NULL;
+	count = 0;
 	tmp = token;
 	while (tmp && tmp->type != PIPE)
 	{
