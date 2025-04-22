@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 00:48:48 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/20 05:28:49 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 13:01:06 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strjoin_char(char *s1, char c);
 char	*ft_strnstr(const char *s1, const char *s2, size_t len);
+char	*ft_strcpy(char *dest, char *src);
 
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);

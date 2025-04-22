@@ -6,57 +6,11 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 15:50:47 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 16:12:16 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
-
-// static char	*heredoc_expand(char *str, t_env *env)
-// {
-// 	char	*tmp;
-// 	char	*env_word;
-// 	char	*result;
-// 	char	*result_expand;
-// 	char	*char_str;
-// 	int		i;
-// 	int		j;
-
-// 	i = 0;
-// 	result_expand = ft_strdup("");
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '$' && str[i + 1]
-// 			&& (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
-// 		{
-// 			i++;
-// 			j = i;
-// 			while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
-// 				i++;
-// 			tmp = ft_substr(str, j, i - j);
-// 			if (ft_get_env(env, tmp))
-// 				env_word = ft_strdup(ft_get_env(env, tmp));
-// 			else
-// 				env_word = ft_strdup("");
-// 			free(tmp);
-// 			result = ft_strjoin(result_expand, env_word);
-// 			free(result_expand);
-// 			result_expand = result;
-// 			free(env_word);
-// 			continue ;
-// 		}
-// 		else
-// 		{
-// 			char_str = ft_substr(str, i, 1);
-// 			result = ft_strjoin(result_expand, char_str);
-// 			free(result_expand);
-// 			free(char_str);
-// 			result_expand = result;
-// 			i++;
-// 		}
-// 	}
-// 	return (result_expand);
-// }
 
 /* expansion of all the dollar vars in char *str! */
 static char	*get_env_value(const char *str, int *pos, t_env *env)

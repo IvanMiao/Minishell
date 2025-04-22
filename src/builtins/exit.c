@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/19 06:07:24 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 13:56:39 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
 		{
 			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", arg->str);
 			free_all(env, token, cmd);
-			exit(255);
+			exit(2);
 		}
 		nb = ft_atoi(arg->str, &error);
 		if (error)
