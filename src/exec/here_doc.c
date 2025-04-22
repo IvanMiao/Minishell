@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/21 17:08:13 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:17:10 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,20 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env, int i)
 	fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return ;
+	signal(SIGINT, ctrl_c_hd);
 	while (1)
 	{
 		str = readline("> ");
-		if (!str || (ft_strlen(str) == ft_strlen(delimiter)
+		if (!str)
+		{
+			print_ctrld_hd(delimiter);
+			break ;
+		}
+		if ((ft_strlen(str) == ft_strlen(delimiter)
 				&& ft_strncmp(str, delimiter, ft_strlen(delimiter)) == 0))
 		{
 			if (i == 1)
 			{
-				// close(fd);
-				// unlink("./heredoc.tmp");
 				fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 				if (fd < 0)
 					return ;

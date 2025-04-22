@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 16:46:38 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 15:13:09 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,10 @@ pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 
 int		pipex(t_token *token, t_env *env);
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
+
+bool	print_ctrld_hd(char *s);
+void	ctrl_c_hd(int code);
+void	print_ctrlc_hd(void);
 
 // exec utils
 int		open_file(char *file, int value);
