@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 16:09:40 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 16:45:02 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	open_file(char *file, int value)
 	if (value == 0)
 		fd = open(file, O_RDONLY);
 	else if (value == 1)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (value == 2)
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (value == 3)
-		fd = open(file, O_CREAT | O_TRUNC, 0777);
+		fd = open(file, O_CREAT | O_TRUNC, 0644);
 	else
-		fd = open(file, O_CREAT, 0777);
+		fd = open(file, O_CREAT, 0644);
 	if (fd == -1)
 	{
 		ft_fprintf(2, "minishell: ", NULL);

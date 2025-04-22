@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/21 13:56:39 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:02:56 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,8 @@ int	count_args(t_token *token)
 	token = token->next;
 	while (token && token->type != PIPE)
 	{
-		count++;
+		if ((token->type == WORD || token->type == DOLLAR) && ft_strncmp(token->str, "exit", 5))
+			count++;
 		token = token->next;
 	}
 	return (count);
@@ -91,7 +92,15 @@ int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
 
 	printf("exit\n");
 	argc = count_args(token);
-	arg = token->next;
+	if (!ft_strncmp(token->str, "exit", 5) && token->type == WORD)
+		token = token->next;
+	while (token && token->type >= R_IN && token->type <= OUTFILE 
+			&& token->type != PIPE)
+		token = token->next;
+	if (token && !ft_strncmp(token->str, "exit", 5) && token->type == WORD)
+		token = token->next;
+	if (token)
+		arg = token;
 	if (arg && (arg->type == WORD || arg->type == DOLLAR))
 	{
 		if (!is_numeric(arg->str))
@@ -117,15 +126,3 @@ int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
 	exit(nb);
 }
 
-/*
-int	main(int argc, char **argv)
-{
-	int	exit_code;
-
-	exit_code = ft_exit(argc, argv);
-	if (exit_code == -1)
-		return (1);
-	// printf("%lld\n", LLONG_MIN);
-	return (exit_code);
-}
-*/

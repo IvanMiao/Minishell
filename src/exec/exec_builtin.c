@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:01:13 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 07:33:32 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 16:51:23 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ int	exec_builtin(t_cmd *cmd, t_env *env, t_token *token)
 	if (!ft_strncmp(cmd->pathname, "echo", 5))
 		flag = ft_echo(token);
 	if (!ft_strncmp(cmd->pathname, "exit", 5))
-	{
-		ft_exit(token, env, cmd);
-		flag = 0;
-	}
+		flag = ft_exit(token, env, cmd);
 	return (flag);
 }
 
@@ -74,9 +71,6 @@ int	exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token)
 	if (!ft_strncmp(cmd->pathname, "unset", 6))
 		flag = ft_unset(env, token);
 	if (!ft_strncmp(cmd->pathname, "exit", 5))
-	{
-		ft_exit(token, env, cmd);
-		flag = 0;
-	}
+		flag = ft_exit(token, env, cmd);
 	return (flag);
 }

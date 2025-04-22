@@ -12,6 +12,13 @@ cmd1 | /bin/ls; echo $?
 /home; echo $?
 /notexist; echo $?
 
+### builtin error
+>res exit 42 42; rm res
+touch a; < a exit 42 42; rm a
+touch a; < a exit 42 42 > res; rm a res
+<a exit 42 42 > res
+exit 42 42 >> res; rm res
+
 ### direction error
 touch a; chmod -r a; <a cat; echo $?; rm a
 touch a; chmod -r a; <a <b cat; echo $?; rm a
