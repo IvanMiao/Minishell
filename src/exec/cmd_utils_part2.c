@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 19:26:22 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 02:25:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ bool	check_append(t_token *token)
 char	*get_delimiter(t_token *token)
 {
 	char	*delimiter;
-	
+
 	delimiter = NULL;
 	while (token && token->type != PIPE)
 	{

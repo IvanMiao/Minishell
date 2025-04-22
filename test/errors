@@ -1,0 +1,6 @@
+### direction error
+touch a; chmod -r a; <a cat; echo $?; rm a
+touch a; chmod -r a; <a <b cat; echo $?; rm a
+touch a; chmod -r a; <b <a cat; echo $?; rm a
+touch a; chmod -w a; >a; echo $?; rm a
+touch a; chmod -w a; >a >b >c; echo $?; cat a; cat b; cat c; rm a b c

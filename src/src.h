@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 20:12:42 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 04:22:13 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state);
 
 int		check_syntax(t_token *token);
 
-// exec
+// exec -- cmd
 t_cmd	*set_cmd(t_token *token, t_env *env);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
@@ -152,6 +152,7 @@ bool	check_append(t_token *token);
 bool	check_direction_file(t_token *token);
 void	free_cmd(t_cmd *cmd);
 
+//exec -- command and pipe
 int		exec_builtin(t_cmd *cmd, t_env *env, t_token *token);
 int		exec_builtin_child(t_cmd *cmd, t_env *env, t_token *token);
 int		exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token);

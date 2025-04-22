@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:51:42 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 19:46:32 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 04:00:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	file_nonexist(t_cmd *cmd)
 		{
 			ft_fprintf(2, "minishell: ", NULL);
 			perror(cmd->pathname);
-			return(126);
+			return (126);
 		}
 	}
 	return (0);
