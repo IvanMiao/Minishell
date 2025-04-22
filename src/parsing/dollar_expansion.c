@@ -3,19 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:47:23 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 02:33:57 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 16:59:10 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 #include "parsing.h"
 
-/*
-	I CAN'T BELIEVE THAT I MADE IT
-*/
 static char	*make_token(char *dol, char *clean_word, t_shell *shell)
 {
 	int		i;
@@ -50,12 +47,7 @@ static char	*make_token(char *dol, char *clean_word, t_shell *shell)
 	}
 	return (clean_word);
 }
-//printf("dollar token: %s, len: %ld\n", res, ft_strlen(res));
 
-/*
-	1) spaces in dollar var: we do make_token()
-	2) no spaces: just add dollar var to clean_word
-*/
 static char	*decide_expand(char *dol, char *clean_word,
 	int *state, t_shell *shell)
 {
@@ -73,7 +65,6 @@ static char	*decide_expand(char *dol, char *clean_word,
 	}
 	return (res);
 }
-// printf("dollar var is: %s\n", dol);
 
 static char	*expand_code(t_shell *shell, char *clean_word)
 {
@@ -87,15 +78,6 @@ static char	*expand_code(t_shell *shell, char *clean_word)
 	return (res);
 }
 
-/*
-following the rules for environment variables
-we check if there is a variable exists
-if there is, there are two conditions:
-	1) no spaces in dollar var: add the dollar variable to clean_word
-	2) spaces in dollar var: we should make tokens inside the dollar var
-if not, just return the clean_word as it is
-after this function, clean_word is updated
-*/
 char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state)
 {
 	int		j;

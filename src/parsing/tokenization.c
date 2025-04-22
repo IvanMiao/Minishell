@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/21 11:13:36 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:14:24 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	modif_tokens_2(t_shell *shell, int *i)
 		token_lstadd_back(&(shell->token), token_lst(clean_word, type, 0));
 	free(clean_word);
 }
-//printf("char: %c, state: %d\n", str[*i], state);
 
 void	modif_tokens(t_shell *shell, int *i)
 {
@@ -100,7 +99,6 @@ void	modif_tokens(t_shell *shell, int *i)
 		modif_tokens_2(shell, i);
 }
 
-//Pas sur de l'affichage du 1er perror
 t_token	*init_tokens(t_shell *shell)
 {
 	int		i;

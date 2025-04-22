@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 16:26:31 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:55:02 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ bool	print_ctrld_hd(char *s);
 // exec utils
 int		open_file(char *file, int value);
 int		check_cmd(t_cmd *cmd, t_token *token, t_env *env);
+void	all_dups(t_cmd *cmd, int *prev_pipe);
 
 void	errors(int value);
 void	error_here_doc(char *str);

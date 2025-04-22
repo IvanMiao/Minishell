@@ -6,53 +6,11 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 16:24:10 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:54:17 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
-
-static void	all_dups(t_cmd *cmd, int *prev_pipe)
-{
-	int	fd_in;
-	int	fd_out;
-
-	if (prev_pipe == NULL)
-		fd_in = -1;
-	else
-		fd_in = *prev_pipe;
-	if (fd_in != -1)
-	{
-		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
-	}
-	if (cmd->delimiter[0])
-	{
-		fd_in = open("./.heredoc.tmp", O_RDONLY);
-		if (fd_in == -1)
-			perror("open");
-		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
-	}
-	if (cmd->infile)
-	{
-		fd_in = open_file(cmd->infile, 0);
-		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
-	}
-	if (cmd->outfile && cmd->append == false)
-	{
-		fd_out = open_file(cmd->outfile, 1);
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
-	}
-	else if (cmd->outfile && cmd->append == true)
-	{
-		fd_out = open_file(cmd->outfile, 2);
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
-	}
-}
 
 int	exec_simple_cmd(t_token *token, t_env *env)
 {
