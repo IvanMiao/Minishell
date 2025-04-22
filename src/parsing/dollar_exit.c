@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:02:51 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/14 15:07:09 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:57:37 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,42 +90,3 @@ void	search_code_token(t_token *token, int exit_code)
 		tmp = tmp->next;
 	}
 }
-
-/*int main(void)
-{
-	t_token *token;
-
-	token = malloc(sizeof(t_token));
-	token->str = " $?echo $? et encore $? ! $?";
-
-	int exit_code = 42;
-
-	printf("🔧 Résultat de print_last_status :\n");
-	print_last_status(token, exit_code);
-
-	printf("🔧 Résultat de  :\n");
-	search_code_token(token, exit_code);
-	printf("%s\n", token->str);
-
-	return 0;
-}*/
-
-/*int	main(void)
-{
-	pid_t	pid = fork();
-	int		status;
-
-	if (pid == 0)
-		exit(42);
-	else
-	{
-		status = exit_status(pid);
-		t_token token;
-		token.str = "Le status est: $? !";
-		token.type = DOLLAR;
-
-		print_last_status(&token, status);
-	}
-
-	return (0);
-}*/

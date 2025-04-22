@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 16:08:22 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 17:30:09 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,8 @@ char	**get_delimiter(t_token *token)
 	count = 0;
 	while (token && token->type != PIPE)
 	{
-		if (token->type == R_DELIMITER && token->next && token->next->type == INFILE)
+		if (token->type == R_DELIMITER
+			&& token->next && token->next->type == INFILE)
 			delimiter[count++] = ft_strdup(token->next->str);
 		token = token->next;
 	}

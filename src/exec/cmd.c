@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 16:08:31 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 17:30:34 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	*get_name(t_token *token)
 {
 	bool	flag;
-	
+
 	while (token && token->type != PIPE)
 	{
 		flag = (token->type == WORD || token->type == DOLLAR);
@@ -42,7 +42,7 @@ void	free_cmd(t_cmd *cmd)
 		free(*tmp++);
 	free(cmd->envp);
 	tmp = cmd->delimiter;
-	while(*tmp)
+	while (*tmp)
 		free(*tmp++);
 	free(cmd->delimiter);
 	free(cmd);

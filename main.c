@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 14:50:31 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:35:14 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,31 +51,29 @@ int	exit_history(int value)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*history;
-	t_env	*env;
 	t_token	*token;
 	t_shell	shell;
 
 	if (argc != 1)
 		return (ft_fprintf(2, "Usage: %s\n", argv[0]), 1);
 	controls();
-	env = set_env(envp);
-	(&shell)->env = env;
-	(&shell)->exit_code = 0;
+	shell.env = set_env(envp);
+	shell.exit_code = 0;
 	while (1)
 	{
 		history = readline("minishell$ ");
 		if (!history)
 			exit_history(1);
-		ctrl_d(history, env);
+		ctrl_d(history, shell.env);
 		add_history(history);
-		(&shell)->str = history;
+		shell.str = history;
 		token = init_tokens(&shell);
 		if (check_main(&token, history))
 			continue ;
-		(&shell)->exit_code = pipex(token, env);
+		shell.exit_code = pipex(token, shell.env);
 		token_lstclear(&token);
 		free(history);
 	}
-	env_free(env);
+	env_free(shell.env);
 	return (shell.exit_code);
 }

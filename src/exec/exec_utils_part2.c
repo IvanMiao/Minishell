@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:51:42 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 16:09:34 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 17:30:43 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	file_nonexist(t_cmd *cmd)
 int	check_cmd(t_cmd *cmd, t_token *token, t_env *env)
 {
 	int	code;
-	
+
 	if (!cmd->pathname && cmd->delimiter)
 	{
 		handle_here_doc(token, env, cmd);
@@ -62,4 +62,53 @@ int	check_cmd(t_cmd *cmd, t_token *token, t_env *env)
 	if (code)
 		return (code);
 	return (-1);
+}
+
+void	all_dups2(t_cmd *cmd)
+{
+	int	fd_in;
+	int	fd_out;
+
+	if (cmd->infile)
+	{
+		fd_in = open_file(cmd->infile, 0);
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	if (cmd->outfile && cmd->append == false)
+	{
+		fd_out = open_file(cmd->outfile, 1);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
+	else if (cmd->outfile && cmd->append == true)
+	{
+		fd_out = open_file(cmd->outfile, 2);
+		dup2(fd_out, STDOUT_FILENO);
+		close(fd_out);
+	}
+}
+
+void	all_dups(t_cmd *cmd, int *prev_pipe)
+{
+	int	fd_in;
+
+	if (prev_pipe == NULL)
+		fd_in = -1;
+	else
+		fd_in = *prev_pipe;
+	if (fd_in != -1)
+	{
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	if (cmd->delimiter[0])
+	{
+		fd_in = open("./.heredoc.tmp", O_RDONLY);
+		if (fd_in == -1)
+			perror("open");
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	all_dups2(cmd);
 }
