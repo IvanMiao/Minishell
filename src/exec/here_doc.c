@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/21 19:48:46 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/21 22:17:46 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,19 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env)
 
 	fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
+	{
+		perror("heredoc open:");
 		return ;
+	}
 	while (1)
 	{
 		str = readline("> ");
 		if (ft_strlen(str) == ft_strlen(delimiter)
 			&& ft_strncmp(str, delimiter, ft_strlen(delimiter)) == 0)
-			break ;
+			{
+				free(str);
+				break ;
+			}
 		if (flag_expand)
 		{
 			result_expand = heredoc_expand(str, env);
