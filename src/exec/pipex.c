@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/20 07:01:07 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 01:48:35 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,42 +17,32 @@ int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 	int		pipe_fd[2];
 	pid_t	child;
 	t_cmd	*cmd;
+	int		exit_code;
 
 	cmd = set_cmd(token, env);
-	if (!cmd->pathname && cmd->delimiter)
-	{
-		handle_here_doc(token, env, cmd);
-		unlink("./.heredoc.tmp");
-		return (free_cmd(cmd), 0);
-	}
-	if (!cmd->pathname)
-		return (free_cmd(cmd), 0);
-	if (is_directory(cmd))
-		return (free_cmd(cmd), 126);
+	exit_code = check_cmd(cmd, token, env);
+	if (exit_code != -1)
+		return (free_cmd(cmd), exit_code);
 	if (pipe(pipe_fd) == -1)
 		errors(2);
+	handle_here_doc(token, env, cmd);
 	child = fork();
 	if (child == -1)
 		errors(3);
 	if (child == 0)
 	{
-		if (*prev_pipe != -1 && dup2(*prev_pipe, STDIN_FILENO) == -1)
-			errors(1); // need to free all
-		if (*prev_pipe != -1)
-			close(*prev_pipe);
+		sig_in_child();
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
 			errors(1); // need to free all
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
-		exec_child(token, env, cmd);
+		exec_child(token, env, cmd, prev_pipe);
 	}
 	sig_in_parent(1);
 	if (*prev_pipe != -1)
 		close(*prev_pipe);
 	close(pipe_fd[1]);
 	*prev_pipe = pipe_fd[0];
-	if (cmd->delimiter)
-		unlink("./.heredoc.tmp");
 	free_cmd(cmd);
 	return (0);
 }
@@ -84,6 +74,8 @@ int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
 			printf("\n");
 	}
 	sig_in_parent(2);
+	if (access("./.heredoc.tmp", F_OK) == 0)
+		unlink("./.heredoc.tmp");
 	if (WIFEXITED(exit_code))
 		exit_code = WEXITSTATUS(exit_code);
 	return (exit_code);

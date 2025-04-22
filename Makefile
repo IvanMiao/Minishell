@@ -6,7 +6,7 @@
 #    By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/22 12:01:23 by cgerner          ###   ########.fr        #
+#    Updated: 2025/04/22 16:26:46 by cgerner          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				exec/cmd_utils_part2.c \
 				exec/exec.c exec/exec_utils.c \
 				exec/exec_utils_part2.c \
-				exec/here_doc.c exec/pipex.c \
-				exec/here_doc_utils.c \
+				exec/here_doc.c exec/here_doc_utils.c \
+				exec/pipex.c \
 				exec/exec_builtin.c \
 				utils/libft_part1.c utils/libft_part2.c \
 				utils/libft_part3.c \

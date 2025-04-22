@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:47:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 15:17:44 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:24:29 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	ctrl_c_hd(int code)
 {
 	(void)code;
 	printf("\n");
-	exit (130);
+	exit (130); // TODO
 }

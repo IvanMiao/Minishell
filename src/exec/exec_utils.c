@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/21 11:18:05 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:24:04 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	open_file(char *file, int value)
 	{
 		ft_fprintf(2, "minishell: ", NULL);
 		perror(file);
-		exit(EXIT_FAILURE);
 	}
 	return (fd);
 }

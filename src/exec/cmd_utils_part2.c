@@ -6,11 +6,37 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 17:15:58 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:19:15 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+
+bool	check_direction_file(t_token *token)
+{
+	int		fd;
+
+	fd = -42;
+	while (token && token->type != PIPE)
+	{
+		if (token->type == R_IN && token->next && token->next->type == INFILE)
+			fd = open_file(token->next->str, 0);
+		else if ((token->type == R_OUT || token->type == R_REDIRECTION)
+			&& token->next && token->next->type == OUTFILE)
+		{
+			if (token->type == R_REDIRECTION)
+				fd = open_file(token->next->str, 2);
+			else
+				fd = open_file(token->next->str, 1);
+		}
+		if (fd == -1)
+			return (true);
+		if (fd > 0)
+			close(fd);
+		token = token->next;
+	}
+	return (false);
+}
 
 char	*get_infile(t_token *token)
 {
@@ -29,21 +55,13 @@ char	*get_infile(t_token *token)
 char	*get_outfile(t_token *token)
 {
 	char	*res;
-	int		fd;
 
 	res = NULL;
 	while (token && token->type != PIPE)
 	{
 		if ((token->type == R_OUT || token->type == R_REDIRECTION)
 			&& token->next && token->next->type == OUTFILE)
-		{
 			res = token->next->str;
-			if (token->type == R_REDIRECTION)
-				fd = open_file(res, 4);
-			else
-				fd = open_file(res, 3);
-			close(fd);
-		}
 		token = token->next;
 	}
 	return (res);
@@ -82,8 +100,6 @@ char	**get_delimiter(t_token *token)
 			count++;
 		tmp = tmp->next;
 	}
-	if (count == 0)
-		return (NULL);
 	delimiter = malloc(sizeof(char *) * (count + 1));
 	if (!delimiter)
 		return (NULL);

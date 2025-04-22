@@ -8,11 +8,18 @@ CYAN="\033[0;36m"
 BOLD="\033[1m"
 RESET="\033[0m"
 
-echo_test="echo"
 pass_count=0
 fail_count=0
 
-echo -e "${BLUE}${BOLD}Test begin: echo${RESET}"
+if [ $# -eq 0 ]; then
+    test_file="echo"
+fi
+
+if [ $# -eq 1 ]; then
+    test_file="$1"
+fi
+
+echo -e "${BLUE}${BOLD}Test begin: $test_file${RESET}"
 echo ""
 
 while IFS= read -r line
@@ -60,7 +67,7 @@ do
         cat .tmp.actual
         ((fail_count++))
     fi
-done < "$echo_test"
+done < "$test_file"
 
 echo -e "\n${BLUE}${BOLD}===== Result =====${RESET}"
 total=$((pass_count + fail_count))

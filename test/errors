@@ -1,0 +1,20 @@
+### cmd error
+cmdnotexist; echo $?
+cmdnotexist rien; echo $?
+cmd1 | cmd2; echo $?
+cmd1 | /bin/ls; echo $?
+/bin/ls | cmd1; echo $?
+/bin/ls -zzzzzzzzz; $?
+./echo; echo $?
+/; echo $?
+//; echo $?
+/////; echo $?
+/home; echo $?
+/notexist; echo $?
+
+### direction error
+touch a; chmod -r a; <a cat; echo $?; rm a
+touch a; chmod -r a; <a <b cat; echo $?; rm a
+touch a; chmod -r a; <b <a cat; echo $?; rm a
+touch a; chmod -w a; >a; echo $?; rm a
+touch a; chmod -w a; >a >b >c; echo $?; cat <a; cat <b; cat <c; rm a

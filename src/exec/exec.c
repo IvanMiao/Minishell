@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 16:46:25 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 16:24:10 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ static void	all_dups(t_cmd *cmd, int *prev_pipe)
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
-	if (cmd->delimiter)
+	if (cmd->delimiter[0])
 	{
 		fd_in = open("./.heredoc.tmp", O_RDONLY);
+		if (fd_in == -1)
+			perror("open");
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
@@ -57,31 +59,23 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	pid_t	pid;
 	t_cmd	*cmd;
 	int		status;
-	int		exit_builtin;
+	int		exit_code;
 
+	exit_code = -1;
 	cmd = set_cmd(token, env);
-	if (!cmd->pathname && cmd->delimiter)
-	{
-		handle_here_doc(token, env, cmd);
-		unlink("./.heredoc.tmp");
-		return (free_cmd(cmd), 0);
-	}
-	if (!cmd->pathname)
-		return (free_cmd(cmd), 0);
-	if (is_directory(cmd))
-		return (free_cmd(cmd), 126);
-	if (file_exist(cmd))
-		return (free_cmd(cmd), 126);
-	exit_builtin = exec_builtin_parent(cmd, env, token);
-	if (exit_builtin != -1)
-		return (free_cmd(cmd), exit_builtin);
+	exit_code = check_cmd(cmd, token, env);
+	if (exit_code != -1)
+		return (free_cmd(cmd), exit_code);
+	exit_code = exec_builtin_parent(cmd, env, token);
+	if (exit_code != -1)
+		return (free_cmd(cmd), exit_code);
+	handle_here_doc(token, env, cmd);
 	pid = fork();
 	if (pid == 0)
 	{
 		sig_in_child();
-		handle_here_doc(token, env, cmd);
 		all_dups(cmd, NULL);
-		if (exec_builtin_child(cmd, env, token) != -1 || !cmd->pathname)
+		if (exec_builtin_child(cmd, env, token) != -1)
 		{
 			free_all(env, token, cmd);
 			exit(0);
@@ -100,18 +94,16 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	return (0);
 }
 
-int	exec_child(t_token *token, t_env *env, t_cmd *cmd)
+int	exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe)
 {
 	int	exit_builtin;
 
-	sig_in_child();
-	handle_here_doc(token, env, cmd);
-	all_dups(cmd, NULL);
+	all_dups(cmd, prev_pipe);
 	exit_builtin = exec_builtin(cmd, env, token);
 	if (exit_builtin != -1)
 	{
 		free_all(env, token, cmd);
-		exit (0);
+		exit (exit_builtin);
 	}
 	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 		error_execve(cmd, env, token);
@@ -122,28 +114,23 @@ pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe)
 {
 	t_cmd	*cmd;
 	pid_t	pid;
+	int		exit_code;
 
 	cmd = set_cmd(token, env);
-	if (!cmd->pathname && cmd->delimiter)
-	{
-		handle_here_doc(token, env, cmd);
-		unlink("./.heredoc.tmp");
-		return (free_cmd(cmd), 0);
-	}
+	exit_code = check_cmd(cmd, token, env);
+	if (exit_code != -1)
+		return (free_cmd(cmd), exit_code);
+	handle_here_doc(token, env, cmd);
 	pid = fork();
 	if (pid == -1)
 		errors(3);
 	if (pid == 0)
 	{
-		if (*prev_pipe != -1 && dup2(*prev_pipe, STDIN_FILENO) == -1)
-			errors(1); // need to free all
-		if (*prev_pipe != -1)
-			close(*prev_pipe);
-		exec_child(token, env, cmd);
+		sig_in_child();
+		all_dups(cmd, prev_pipe);
+		exec_child(token, env, cmd, prev_pipe);
 	}
 	sig_in_parent(1);
-	if (cmd->delimiter)
-		unlink("./.heredoc.tmp");
 	free_cmd(cmd);
 	if (*prev_pipe != -1)
 		close(*prev_pipe);

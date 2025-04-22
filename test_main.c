@@ -73,13 +73,14 @@ static void	print_cmd(t_token *token, t_env *env)
 	for (int k = 0; k <= i; k++)
 	{
 		printf("------------------------------\n");
+		printf(BLUE"cmd name is: %s\n"ENDCOLOR, cmd[k]->name);
 		printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd[k]->pathname);
 		for (int j = 0; cmd[k]->argv[j]; j++)
 			printf("argv[%d]: %s\n", j, cmd[k]->argv[j]);
 		printf("infile is: %s\n", cmd[k]->infile);
 		printf("outfile is: %s\n", cmd[k]->outfile);
-		for (int l = 0; cmd[k]->delimiter && cmd[k]->delimiter[l]; l++)
-			printf("delimiter is: %s\n", cmd[k]->delimiter[l]);
+		for (int m = 0; cmd[k]->delimiter && cmd[k]->delimiter[m]; m++)
+			printf("delimiter is: %s\n", cmd[k]->delimiter[m]);
 		printf("append?: %s\n", cmd[k]->append? "true" : "false");
 		printf("------------------------------\n");
 	}
@@ -122,45 +123,3 @@ int	main(int argc, char **argv, char **envp)
 	env_free(env);
 	return (0);
 }
-
-/*
-int	main(int ac, char **av, char **envp)
-{
-	t_env	*env;
-	t_token	*token;
-	char	*s;
-	int		exit_code;
-
-	(void)ac;
-	(void)av;
-	exit_code = 0;
-	controls(); // init sigals
-	env = set_env(envp); // init env
-	while (1)
-	{
-		s = readline("minishell$ ");
-		ctrl_d(s, env);
-
-		token = init_tokens(s, env);
-		if (check_main(&token, s))
-			continue ;
-		if (token)
-			print_token(token);
-		if (check_all_commands(token)) // check tokens
-		{
-			token_lstclear(&token);
-			continue ;
-		}
-		if (token->type == DOLLAR) // try: type $PWD, $PATH, ...
-			printf("token str: %s, the dollar variable is: %s\n", token->str, explain_dollar(env, token));
-		if (!strncmp(s, "getenv ", 7))// try: type getenv PWD, ...
-			printf(GREEN"get env_var!\nname: %s\nword: %s\n"ENDCOLOR, s+7, ft_get_env(env, s+7));
-		exit_code = pipex(token, env);
-		printf("------------------------\nexit_code: %d\n", exit_code);
-		token_lstclear(&token);
-		free(s);
-	}
-	env_free(env);
-	return (0);
-}
-*/
