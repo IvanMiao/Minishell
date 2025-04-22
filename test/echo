@@ -34,7 +34,10 @@ EechoE
 echo $""
 echo "$"""
 echo '$'''
+echo "$HOME"
+echo '$HOME'
 echo $"HOME"
+echo $'HOME'
 echo $''HOME
 echo $""HOME
 echo "$HO"ME
@@ -85,7 +88,9 @@ echo "$DONTEXIST""Makefile"
 echo "$DONTEXIST" "Makefile"
 
 ### dollar ###
+echo $
 echo $?
+echo $?hello
 $?
 $?$?
 ?$HOME
@@ -109,8 +114,17 @@ export =
 export %
 export $?
 export ?=2
+
+export A-
+export HELLO=123 A
+export HELLO="123 A-"
+export hello
+export HELLO=123
+export hello world
+export HELLO-=123
+export 123
+
 export bonjour=hello; echo $bonjour
-export shit='"'; echo " $shit " | cat -e
 export HOLA9=bonjour | echo $HOLA9
 export _HOLA=bonjour | echo $_HOLA
 export ___HOLA=bonjour | echo $__HOLA
@@ -131,15 +145,15 @@ export HOL+A=bonjour
 export HOLA=bonjour
 export HOLA=$HOME
 
+export HOLA="bonjour    "; echo $HOLA | cat -e
+export HOLA="bonjour   "/; echo $HOLA
+export HOLA='"'; echo " $HOLA " | cat -e
+export HOLA=at; c$HOLA errors
+
+export A=1 B=2 C=3 D=4 E=5 F=6 G=7 H=8; echo "$A'$B"'$C"$D'$E'"$F'"'$G'$H"
+export shit='"'; echo " $shit " | cat -e
+
 ### builtin
-echo hello world
-echo "hello world"
-echo 'hello world'
-echo hello'world'
-echo hello""world
-echo ''
-echo "$PWD"
-echo '$PWD'
 echo "aspas ->'"
 echo "aspas -> ' "
 echo 'aspas ->"'
@@ -150,29 +164,22 @@ echo "exit_code ->$? user ->$USER home -> $HOME"
 echo 'exit_code ->$? user ->$USER home -> $HOME'
 echo "$"
 echo '$'
-echo $
-echo $?
-echo $?HELLO
+
 pwd
 pwd oi
-export hello
-export HELLO=123
-export A-
-export HELLO=123 A
-export HELLO="123 A-"
-export hello world
-export HELLO-=123
-export =
-export 123
 unset
 unset HELLO
 unset HELLO1 HELLO2
 unset HOME
 unset PATH
 unset SHELL
-cd $PWD
-cd $PWD hi 
+
+cd .; pwd
+cd ..; pwd
+cd $PWD;pwd
+cd $PWD hi;pwd
 cd 123123
+
 exit 123
 exit 298
 exit +100

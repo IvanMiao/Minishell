@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 17:02:56 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 01:43:27 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,4 +125,3 @@ int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
 	free_all(env, token, cmd);
 	exit(nb);
 }
-

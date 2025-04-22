@@ -6,11 +6,39 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 17:33:04 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 01:40:51 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+
+static t_cmd	*prepare_cmd(t_token *token, t_env *env, int *exit_code)
+{
+	t_cmd	*cmd;
+
+	cmd = set_cmd(token, env);
+	*exit_code = check_cmd(cmd, token, env);
+	if (*exit_code != -1)
+		return (free_cmd(cmd), NULL);
+	*exit_code = exec_builtin_parent(cmd, env, token);
+	if (*exit_code != -1)
+		return (free_cmd(cmd), NULL);
+	handle_here_doc(token, env, cmd);
+	return (cmd);
+}
+
+static void	exec_simpcmd_child(t_cmd *cmd, t_env *env, t_token *token)
+{
+	sig_in_child();
+	all_dups(cmd, NULL);
+	if (exec_builtin_child(cmd, env, token) != -1)
+	{
+		free_all(env, token, cmd);
+		exit(0);
+	}
+	execve(cmd->pathname, cmd->argv, cmd->envp);
+	error_execve(cmd, env, token);
+}
 
 int	exec_simple_cmd(t_token *token, t_env *env)
 {
@@ -20,27 +48,14 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	int		exit_code;
 
 	exit_code = -1;
-	cmd = set_cmd(token, env);
-	exit_code = check_cmd(cmd, token, env);
-	if (exit_code != -1)
-		return (free_cmd(cmd), exit_code);
-	exit_code = exec_builtin_parent(cmd, env, token);
-	if (exit_code != -1)
-		return (free_cmd(cmd), exit_code);
-	handle_here_doc(token, env, cmd);
+	cmd = prepare_cmd(token, env, &exit_code);
+	if (!cmd)
+		return (exit_code);
 	pid = fork();
+	if (pid == -1)
+		errors(3);
 	if (pid == 0)
-	{
-		sig_in_child();
-		all_dups(cmd, NULL);
-		if (exec_builtin_child(cmd, env, token) != -1)
-		{
-			free_all(env, token, cmd);
-			exit(0);
-		}
-		execve(cmd->pathname, cmd->argv, cmd->envp);
-		error_execve(cmd, env, token);
-	}
+		exec_simpcmd_child(cmd, env, token);
 	sig_in_parent(1);
 	waitpid(pid, &status, 0);
 	sig_in_parent(2);

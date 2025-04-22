@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 16:53:34 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/23 00:53:31 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,13 @@ char	*get_pathname(t_env *env, char *first_cmd)
 	char	*ans;
 	char	*tmp;
 	int		i;
-	char	*dup;
 
 	if (get_builtin(first_cmd) != NULL)
 		return (ft_strdup(get_builtin(first_cmd)));
-	dup = ft_strdup(first_cmd);
-	if (ft_strlen(first_cmd) == 0)
-		return (dup);
+	if (ft_strlen(first_cmd) == 0 || access(first_cmd, F_OK | X_OK) == 0
+		|| !ft_get_env(env, "PATH"))
+		return (ft_strdup(first_cmd));
 	i = 0;
-	if (access(first_cmd, F_OK | X_OK) == 0 || !ft_get_env(env, "PATH"))
-		return (dup);
 	all_path = ft_split((const char *)ft_get_env(env, "PATH"), ':');
 	while (all_path[i])
 	{
@@ -72,24 +69,18 @@ char	*get_pathname(t_env *env, char *first_cmd)
 		ans = ft_strjoin(tmp, first_cmd);
 		free(tmp);
 		if (access(ans, F_OK | X_OK) == 0)
-		{
-			free_split(all_path);
-			free(dup);
-			return (ans);
-		}
+			return (free_split(all_path), ans);
 		free(ans);
 		i++;
 	}
 	free_split(all_path);
-	return (dup);
+	return (ft_strdup(first_cmd));
 }
 
-char	**get_real_cmd(t_token *token, t_env *env)
+static int	count_cmd_arg(t_token *token)
 {
-	char	**cmd;
-	bool	flag;
-	int		i;
 	t_token	*tmp;
+	int		i;
 
 	tmp = token;
 	i = 0;
@@ -99,52 +90,31 @@ char	**get_real_cmd(t_token *token, t_env *env)
 			i++;
 		tmp = tmp->next;
 	}
+	return (i);
+}
+
+char	**get_real_cmd(t_token *token, t_env *env)
+{
+	char	**cmd;
+	int		i;
+
+	i = count_cmd_arg(token);
 	cmd = malloc(sizeof(char *) * (i + 1));
 	if (!cmd)
 		return (NULL);
 	i = 0;
 	while (token && token->type != PIPE)
 	{
-		flag = (token->type == WORD || token->type == DOLLAR);
-		if (!flag)
+		if (token->type == WORD || token->type == DOLLAR)
 		{
-			token = token->next;
-			continue ;
+			if (i == 0)
+				cmd[i] = get_pathname(env, token->str);
+			else
+				cmd[i] = ft_strdup(token->str);
+			i++;
 		}
-		if (i == 0)
-			cmd[i] = get_pathname(env, token->str);
-		else
-			cmd[i] = ft_strdup(token->str);
-		i++;
 		token = token->next;
 	}
 	cmd[i] = NULL;
 	return (cmd);
-}
-
-char	**get_env(t_env *env)
-{
-	char	**res;
-	int		i;
-	t_env	*tmp;
-
-	i = 0;
-	tmp = env;
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	res = malloc(sizeof(char *) * (i + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		res[i] = ft_strdup(env->content);
-		i++;
-		env = env->next;
-	}
-	res[i] = NULL;
-	return (res);
 }

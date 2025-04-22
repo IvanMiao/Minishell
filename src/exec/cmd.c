@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 17:30:34 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 00:43:56 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,33 @@ static char	*get_name(t_token *token)
 		return (NULL);
 	else
 		return (token->str);
+}
+
+char	**get_env(t_env *env)
+{
+	char	**res;
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = env;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	res = malloc(sizeof(char *) * (i + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (env)
+	{
+		res[i] = ft_strdup(env->content);
+		i++;
+		env = env->next;
+	}
+	res[i] = NULL;
+	return (res);
 }
 
 void	free_cmd(t_cmd *cmd)

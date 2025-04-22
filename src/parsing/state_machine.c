@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   state_machine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:19:26 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/18 11:49:18 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/22 23:37:28 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,23 @@ static int	expand_or_not(int state, char c)
 	}
 	if ((c != '\'' && c != '"'))
 		return (EXPAND_DOLLAR);
+	return (0);
+}
+
+static int	update_state2(int *state, t_shell *shell, int *i)
+{
+	t_token	*last_token;
+	int		expand_result;
+
+	last_token = token_lstlast(shell->token);
+	if ((*state == ST_IN_DQ || *state == ST_GENERAL)
+		&& shell->str[*i] == '$' && shell->str[*i + 1]
+		&& (!last_token || last_token->type != R_DELIMITER))
+	{
+		expand_result = expand_or_not(*state, shell->str[*i + 1]);
+		if (expand_result)
+			return (expand_result);
+	}
 	return (0);
 }
 
@@ -53,13 +70,8 @@ int	update_state(int *state, t_shell *shell, int *i)
 		}
 		return (UPDATE_WORD);
 	}
-	if ((*state == ST_IN_DQ || *state == ST_GENERAL)
-		&& shell->str[*i] == '$' && shell->str[*i + 1]
-		&& (!last_token || last_token->type != R_DELIMITER))
-	{
-		if (expand_or_not(*state, shell->str[*i + 1]))
-			return (expand_or_not(*state, shell->str[*i + 1]));
-	}
+	if (update_state2(state, shell, i))
+		return (update_state2(state, shell, i));
 	return (UPDATE_WORD);
 }
 

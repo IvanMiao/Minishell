@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 17:30:09 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 01:07:15 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,11 @@ char	**get_delimiter(t_token *token)
 	int		count;
 	t_token	*tmp;
 
-	delimiter = NULL;
 	count = 0;
 	tmp = token;
 	while (tmp && tmp->type != PIPE)
 	{
-		if (tmp->type == R_DELIMITER && tmp->next
-			&& tmp->next->type == INFILE)
+		if (tmp->type == R_DELIMITER && tmp->next)
 			count++;
 		tmp = tmp->next;
 	}

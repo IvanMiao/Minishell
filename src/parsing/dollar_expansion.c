@@ -3,48 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_expansion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:47:23 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 16:59:10 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/23 00:03:35 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 #include "parsing.h"
 
-static char	*make_token(char *dol, char *clean_word, t_shell *shell)
+static char	*make_token2(char *dol, char *clean_word, t_shell *shell, int *i)
 {
-	int		i;
 	int		j;
 	char	*tmp;
 	char	*res;
 
+	j = *i;
+	while (dol[*i] && dol[*i] != SPACE && dol[*i] != TAB)
+		(*i)++;
+	tmp = ft_substr(dol, j, *i - j);
+	res = ft_strjoin(clean_word, tmp);
+	token_lstadd_back(&(shell->token), token_lst(res, WORD, 0));
+	free(tmp);
+	free(res);
+	free(clean_word);
+	clean_word = ft_strdup("");
+	while (dol[*i] && (dol[*i] == SPACE || dol[*i] == TAB))
+		(*i)++;
+	return (clean_word);
+}
+
+static char	*make_token(char *dol, char *clean_word, t_shell *shell)
+{
+	int		i;
+
 	i = 0;
 	while (dol[i] == SPACE || dol[i] == TAB)
 		i++;
-	if (i)
+	if (i && ft_strlen(clean_word) != 0)
 	{
-		if (ft_strlen(clean_word) != 0)
-			token_lstadd_back(&(shell->token), token_lst(clean_word, WORD, 0));
+		token_lstadd_back(&(shell->token), token_lst(clean_word, WORD, 0));
 		free(clean_word);
 		clean_word = ft_strdup("");
 	}
 	while (dol[i])
-	{
-		j = i;
-		while (dol[i] && dol[i] != SPACE && dol[i] != TAB)
-			i++;
-		tmp = ft_substr(dol, j, i - j);
-		res = ft_strjoin(clean_word, tmp);
-		token_lstadd_back(&(shell->token), token_lst(res, WORD, 0));
-		free(tmp);
-		free(res);
-		free(clean_word);
-		clean_word = ft_strdup("");
-		while (dol[i] && (dol[i] == SPACE || dol[i] == TAB))
-			i++;
-	}
+		clean_word = make_token2(dol, clean_word, shell, &i);
 	return (clean_word);
 }
 
@@ -95,8 +99,7 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state)
 		return (clean_word);
 	}
 	j = *i;
-	while (shell->str[*i]
-		&& (shell->str[*i] == '_'
+	while (shell->str[*i] && (shell->str[*i] == '_'
 			|| ft_isalpha(shell->str[*i]) || ft_isdigit(shell->str[*i])))
 		(*i)++;
 	tmp = ft_substr(shell->str, j, (*i) - j);

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 01:48:35 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 01:39:58 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 	if (exit_code != -1)
 		return (free_cmd(cmd), exit_code);
 	if (pipe(pipe_fd) == -1)
-		errors(2);
+		errors(2); // need to free token, cmd
 	handle_here_doc(token, env, cmd);
 	child = fork();
 	if (child == -1)
-		errors(3);
+		errors(3); // need to free token, cmd
 	if (child == 0)
 	{
 		sig_in_child();
@@ -47,24 +47,13 @@ int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 	return (0);
 }
 
-int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
+static int	handle_last_command(t_token *start, t_env *env,
+		int *prev_pipe, int nb_cmd)
 {
-	t_token	*start;
-	int		exit_code;
 	pid_t	last_pid;
 	int		status;
+	int		exit_code;
 
-	start = token;
-	exit_code = 0;
-	while (token)
-	{
-		if (token->type == PIPE)
-		{
-			x_cmd(start, env, prev_pipe);
-			start = token->next;
-		}
-		token = token->next;
-	}
 	last_pid = last_cmd(start, env, prev_pipe);
 	while (nb_cmd--)
 	{
@@ -78,6 +67,26 @@ int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
 		unlink("./.heredoc.tmp");
 	if (WIFEXITED(exit_code))
 		exit_code = WEXITSTATUS(exit_code);
+	return (exit_code);
+}
+
+int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
+{
+	t_token	*start;
+	int		exit_code;
+
+	start = token;
+	exit_code = 0;
+	while (token)
+	{
+		if (token->type == PIPE)
+		{
+			x_cmd(start, env, prev_pipe);
+			start = token->next;
+		}
+		token = token->next;
+	}
+	exit_code = handle_last_command(start, env, prev_pipe, nb_cmd);
 	return (exit_code);
 }
 
