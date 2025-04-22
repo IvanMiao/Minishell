@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 02:18:19 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 15:59:57 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	all_dups(t_cmd *cmd, int *prev_pipe)
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
-	if (cmd->delimiter)
+	if (cmd->delimiter[0])
 	{
 		fd_in = open("./.heredoc.tmp", O_RDONLY);
 		if (fd_in == -1)

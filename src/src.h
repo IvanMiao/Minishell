@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 04:22:13 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 15:29:27 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,13 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
+	char	*name;
 	char	*pathname;
 	char	**argv;
 	char	**envp;
 	char	*infile;
 	char	*outfile;
-	char	*delimiter;
+	char	**delimiter;
 	bool	append;
 	bool	open_error;
 }		t_cmd;
@@ -147,7 +148,7 @@ char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
 char	*get_infile(t_token *token);
 char	*get_outfile(t_token *token);
-char	*get_delimiter(t_token *token);
+char	**get_delimiter(t_token *token);
 bool	check_append(t_token *token);
 bool	check_direction_file(t_token *token);
 void	free_cmd(t_cmd *cmd);
@@ -162,6 +163,8 @@ pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 
 int		pipex(t_token *token, t_env *env);
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
+void	ctrl_c_hd(int code);
+bool	print_ctrld_hd(char *s);
 
 // exec utils
 int		open_file(char *file, int value);

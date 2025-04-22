@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 02:48:46 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 15:50:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,14 +115,18 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env)
 	fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return ;
+	signal(SIGINT, ctrl_c_hd);
 	while (1)
 	{
 		str = readline("> ");
-		if (!ft_strncmp(str, delimiter, ft_strlen(delimiter) + 1))
+		if (!str)
 		{
-			free(str);
+			print_ctrld_hd(delimiter);
 			break ;
 		}
+		if ((ft_strlen(str) == ft_strlen(delimiter)
+				&& ft_strncmp(str, delimiter, ft_strlen(delimiter)) == 0))
+			break ;
 		if (flag_expand)
 		{
 			result_expand = heredoc_expand(str, env);
@@ -134,21 +138,28 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env)
 		free(str);
 	}
 	close(fd);
+	free(str);
 }
 
 void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
 {
 	bool	flag_expand;
 	char	*delimiter;
+	int		i;
 
-	(void)token; //tmp
-	flag_expand = true;
-	if (cmd->delimiter)
+	(void)token;
+	i = 0;
+	if (!cmd->delimiter)
+		return ;
+	while (cmd->delimiter[i])
 	{
-		delimiter = remove_quotes(cmd->delimiter);
-		if (ft_strncmp(delimiter, cmd->delimiter, ft_strlen(cmd->delimiter) + 1) != 0)
+		flag_expand = true;
+		delimiter = remove_quotes(cmd->delimiter[i]);
+		if (ft_strncmp(delimiter, cmd->delimiter[i]
+				, ft_strlen(cmd->delimiter[i]) + 1) != 0)
 			flag_expand = false;
 		read_here_doc(delimiter, flag_expand, env);
 		free(delimiter);
+		i++;
 	}
 }

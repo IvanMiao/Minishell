@@ -6,11 +6,28 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 04:21:33 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 15:37:01 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+
+static char	*get_name(t_token *token)
+{
+	bool	flag;
+	
+	while (token && token->type != PIPE)
+	{
+		flag = (token->type == WORD || token->type == DOLLAR);
+		if (flag)
+			break ;
+		token = token->next;
+	}
+	if (!token)
+		return (NULL);
+	else
+		return (token->str);
+}
 
 void	free_cmd(t_cmd *cmd)
 {
@@ -24,6 +41,10 @@ void	free_cmd(t_cmd *cmd)
 	while (*tmp)
 		free(*tmp++);
 	free(cmd->envp);
+	tmp = cmd->delimiter;
+	while(*tmp)
+		free(*tmp++);
+	free(cmd->delimiter);
 	free(cmd);
 }
 
@@ -34,6 +55,7 @@ t_cmd	*set_cmd(t_token *token, t_env *env)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
+	cmd->name = get_name(token);
 	cmd->argv = get_real_cmd(token, env);
 	cmd->envp = get_env(env);
 	cmd->pathname = cmd->argv[0];

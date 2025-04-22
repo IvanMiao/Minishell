@@ -73,12 +73,14 @@ static void	print_cmd(t_token *token, t_env *env)
 	for (int k = 0; k <= i; k++)
 	{
 		printf("------------------------------\n");
+		printf(BLUE"cmd name is: %s\n"ENDCOLOR, cmd[k]->name);
 		printf(GREEN"cmd path is: %s\n"ENDCOLOR, cmd[k]->pathname);
 		for (int j = 0; cmd[k]->argv[j]; j++)
 			printf("argv[%d]: %s\n", j, cmd[k]->argv[j]);
 		printf("infile is: %s\n", cmd[k]->infile);
 		printf("outfile is: %s\n", cmd[k]->outfile);
-		printf("delimiter is: %s\n", cmd[k]->delimiter);
+		for (int m = 0; cmd[k]->delimiter && cmd[k]->delimiter[m]; m++)
+			printf("delimiter is: %s\n", cmd[k]->delimiter[m]);
 		printf("append?: %s\n", cmd[k]->append? "true" : "false");
 		printf("------------------------------\n");
 	}

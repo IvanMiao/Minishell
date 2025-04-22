@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 02:25:47 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/22 15:56:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,32 @@ bool	check_append(t_token *token)
 	return (res);
 }
 
-char	*get_delimiter(t_token *token)
+char	**get_delimiter(t_token *token)
 {
-	char	*delimiter;
+	char	**delimiter;
+	int		count;
+	t_token	*tmp;
 
 	delimiter = NULL;
+	count = 0;
+	tmp = token;
+	while (tmp && tmp->type != PIPE)
+	{
+		if (tmp->type == R_DELIMITER && tmp->next
+			&& tmp->next->type == INFILE)
+			count++;
+		tmp = tmp->next;
+	}
+	delimiter = malloc(sizeof(char *) * (count + 1));
+	if (!delimiter)
+		return (NULL);
+	count = 0;
 	while (token && token->type != PIPE)
 	{
-		if (token->type == R_DELIMITER && token->next
-			&& token->next->type == INFILE)
-			delimiter = token->next->str;
+		if (token->type == R_DELIMITER && token->next && token->next->type == INFILE)
+			delimiter[count++] = ft_strdup(token->next->str);
 		token = token->next;
 	}
+	delimiter[count] = NULL;
 	return (delimiter);
 }
