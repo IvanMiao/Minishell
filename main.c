@@ -6,11 +6,12 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/23 11:35:38 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:35:58 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/src.h"
+
 
 int	empty_line(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/23 14:39:20 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:11:25 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 	exit_code = check_cmd(cmd, token, env);
 	if (exit_code != -1)
 		return (free_cmd(cmd), exit_code);
+	handle_here_doc(token, env, cmd);
 	if (pipe(pipe_fd) == -1)
 	{
-		free_all(env, token, cmd);
+		free_all(NULL, token, cmd);
 		errors(2);
 	}
-	handle_here_doc(token, env, cmd);
 	child = fork();
 	if (child == -1)
 	{
-		free_all(env, token, cmd);
+		free_all(NULL, token, cmd);
 		errors(3);
 	}
 	if (child == 0)

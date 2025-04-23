@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 12:35:00 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:12:01 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe)
 	exit_code = check_cmd(cmd, token, env);
 	if (exit_code != -1)
 		return (free_cmd(cmd), exit_code);
-	handle_here_doc(token, env, cmd);
+	if (cmd->delimiter[0])
+		handle_here_doc(token, env, cmd);
 	pid = fork();
 	if (pid == -1)
 		errors(3);

@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 14:47:28 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/23 18:11:48 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
+	int		fd;
 	char	*name;
 	char	*pathname;
 	char	**argv;
