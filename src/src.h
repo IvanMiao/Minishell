@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 17:32:16 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 14:47:28 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_shell
 	t_env	*env;
 	t_cmd	*cmd;
 	int		exit_code;
+	int		count;
 }		t_shell;
 
 // env
@@ -162,8 +163,8 @@ int		exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe);
 pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 
 int		pipex(t_token *token, t_env *env);
-void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
-void	ctrl_c_hd(int code);
+void	handle_child_process(t_cmd *cmd, t_env *env);
+int		handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
 bool	print_ctrld_hd(char *s);
 
 // exec utils

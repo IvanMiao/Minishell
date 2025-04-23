@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 01:40:51 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 12:35:00 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static t_cmd	*prepare_cmd(t_token *token, t_env *env, int *exit_code)
 	*exit_code = exec_builtin_parent(cmd, env, token);
 	if (*exit_code != -1)
 		return (free_cmd(cmd), NULL);
-	handle_here_doc(token, env, cmd);
+	*exit_code = handle_here_doc(token, env, cmd);
+	if (*exit_code != 0)
+		return (free_cmd(cmd), NULL);
 	return (cmd);
 }
 

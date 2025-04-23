@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 17:33:51 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 14:57:58 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,28 @@ static char	*heredoc_expand(char *str, t_env *env)
 	return (result);
 }
 
+void	read_expand(int fd, char *str, bool flag_expand, t_env *env)
+{
+	char	*result_expand;
+
+	if (flag_expand)
+	{
+		result_expand = heredoc_expand(str, env);
+		ft_fprintf(fd, "%s\n", result_expand);
+		free(result_expand);
+	}
+	else
+		ft_fprintf(fd, "%s\n", str);
+}
+
 void	read_here_doc(char *delimiter, bool flag_expand, t_env *env)
 {
 	char	*str;
-	char	*result_expand;
 	int		fd;
 
 	fd = open("./.heredoc.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		return ;
-	signal(SIGINT, ctrl_c_hd);
 	while (1)
 	{
 		str = readline("> ");
@@ -81,30 +93,20 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env)
 		if ((ft_strlen(str) == ft_strlen(delimiter)
 				&& ft_strncmp(str, delimiter, ft_strlen(delimiter)) == 0))
 			break ;
-		if (flag_expand)
-		{
-			result_expand = heredoc_expand(str, env);
-			ft_fprintf(fd, "%s\n", result_expand);
-			free(result_expand);
-		}
-		else
-			ft_fprintf(fd, "%s\n", str);
+		read_expand(fd, str, flag_expand, env);
 		free(str);
 	}
 	close(fd);
 	free(str);
 }
 
-void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
+void	handle_child_process(t_cmd *cmd, t_env *env)
 {
+	int		i;
 	bool	flag_expand;
 	char	*delimiter;
-	int		i;
 
-	(void)token;
 	i = 0;
-	if (!cmd->delimiter)
-		return ;
 	while (cmd->delimiter[i])
 	{
 		flag_expand = true;

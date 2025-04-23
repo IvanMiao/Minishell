@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/23 01:39:58 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 14:39:20 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,25 @@ int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 	if (exit_code != -1)
 		return (free_cmd(cmd), exit_code);
 	if (pipe(pipe_fd) == -1)
-		errors(2); // need to free token, cmd
+	{
+		free_all(env, token, cmd);
+		errors(2);
+	}
 	handle_here_doc(token, env, cmd);
 	child = fork();
 	if (child == -1)
-		errors(3); // need to free token, cmd
+	{
+		free_all(env, token, cmd);
+		errors(3);
+	}
 	if (child == 0)
 	{
 		sig_in_child();
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-			errors(1); // need to free all
+		{
+			free_all(env, token, cmd);
+			errors(1);
+		}
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		exec_child(token, env, cmd, prev_pipe);
