@@ -167,12 +167,31 @@ echo '$'
 
 pwd
 pwd oi
+
 unset
 unset HELLO
 unset HELLO1 HELLO2
 unset HOME
 unset PATH
 unset SHELL
+unset Hola
+unset Hola9hey
+unset ""
+unset =
+unset %
+unset $?
+unset ?=2
+unset ========
+unset ++++++++
+unset ________
+unset A-
+unset HELLO=123 A
+unset HELLO="123 A-"
+unset hello
+unset HELLO=123
+unset hello world
+unset HELLO-=123
+unset 123
 
 cd .; pwd
 cd ..; pwd

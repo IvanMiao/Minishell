@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:30:05 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/19 05:34:38 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 19:09:54 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,44 +57,44 @@ static int	check_arg(char *arg)
 	return (0);
 }
 
-int	ft_unset(t_env *env, t_token *token)
+static void	search_env(int size, t_env **env, char *arg)
 {
-	char	*argument;
-	t_env	*copy;
-	int		size;
+	t_env	*curr;
+	t_env	*next;
 
-	if (!token || !token->next)
-		return (0);
-	argument = token->next->str;
-	copy = env;
-	size = ft_strlen(argument);
-	if (check_arg(argument) == FAIL)
-		return (1);
-	while (copy)
+	curr = *env;
+	while (curr)
 	{
-		if (size == (int)ft_strlen(copy->name)
-			&& ft_strncmp(argument, copy->name, size) == 0)
-		{
-			env_lstdelone(&env, copy);
-			return (0);
-		}
-		copy = copy->next;
+		next = curr->next;
+		if (size == (int)ft_strlen(curr->name)
+			&& ft_strncmp(arg, curr->name, size) == 0)
+			env_lstdelone(env, curr);
+		curr = next;
 	}
-	return (0);
 }
 
-/* test */
-/*
-int	main(int ac, char **av, char **envp)
+int	ft_unset(t_env *env, t_cmd *cmd)
 {
-	t_env	*env;
+	int		size;
+	int		i;
+	int		code;
 
-	(void)ac;
-	env = set_env(envp);
-	if (ft_unset(env, av[1]))
-		return (1);
-	printf("seccess\n");
-	ft_env(env);
-	return (0);
+	if (cmd->argv && cmd->argv[0])
+		i = 1;
+	if (!cmd->argv || !(cmd->argv[0]))
+		return (0);
+	code = 0;
+	while (cmd->argv[i])
+	{
+		size = ft_strlen(cmd->argv[i]);
+		if (check_arg(cmd->argv[i]) == FAIL)
+		{
+			i++;
+			code = 1;
+			continue ;
+		}
+		search_env(size, &env, cmd->argv[i]);
+		i++;
+	}
+	return (code);
 }
-*/

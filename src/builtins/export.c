@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/21 07:35:31 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:23:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,8 @@ int	ft_export(t_env *env, t_cmd	*cmd)
 	while (cmd->argv[i])
 	{
 		dist_arg = check_newenv(cmd->argv[i]);
-		if (dist_arg < 0 || check_env_replace(env, cmd->argv[i], dist_arg) == true)
+		if (dist_arg <= 0
+			|| check_env_replace(env, cmd->argv[i], dist_arg) == true)
 		{
 			i++;
 			continue ;

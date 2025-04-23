@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/22 17:34:00 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/23 16:54:28 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ test: supp $(SRCS)
 	@echo "Test programme done."
 
 val: test
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=readline.supp ./test_minishell
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=readline.supp ./test_minishell
 
 clean:
 	@rm -f $(OBJS)

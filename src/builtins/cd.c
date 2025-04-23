@@ -6,13 +6,13 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/17 21:07:42 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 19:17:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-char	*if_options_cd(char *str)
+static char	*if_options_cd(char *str)
 {
 	static char	options[3];
 
@@ -27,7 +27,7 @@ char	*if_options_cd(char *str)
 	return (0);
 }
 
-char	*check_cd_options(t_token *token, t_env *env, int *ret)
+static char	*check_cd_options(t_token *token, t_env *env, int *ret)
 {
 	char	*path;
 	char	*invalid;
@@ -54,14 +54,31 @@ char	*check_cd_options(t_token *token, t_env *env, int *ret)
 	return (path);
 }
 
-char	*get_cd_path(t_token *token, t_env *env, int *ret)
+static char	*get_cd_path(t_token *token, t_env *env, int *ret)
 {
+	while (token && token->type != WORD || token->type != DOLLAR)
+		token = token->next;
 	if (token->next == NULL)
 		return (ft_get_env(env, "HOME"));
 	if (ft_strncmp(token->next->str, "~", 2) == 0
 		|| ft_strncmp(token->next->str, "-", 2) == 0)
 		return (check_cd_options(token, env, ret));
 	return (token->next->str);
+}
+
+static int	count_args(t_token *token)
+{
+	int	count;
+
+	count = 0;
+	token = token->next;
+	while (token && token->type != PIPE)
+	{
+		if ((token->type == WORD || token->type == DOLLAR) && ft_strncmp(token->str, "cd", 3))
+			count++;
+		token = token->next;
+	}
+	return (count);
 }
 
 int	ft_cd(t_token *token, t_env *env)

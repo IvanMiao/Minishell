@@ -26,6 +26,7 @@ delete `test_minishell` and `readline.supp`:
 3. redirections in pipex(like, two pipes, three commands, but there's a redirection in second command)
 4. heredoc with dollar expansion - need to test
 5. multiple herdocs(?)
+6. error: `export bon= ; unset bon`
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html), 

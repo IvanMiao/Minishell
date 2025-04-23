@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 17:32:16 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:01:25 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,7 @@ int		ft_cd(t_token *token, t_env *env);
 int		ft_exit(t_token *token, t_env *env, t_cmd *cmd);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, t_cmd *cmd);
-int		ft_unset(t_env *env, t_token *token);
-
-int		count_args(t_token *token);
+int		ft_unset(t_env *env, t_cmd *cmd);
 
 // signals
 void	controls(void);
