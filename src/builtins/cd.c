@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 19:17:39 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 19:21:26 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*check_cd_options(t_token *token, t_env *env, int *ret)
 
 static char	*get_cd_path(t_token *token, t_env *env, int *ret)
 {
-	while (token && token->type != WORD || token->type != DOLLAR)
+	while (token && (token->type != WORD || token->type != DOLLAR))
 		token = token->next;
 	if (token->next == NULL)
 		return (ft_get_env(env, "HOME"));
