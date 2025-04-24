@@ -13,11 +13,20 @@ cmd1 | /bin/ls; echo $?
 /notexist; echo $?
 
 ### builtin error
->res exit 42 42; rm res
-touch a; < a exit 42 42; rm a
-touch a; < a exit 42 42 > res; rm a res
+>res exit 42 42; echo $?; rm res
+touch a; < a exit 42 42; echo $?; rm a
+touch a; < a exit 42 42 > res; echo $?; rm a res
 <a exit 42 42 > res
-exit 42 42 >> res; rm res
+exit 42 42 >> res; echo $?; rm res
+
+cd /notexist; echo $?
+cd arg1 arg2; echo $?
+
+export ""; echo $?
+export =; echo $?
+export %; echo $?
+export $?; echo $?
+export ?=2; echo $?
 
 ### direction error
 touch a; chmod -r a; <a cat; echo $?; rm a

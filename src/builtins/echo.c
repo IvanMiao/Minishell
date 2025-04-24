@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 12:08:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/18 18:19:03 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/24 19:18:52 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,52 +30,31 @@ int	if_n(char *str)
 	return (0);
 }
 
-int	ft_echo(t_token *token)
+int	ft_echo(t_cmd *cmd)
 {
 	int		new_line;
-	t_token	*copy;
+	int		count;
 
 	new_line = 1;
-	copy = token;
-	while (copy && copy->type != WORD && copy->type != DOLLAR && copy->type != PIPE)
-		copy = copy->next;
-	if (copy->next == NULL)
+	count = 0;
+	while (cmd->argv[count])
+		count++;
+	if (count == 1)
 		return (printf("\n"), 0);
-	copy = copy->next;
-	while (copy && (copy->type == WORD || copy->type == DOLLAR)
-		&& if_n(copy->str))
+	count = 1;
+	while (cmd->argv[count] && if_n(cmd->argv[count]))
 	{
 		new_line = 0;
-		copy = copy->next;
+		count++;
 	}
-	while (copy && (copy->type == WORD || copy->type == DOLLAR))
+	while (cmd->argv[count])
 	{
-		printf("%s", copy->str);
-		if (copy->next
-			&& ((copy->next->type == WORD || copy->next->type == DOLLAR)))
+		printf("%s", cmd->argv[count]);
+		if (cmd->argv[count + 1])
 			printf(" ");
-		copy = copy->next;
+		count++;
 	}
 	if (new_line)
 		printf("\n");
 	return (0);
 }
-
-/*
-int	main()
-{
-	t_token	*token;
-	t_token *next;
-	int		fd;
-
-	token = malloc(sizeof(t_token));
-	next = malloc(sizeof(t_token));
-	token->next = next;
-	next->type = WORD;
-	next->str = "bonjour";
-	fd = open("ohlala", O_WRONLY | O_CREAT | O_APPEND, 0777);
-	dup2(fd, STDOUT_FILENO);
-	ft_echo(token);
-	return 0;
-}
-*/

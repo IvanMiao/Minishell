@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 19:21:26 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/24 18:15:35 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static char	*if_options_cd(char *str)
 	return (0);
 }
 
-static char	*check_cd_options(t_token *token, t_env *env, int *ret)
+static char	*check_cd_options(char *arg, t_env *env, int *ret)
 {
 	char	*path;
 	char	*invalid;
 
-	invalid = if_options_cd(token->next->str);
+	invalid = if_options_cd(arg);
 	if (invalid)
 	{
 		ft_fprintf(2, "minishell: cd: --: invalid option\n", NULL);
@@ -54,48 +54,20 @@ static char	*check_cd_options(t_token *token, t_env *env, int *ret)
 	return (path);
 }
 
-static char	*get_cd_path(t_token *token, t_env *env, int *ret)
+static char	*get_cd_path(char *arg, t_env *env, int *ret)
 {
-	while (token && (token->type != WORD || token->type != DOLLAR))
-		token = token->next;
-	if (token->next == NULL)
+	if (arg == NULL)
 		return (ft_get_env(env, "HOME"));
-	if (ft_strncmp(token->next->str, "~", 2) == 0
-		|| ft_strncmp(token->next->str, "-", 2) == 0)
-		return (check_cd_options(token, env, ret));
-	return (token->next->str);
+	if (ft_strncmp(arg, "~", 2) == 0
+		|| ft_strncmp(arg, "-", 2) == 0)
+		return (check_cd_options(arg, env, ret));
+	return (arg);
 }
 
-static int	count_args(t_token *token)
+static int	change_path(char *path)
 {
-	int	count;
+	DIR	*dir_fd;
 
-	count = 0;
-	token = token->next;
-	while (token && token->type != PIPE)
-	{
-		if ((token->type == WORD || token->type == DOLLAR) && ft_strncmp(token->str, "cd", 3))
-			count++;
-		token = token->next;
-	}
-	return (count);
-}
-
-int	ft_cd(t_token *token, t_env *env)
-{
-	char	*path;
-	int		ret;
-	DIR		*dir_fd;
-
-	if (count_args(token) > 1)
-	{
-		ft_fprintf(2, "minishell: cd: too many arguments\n", NULL);
-		return (1);
-	}
-	ret = 0;
-	path = get_cd_path(token, env, &ret);
-	if (ret != 0 || !path)
-		return (ret);
 	dir_fd = opendir(path);
 	if (dir_fd == NULL && access(path, F_OK) == 0)
 	{
@@ -111,21 +83,23 @@ int	ft_cd(t_token *token, t_env *env)
 	return (0);
 }
 
-/* test */
-/*
-int	main(int ac, char **av)
+int	ft_cd(t_env *env, t_cmd *cmd)
 {
 	char	*path;
+	int		ret;
+	int		count;
 
-	while (1)
+	count = 0;
+	while (cmd->argv[count])
+		count++;
+	if (count > 2)
 	{
-		path = readline("minishell$ ");
-		if (strncmp(path, "cd ", 3) == 0)
-			ft_cd(path + 3);
-		getcwd(cwd, sizeof(cwd));
-		if (strncmp(path, "stop", 4) == 0)
-			return (0);
+		ft_fprintf(2, "minishell: cd: too many arguments\n", NULL);
+		return (1);
 	}
-	return (0);
+	ret = 0;
+	path = get_cd_path(cmd->argv[1], env, &ret);
+	if (ret != 0 || !path)
+		return (ret);
+	return (change_path(path));
 }
-*/

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 18:23:47 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/24 18:31:25 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,19 +136,3 @@ int	ft_export(t_env *env, t_cmd	*cmd)
 		return (-dist_arg);
 	return (0);
 }
-
-/* test */
-/*
-int	main(int ac, char **av, char **envp)
-{
-	t_env	*env;
-
-	(void)ac;
-	env = set_env(envp);
-	if (ft_export(env, av[1]))
-		return (1);
-	printf("seccess\n");
-	//ft_env(env);
-	return (0);
-}
-*/

@@ -21,15 +21,14 @@ delete `test_minishell` and `readline.supp`:
 ## TODO
 
 ### Fix
-1. (null)
-2. **!!** exit.c cd.c export.c with directions (modify count_args()) `export > a hola=bonjour`
-3. redirections in pipex(like, two pipes, three commands, but there's a redirection in second command)
-4. heredoc with dollar expansion - need to test
-5. ctrl c in heredoc
+1. redirections in pipex(like, two pipes, three commands, but there's a redirection in second command)
+2. ctrl c in heredoc
+3. norm
 
 ### to test
-1. multiple heredoc
+1. multiple heredoc, heredoc with dollar expansion
 2. `unset` with invalid vars
+3. builtin with directions `echo >a ok`, `>>a echo bonjour >b`, `>b echo >>a bonjour`
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html), 
