@@ -21,11 +21,15 @@ delete `test_minishell` and `readline.supp`:
 ## TODO
 
 ### Fix
-1. `<<eof cat | grep a`
+1. (null)
 2. **!!** exit.c cd.c export.c with directions (modify count_args()) `export > a hola=bonjour`
 3. redirections in pipex(like, two pipes, three commands, but there's a redirection in second command)
 4. heredoc with dollar expansion - need to test
-5. multiple herdocs(?)
+5. ctrl c in heredoc
+
+### to test
+1. multiple heredoc
+2. `unset` with invalid vars
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html), 

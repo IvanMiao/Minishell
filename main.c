@@ -6,12 +6,11 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/23 17:35:58 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/24 12:33:45 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/src.h"
-
 
 int	empty_line(char *str)
 {
@@ -60,13 +59,11 @@ int	main(int argc, char **argv, char **envp)
 	controls();
 	shell.env = set_env(envp);
 	shell.exit_code = 0;
-	shell.count = 0;
 	while (1)
 	{
 		history = readline("minishell$ ");
 		if (!history)
 			exit_history(1);
-		shell.count++;
 		ctrl_d(history, shell.env);
 		add_history(history);
 		shell.str = history;

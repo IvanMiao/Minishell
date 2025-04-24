@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:47:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/23 13:23:31 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/24 10:20:48 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ bool	print_ctrld_hd(char *s)
 {
 	if (s)
 	{
-		printf("minishell: warning: here-document at");
-		printf(" line 1 delimited by end-of-file (wanted `%s')\n", s);
+		printf("minishell: warning: here-document");
+		printf(" delimited by end-of-file (wanted `%s')\n", s);
 	}
 	return (true);
 }

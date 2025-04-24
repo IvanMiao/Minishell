@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 18:11:48 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/24 11:02:56 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ typedef struct s_shell
 	t_env	*env;
 	t_cmd	*cmd;
 	int		exit_code;
-	int		count;
 }		t_shell;
 
 // env
@@ -117,9 +116,7 @@ int		ft_cd(t_token *token, t_env *env);
 int		ft_exit(t_token *token, t_env *env, t_cmd *cmd);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, t_cmd *cmd);
-int		ft_unset(t_env *env, t_token *token);
-
-int		count_args(t_token *token);
+int		ft_unset(t_env *env, t_cmd *cmd);
 
 // signals
 void	controls(void);
@@ -163,9 +160,14 @@ int		exec_simple_cmd(t_token *token, t_env *env);
 int		exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe);
 pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 
+int		prepare_and_fork(int pipe_fd[2], t_token *token, t_cmd *cmd);
+void	exec_child_process(int pipe_fd[2], int *prev_pipe,
+			t_token *token, t_cmd *cmd);
 int		pipex(t_token *token, t_env *env);
 void	handle_child_process(t_cmd *cmd, t_env *env);
 int		handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
+void	read_here_doc(char *delimiter, bool flag_expand,
+			t_env *env, t_cmd *cmd);
 bool	print_ctrld_hd(char *s);
 
 // exec utils

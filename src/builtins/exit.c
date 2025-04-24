@@ -6,13 +6,31 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/23 01:43:27 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:09:09 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-long long	ft_atoi_2(char *str, int *error, int *i)
+int	is_numeric(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static long long	ft_atoi_exit_2(char *str, int *error, int *i)
 {
 	long long	resultat;
 	int			sign;
@@ -39,48 +57,22 @@ long long	ft_atoi_2(char *str, int *error, int *i)
 	return ((resultat * sign) % 256);
 }
 
-long long	ft_atoi(char *str, int *error)
+static long long	ft_atoi_exit(char *str, int *error)
 {
 	int	i;
 
 	i = 0;
 	*error = 0;
+	if (!str)
+		return (0);
+	if (!is_numeric(str))
+	{
+		*error = 2;
+		return (-1);
+	}
 	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
 		i++;
-	return (ft_atoi_2(str, error, &i));
-}
-
-int	is_numeric(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (!str[i])
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	count_args(t_token *token)
-{
-	int	count;
-
-	count = 0;
-	token = token->next;
-	while (token && token->type != PIPE)
-	{
-		if ((token->type == WORD || token->type == DOLLAR) && ft_strncmp(token->str, "exit", 5))
-			count++;
-		token = token->next;
-	}
-	return (count);
+	return (ft_atoi_exit_2(str, error, &i));
 }
 
 int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
@@ -88,36 +80,22 @@ int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
 	long long	nb;
 	int			error;
 	int			argc;
-	t_token		*arg;
 
 	printf("exit\n");
-	argc = count_args(token);
-	if (!ft_strncmp(token->str, "exit", 5) && token->type == WORD)
-		token = token->next;
-	while (token && token->type >= R_IN && token->type <= OUTFILE 
-			&& token->type != PIPE)
-		token = token->next;
-	if (token && !ft_strncmp(token->str, "exit", 5) && token->type == WORD)
-		token = token->next;
-	if (token)
-		arg = token;
-	if (arg && (arg->type == WORD || arg->type == DOLLAR))
+	argc = 0;
+	while (cmd->argv[argc])
+		argc++;
+	nb = ft_atoi_exit(cmd->argv[1], &error);
+	if (error)
 	{
-		if (!is_numeric(arg->str))
-		{
-			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", arg->str);
-			free_all(env, token, cmd);
+		ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",
+			cmd->argv[1]);
+		free_all(env, token, cmd);
+		if (error == 2)
 			exit(2);
-		}
-		nb = ft_atoi(arg->str, &error);
-		if (error)
-		{
-			ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", arg->str);
-			free_all(env, token, cmd);
-			exit(255);
-		}
+		exit(255);
 	}
-	if (argc > 1)
+	if (argc > 2)
 	{
 		ft_fprintf(2, "minishell: exit: too many arguments\n", NULL);
 		return (1);

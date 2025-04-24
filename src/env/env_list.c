@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:32:46 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/04 17:16:46 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 18:47:01 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	get_delim(char *content)
 
 	name = ft_strchr(content, '=');
 	if (!name)
-		return (-1);
+		return (0);
 	distance = name - content;
 	return (distance);
 }
