@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 00:23:00 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 00:31:14 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 		return (exit_code);
 	pid = fork();
 	if (pid == -1)
-		errors(3);// need to free token, cmd, and return to minishell main loop
+		errors(3, token, env, cmd);
 	if (pid == 0)
 		exec_simpcmd_child(cmd, env, token);
 	sig_in_parent(1);
@@ -99,7 +99,7 @@ pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe)
 		handle_here_doc(token, env, cmd);
 	pid = fork();
 	if (pid == -1)
-		errors(3);// need to free token, cmd, and return to minishell main loop
+		errors(3, token, env, cmd);
 	if (pid == 0)
 	{
 		sig_in_child();

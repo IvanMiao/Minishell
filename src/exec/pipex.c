@@ -6,43 +6,28 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 00:23:33 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 01:03:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
+int	x_cmd(t_token *token, t_env *env, int *prev_pipe, t_cmd *cmd)
 {
 	int		pipe_fd[2];
 	pid_t	child;
-	t_cmd	*cmd;
-	int		exit_code;
+	// int		exit_code;
 
-	cmd = set_cmd(token, env);
-	exit_code = check_cmd(cmd, token, env);
-	if (exit_code != -1)
-		return (free_cmd(cmd), exit_code);
-	handle_here_doc(token, env, cmd);
 	if (pipe(pipe_fd) == -1)
-	{
-		free_all(NULL, token, cmd);
-		errors(2);
-	}
+		errors(2, token, env, cmd);
 	child = fork();
 	if (child == -1)
-	{
-		free_all(NULL, token, cmd);
-		errors(3);
-	}
+		errors(3, token, env, cmd);
 	if (child == 0)
 	{
 		sig_in_child();
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-		{
-			free_all(env, token, cmd);
-			errors(1);
-		}
+			errors(1, token, env, cmd);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		exec_child(token, env, cmd, prev_pipe);
@@ -83,6 +68,7 @@ int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
 {
 	t_token	*start;
 	int		exit_code;
+	t_cmd	*cmd;
 
 	start = token;
 	exit_code = 0;
@@ -90,7 +76,14 @@ int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
 	{
 		if (token->type == PIPE)
 		{
-			x_cmd(start, env, prev_pipe);
+			cmd = set_cmd(token, env);
+			if (check_cmd(cmd, token, env) != -1)
+				free_cmd(cmd);
+			else
+			{
+				handle_here_doc(token, env, cmd);
+				x_cmd(start, env, prev_pipe, cmd);
+			}
 			start = token->next;
 		}
 		token = token->next;

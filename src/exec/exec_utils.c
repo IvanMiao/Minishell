@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/26 07:57:07 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 00:29:46 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,18 @@ int	open_file(char *file, int value)
 	return (fd);
 }
 
-void	errors(int value)
+void	errors(int value, t_token *token, t_env *env, t_cmd *cmd)
 {
 	if (value == 1)
-	{
 		perror("No environment variable");
-		exit(EXIT_FAILURE);
-	}
 	else if (value == 2)
-	{
 		perror("pipe");
-		exit(EXIT_FAILURE);
-	}
 	else if (value == 3)
-	{
 		perror("fork");
-		exit(EXIT_FAILURE);
-	}
 	else if (value == 4)
-	{
 		perror("Not enough or too much arguments\n");
-		exit(EXIT_FAILURE);
-	}
+	free_all(env, token, cmd);
+	exit(EXIT_FAILURE);
 }
 
 void	error_execve(t_cmd *cmd, t_env *env, t_token *token)

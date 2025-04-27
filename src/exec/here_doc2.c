@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:45:30 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/24 11:15:39 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/28 00:33:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
 	signal(SIGINT, SIG_IGN);
 	child = fork();
 	if (child == -1)
-		errors(3);
+		errors(3, token, env, cmd);
 	if (child == 0)
 	{
 		handle_child_process(cmd, env);
@@ -60,5 +60,7 @@ int	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
 	signal(SIGINT, ctrl_c);
 	if (cmd->fd >= 0)
 		close(cmd->fd);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
 	return (0);
 }
