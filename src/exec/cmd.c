@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 00:43:56 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/23 16:41:55 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ t_cmd	*set_cmd(t_token *token, t_env *env)
 	cmd->outfile = get_outfile(token);
 	cmd->delimiter = get_delimiter(token);
 	cmd->append = check_append(token);
+	cmd->fd = -1;
 	return (cmd);
 }

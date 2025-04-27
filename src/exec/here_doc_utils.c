@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 11:47:29 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 17:33:27 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/24 10:20:48 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,8 @@ bool	print_ctrld_hd(char *s)
 {
 	if (s)
 	{
-		printf("minishell: warning: here-document at");
-		printf(" line 1 delimited by end-of-file (wanted `%s')\n", s);
+		printf("minishell: warning: here-document");
+		printf(" delimited by end-of-file (wanted `%s')\n", s);
 	}
 	return (true);
-}
-
-void	ctrl_c_hd(int code)
-{
-	(void)code;
-	printf("\n");
-	exit (130); // TODO
 }

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/24 19:56:28 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 00:23:33 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,24 @@ int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 		return (free_cmd(cmd), exit_code);
 	handle_here_doc(token, env, cmd);
 	if (pipe(pipe_fd) == -1)
-		errors(2); // need to free token, cmd, and return to minishell main loop
+	{
+		free_all(NULL, token, cmd);
+		errors(2);
+	}
 	child = fork();
 	if (child == -1)
-		errors(3); // need to free token, cmd, and return to minishell main loop
+	{
+		free_all(NULL, token, cmd);
+		errors(3);
+	}
 	if (child == 0)
 	{
 		sig_in_child();
 		if (dup2(pipe_fd[1], STDOUT_FILENO) == -1)
-			errors(1); // need to free all
+		{
+			free_all(env, token, cmd);
+			errors(1);
+		}
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		exec_child(token, env, cmd, prev_pipe);

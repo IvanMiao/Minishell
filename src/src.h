@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/26 07:56:12 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 00:23:43 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
+	int		fd;
 	char	*name;
 	char	*pathname;
 	char	**argv;
@@ -159,9 +160,14 @@ int		exec_simple_cmd(t_token *token, t_env *env);
 int		exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe);
 pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 
+int		prepare_and_fork(int pipe_fd[2], t_token *token, t_cmd *cmd);
+void	exec_child_process(int pipe_fd[2], int *prev_pipe,
+			t_token *token, t_cmd *cmd);
 int		pipex(t_token *token, t_env *env);
-void	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
-void	ctrl_c_hd(int code);
+void	handle_child_process(t_cmd *cmd, t_env *env);
+int		handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
+void	read_here_doc(char *delimiter, bool flag_expand,
+			t_env *env, t_cmd *cmd);
 bool	print_ctrld_hd(char *s);
 
 // exec utils
