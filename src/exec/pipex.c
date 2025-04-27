@@ -6,18 +6,24 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 01:03:39 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 01:15:52 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-int	x_cmd(t_token *token, t_env *env, int *prev_pipe, t_cmd *cmd)
+static int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 {
 	int		pipe_fd[2];
 	pid_t	child;
-	// int		exit_code;
+	t_cmd	*cmd;
+	int		exit_code;
 
+	cmd = set_cmd(token, env);
+	exit_code = check_cmd(cmd, token, env);
+	if (exit_code != -1)
+		return (free_cmd(cmd), exit_code);
+	handle_here_doc(token, env, cmd);
 	if (pipe(pipe_fd) == -1)
 		errors(2, token, env, cmd);
 	child = fork();
@@ -68,7 +74,6 @@ int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
 {
 	t_token	*start;
 	int		exit_code;
-	t_cmd	*cmd;
 
 	start = token;
 	exit_code = 0;
@@ -76,14 +81,7 @@ int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
 	{
 		if (token->type == PIPE)
 		{
-			cmd = set_cmd(token, env);
-			if (check_cmd(cmd, token, env) != -1)
-				free_cmd(cmd);
-			else
-			{
-				handle_here_doc(token, env, cmd);
-				x_cmd(start, env, prev_pipe, cmd);
-			}
+			x_cmd(start, env, prev_pipe);
 			start = token->next;
 		}
 		token = token->next;
