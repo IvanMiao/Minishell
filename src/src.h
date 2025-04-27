@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/24 18:28:25 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/26 07:56:12 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,6 @@ int		check_cmd(t_cmd *cmd, t_token *token, t_env *env);
 void	all_dups(t_cmd *cmd, int *prev_pipe);
 
 void	errors(int value);
-void	error_here_doc(char *str);
 void	error_execve(t_cmd *cmd, t_env *env, t_token *token);
 
 int		is_directory(t_cmd *cmd);

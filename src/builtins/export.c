@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/24 18:31:25 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/26 07:40:38 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static int	check_newenv(char *arg)
 	i = check_first_c(arg);
 	if (i < 0)
 		return (i);
-	i = 0;
-	while (i < distance)
+	i = -1;
+	while (++i < distance)
 	{
 		if (arg[i] != '_' && !ft_isalpha(arg[i]) && !ft_isdigit(arg[i]))
 		{
@@ -59,7 +59,6 @@ static int	check_newenv(char *arg)
 				arg);
 			return (-1);
 		}
-		i++;
 	}
 	if (!name)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 17:32:55 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/26 07:57:07 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,6 @@ int	open_file(char *file, int value)
 	return (fd);
 }
 
-void	error_here_doc(char *str)
-{
-	free(str);
-	exit(EXIT_SUCCESS);
-}
-
 void	errors(int value)
 {
 	if (value == 1)
@@ -60,11 +54,6 @@ void	errors(int value)
 	else if (value == 4)
 	{
 		perror("Not enough or too much arguments\n");
-		exit(EXIT_FAILURE);
-	}
-	else if (value == 5)
-	{
-		perror("execve");
 		exit(EXIT_FAILURE);
 	}
 }
