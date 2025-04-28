@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 01:15:52 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 12:05:39 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
+
+int	close_x_cmd(int *prev_pipe, int pipe_fd[2], t_cmd *cmd)
+{
+	sig_in_parent(1);
+	if (*prev_pipe != -1)
+		close(*prev_pipe);
+	close(pipe_fd[1]);
+	*prev_pipe = pipe_fd[0];
+	return (free_cmd(cmd), 0);
+}
 
 static int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 {
@@ -38,13 +48,7 @@ static int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 		close(pipe_fd[1]);
 		exec_child(token, env, cmd, prev_pipe);
 	}
-	sig_in_parent(1);
-	if (*prev_pipe != -1)
-		close(*prev_pipe);
-	close(pipe_fd[1]);
-	*prev_pipe = pipe_fd[0];
-	free_cmd(cmd);
-	return (0);
+	return (close_x_cmd(prev_pipe, pipe_fd, cmd));
 }
 
 static int	handle_last_command(t_token *start, t_env *env,

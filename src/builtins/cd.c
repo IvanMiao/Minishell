@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:25:44 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/24 18:15:35 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 15:02:35 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ static char	*get_cd_path(char *arg, t_env *env, int *ret)
 {
 	if (arg == NULL)
 		return (ft_get_env(env, "HOME"));
-	if (ft_strncmp(arg, "~", 2) == 0
-		|| ft_strncmp(arg, "-", 2) == 0)
+	if (ft_strncmp(arg, "~", 1) == 0
+		|| ft_strncmp(arg, "-", 1) == 0)
 		return (check_cd_options(arg, env, ret));
 	return (arg);
 }

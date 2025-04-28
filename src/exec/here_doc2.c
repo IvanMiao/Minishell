@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:45:30 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 00:33:39 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 12:25:01 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,6 @@ void	handle_child_process(t_cmd *cmd, t_env *env)
 	}
 }
 
-//SIG_IGN pour ignorer. SIG_DFL pour reactive
-//un fork car le parent peut continuer de tourner et ignorer
-//le ctrl c temporairement. Dans l'enfant, on le reactive et si
-//on tape ctrl c, seul l'enfant est tue.
-//signal(SIGINT, sig_in_parent) pour gerer a nouveau normalement
-//les signaux apres l'enfant.
 int	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
 {
 	pid_t	child;

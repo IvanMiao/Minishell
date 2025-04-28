@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/24 10:31:34 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/28 14:06:05 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,7 @@ void	ctrl_c_hd(int code)
 	(void)code;
 	printf("\n");
 	g_signal_received = 1;
-	printf("Avant close\n");
 	close(0);
-	printf("Apres close\n");
-	printf("value of g_signal : %d\n", g_signal_received);
 }
 
 void	read_here_doc(char *delimiter, bool flag_expand, t_env *env, t_cmd *cmd)

@@ -6,7 +6,7 @@
 #    By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/24 12:57:58 by cgerner          ###   ########.fr        #
+#    Updated: 2025/04/28 15:13:07 by cgerner          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,25 +42,14 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 
 OBJS	=	$(SRCS:.c=.o)
 
-SRC_TEST	=	test_main.c
-
 all: $(NAME)
 
 $(NAME): $(SRCS) $(SRC_MAIN)
 	@$(CC) $(CFLAGS) $(SRCS) $(SRC_MAIN) -o $(NAME) $(LIBS)
 	@echo "Compilation complete."
 
-supp: ./test/create_supp.c
-	$(CC) $(CFLAGS) ./test/create_supp.c -o create_supp
-	./create_supp
-
-test: supp $(SRCS)
-	rm create_supp
-	@$(CC) $(CFLAGS) $(SRCS) $(SRC_TEST) -o test_minishell $(LIBS)
-	@echo "Test programme done."
-
-val: test
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=readline.supp ./test_minishell
+val: $(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes ./$(NAME)
 
 clean:
 	@rm -f $(OBJS)

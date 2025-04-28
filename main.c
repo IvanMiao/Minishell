@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/24 12:33:45 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/28 12:06:56 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,5 @@ int	main(int argc, char **argv, char **envp)
 		token_lstclear(&token);
 		free(history);
 	}
-	env_free(shell.env);
-	return (shell.exit_code);
+	return (env_free(shell.env), shell.exit_code);
 }

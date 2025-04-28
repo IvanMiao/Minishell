@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/23 01:10:07 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 14:22:33 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,20 +114,3 @@ t_token	*init_tokens(t_shell *shell)
 		modif_tokens(shell, &i);
 	return (shell->token);
 }
-
-/*
-int	main(void)
-{
-	char *str = "cat < input.txt | grep hello > output.txt";
-	t_token	*token;
-
-	printf ("Entree : %s\n", str);
-	token = init_tokens(str);
-	if (token)
-	{
-		print_token(token);
-	}
-	token_lstclear(&token);
-	return (0);
-}
-*/
