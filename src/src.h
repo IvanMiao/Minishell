@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 15:11:24 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/29 12:50:19 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		ft_unset(t_env *env, t_cmd *cmd);
 
 // signals
 void	controls(void);
-void	ctrl_d(char *s, t_env *env);
+void	ctrl_d(char *s, t_env *env, t_shell *shell);
 void	ctrl_c(int code);
 void	sig_in_parent(int value);
 void	sig_in_child(void);

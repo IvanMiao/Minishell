@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 04:14:36 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 16:38:28 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/29 14:09:50 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	ctrl_c(int code)
 	signal(SIGINT, ctrl_c);
 }
 
-void	ctrl_d(char *s, t_env *env)
+void	ctrl_d(char *s, t_env *env, t_shell *shell)
 {
 	if (s == NULL)
 	{
 		printf("exit\n");
 		env_free(env);
-		exit(0);
+		exit(shell->exit_code);
 	}
 }
 

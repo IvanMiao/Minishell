@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/29 04:37:04 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 12:50:24 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(int argc, char **argv, char **envp)
 		history = readline("minishell$ ");
 		if (!history)
 			exit_history(1);
-		ctrl_d(history, shell.env);
+		ctrl_d(history, shell.env, &shell);
 		add_history(history);
 		shell.str = history;
 		token = init_tokens(&shell);

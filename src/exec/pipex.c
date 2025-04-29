@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/29 03:19:34 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 17:07:23 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,13 @@ static int	handle_last_command(t_token *start, t_env *env,
 	sig_in_parent(2);
 	if (access("./.heredoc.tmp", F_OK) == 0)
 		unlink("./.heredoc.tmp");
-	if (WIFEXITED(exit_code))
-		exit_code = WEXITSTATUS(exit_code);
+	if (WIFSIGNALED(status))
+	{
+		printf("TEST\n");
+		exit_code = 128 + WTERMSIG(status);
+	}
+	else if (WIFEXITED(status))
+		exit_code = WEXITSTATUS(status);
 	return (exit_code);
 }
 
