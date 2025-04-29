@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 00:50:22 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/29 04:22:16 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:54:59 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ char	*ft_strdup(const char *s)
 	char	*dest;
 
 	i = 0;
-	dest = (char *)mem_manager(MALLOC, sizeof(char) * ft_strlen(&s[i]) + 1, NULL);
+	dest = (char *)mem_manager(MALLOC,
+			sizeof(char) * ft_strlen(&s[i]) + 1, NULL);
 	if (dest == NULL)
 		return (0);
 	if (s == NULL)

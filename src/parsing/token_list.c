@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:16:15 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/29 04:28:15 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:56:15 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*token_lst(char *str, t_tokentype type, int value)
 {
 	t_token	*token;
 
-	token = (t_token *)mem_manager(MALLOC ,sizeof(t_token), NULL);
+	token = (t_token *)mem_manager(MALLOC, sizeof(t_token), NULL);
 	if (!token)
 		return (NULL);
 	token->str = ft_strdup(str);

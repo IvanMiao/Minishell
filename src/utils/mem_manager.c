@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:41:58 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/29 04:51:12 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:55:11 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	*mem_manager(int mode, size_t size, void *ptr)
 	static t_node	*head = NULL;
 
 	if (mode == MALLOC)
-		return(safe_malloc(size, &head));
+		return (safe_malloc(size, &head));
 	else if (mode == FREE)
 		safe_free(ptr, &head);
 	else if (mode == FREEALL)

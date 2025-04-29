@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/29 04:20:30 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:56:00 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*remove_quotes(char *str)
 	int		i;
 	int		j;
 
-	result = (char *)mem_manager(MALLOC ,ft_strlen(str) + 1, NULL);
+	result = (char *)mem_manager(MALLOC, ft_strlen(str) + 1, NULL);
 	if (!result)
 		return (NULL);
 	single_quote = 0;
