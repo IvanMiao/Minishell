@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/28 20:49:24 by ymiao            ###   ########.fr        #
+#    Updated: 2025/04/29 04:52:51 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				utils/libft_part1.c utils/libft_part2.c \
 				utils/libft_part3.c \
 				utils/ft_split.c utils/ft_itoa.c \
-				utils/ft_fprintf.c utils/safe_malloc.c)
+				utils/ft_fprintf.c utils/mem_manager.c)
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -55,10 +55,10 @@ clean:
 	@rm -f $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME) test_minishell readline.supp create_supp
+	@rm -f $(NAME) test_minishell create_supp
 	@echo "Fully cleaned up."
 
 re: fclean all
 	@echo "Recompiled."
 	
-.PHONY: all clean fclean re test supp val
+.PHONY: all clean fclean re val

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 20:47:43 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:39:11 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ static void	free_split(char **all_path)
 		return ;
 	while (all_path[i])
 	{
-		free(all_path[i]);
+		mem_manager(FREE, 0, all_path[i]);
 		i++;
 	}
-	free(all_path);
+	mem_manager(FREE, 0, all_path);
 }
 
 static char	*get_builtin(char *first_cmd)
@@ -67,10 +67,10 @@ char	*get_pathname(t_env *env, char *first_cmd)
 	{
 		tmp = ft_strjoin(all_path[i], "/");
 		ans = ft_strjoin(tmp, first_cmd);
-		free(tmp);
+		mem_manager(FREE, 0, tmp);
 		if (access(ans, F_OK | X_OK) == 0)
 			return (free_split(all_path), ans);
-		free(ans);
+		mem_manager(FREE, 0, ans);
 		i++;
 	}
 	free_split(all_path);
@@ -99,7 +99,7 @@ char	**get_real_cmd(t_token *token, t_env *env)
 	int		i;
 
 	i = count_cmd_arg(token);
-	cmd = (char **)safe_malloc(sizeof(char *) * (i + 1));
+	cmd = (char **)mem_manager(MALLOC, sizeof(char *) * (i + 1), NULL);
 	if (!cmd)
 		return (NULL);
 	i = 0;

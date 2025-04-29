@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:19:26 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 23:37:28 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:40:04 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ char	*update_clean_word(char *clean_word, char *str, int *i)
 	tmp[0] = str[*i];
 	tmp[1] = '\0';
 	res = ft_strjoin(clean_word, tmp);
-	free(clean_word);
+	mem_manager(FREE, 0, clean_word);
 	return (res);
 }

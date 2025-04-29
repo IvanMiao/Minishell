@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:49:15 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 20:46:36 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:20:57 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_itoa(int n)
 	i = count(n);
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
-	tab = (char *)safe_malloc(sizeof(char) * (i + 1));
+	tab = (char *)mem_manager(MALLOC ,sizeof(char) * (i + 1), NULL);
 	if (tab == 0)
 		return (0);
 	ft_putnbr(tab, i, n);

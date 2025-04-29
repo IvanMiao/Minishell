@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 14:53:24 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 20:47:54 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:19:15 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	**get_delimiter(t_token *token)
 			count++;
 		tmp = tmp->next;
 	}
-	delimiter = (char **)safe_malloc(sizeof(char *) * (count + 1));
+	delimiter = (char **)mem_manager(MALLOC, sizeof(char *) * (count + 1), NULL);
 	if (!delimiter)
 		return (NULL);
 	count = 0;

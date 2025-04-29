@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 04:47:23 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 00:03:35 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:48:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static char	*make_token2(char *dol, char *clean_word, t_shell *shell, int *i)
 	tmp = ft_substr(dol, j, *i - j);
 	res = ft_strjoin(clean_word, tmp);
 	token_lstadd_back(&(shell->token), token_lst(res, WORD, 0));
-	free(tmp);
-	free(res);
-	free(clean_word);
+	mem_manager(FREE, 0, tmp);
+	mem_manager(FREE, 0, res);
+	mem_manager(FREE, 0, clean_word);
 	clean_word = ft_strdup("");
 	while (dol[*i] && (dol[*i] == SPACE || dol[*i] == TAB))
 		(*i)++;
@@ -44,7 +44,7 @@ static char	*make_token(char *dol, char *clean_word, t_shell *shell)
 	if (i && ft_strlen(clean_word) != 0)
 	{
 		token_lstadd_back(&(shell->token), token_lst(clean_word, WORD, 0));
-		free(clean_word);
+		mem_manager(FREE, 0, clean_word);
 		clean_word = ft_strdup("");
 	}
 	while (dol[i])
@@ -64,7 +64,7 @@ static char	*decide_expand(char *dol, char *clean_word,
 	else
 	{
 		tmp = ft_strjoin(clean_word, dol);
-		free(clean_word);
+		mem_manager(FREE, 0, clean_word);
 		res = tmp;
 	}
 	return (res);
@@ -77,8 +77,8 @@ static char	*expand_code(t_shell *shell, char *clean_word)
 
 	code = ft_itoa(shell->exit_code);
 	res = ft_strjoin(clean_word, code);
-	free(code);
-	free(clean_word);
+	mem_manager(FREE, 0, code);
+	mem_manager(FREE, 0, clean_word);
 	return (res);
 }
 
@@ -104,7 +104,7 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state)
 		(*i)++;
 	tmp = ft_substr(shell->str, j, (*i) - j);
 	dol = ft_get_env(shell->env, tmp);
-	free(tmp);
+	mem_manager(FREE, 0, tmp);
 	if (!dol)
 		return (clean_word);
 	res = decide_expand(dol, clean_word, state, shell);

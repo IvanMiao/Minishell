@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 11:56:14 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 20:45:30 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:22:28 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin_char(char *s1, char c)
 
 	len_s1 = ft_strlen(s1);
 	i = -1;
-	p = (char *)safe_malloc(sizeof(char) * (len_s1 + 2));
+	p = (char *)mem_manager(MALLOC, sizeof(char) * (len_s1 + 2), NULL);
 	if (!p)
 		return (NULL);
 	while (++i < len_s1)

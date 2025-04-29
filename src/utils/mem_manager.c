@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe_malloc.c                                      :+:      :+:    :+:   */
+/*   mem_manager.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 20:41:58 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/29 03:37:54 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:51:12 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,62 @@ static int	free_all_malloc(t_node **head)
 	return (0);
 }
 
-void	*safe_malloc(size_t size)
+static void	*safe_malloc(size_t size, t_node **head)
 {
-	static t_node	*head = NULL;
-	void			*ptr;
+	void	*ptr;
 
 	ptr = malloc(size);
 	if (!ptr || size == 0)
 	{
 		ft_putstr_fd("malloc error!\n", 2);
-		free_all_malloc(&head);
+		free_all_malloc(head);
 		exit(EXIT_FAILURE);
 	}
-	if (track_malloc(ptr, &head) != 0)
+	if (track_malloc(ptr, head) != 0)
 	{
 		ft_putstr_fd("malloc error!\n", 2);
 		free(ptr);
-		free_all_malloc(&head);
+		free_all_malloc(head);
 		exit(EXIT_FAILURE);
 	}
 	return (ptr);
+}
+
+static void	safe_free(void *ptr, t_node **head)
+{
+	t_node	*curr;
+	t_node	*prev;
+
+	if (ptr == NULL)
+		return ;
+	curr = *head;
+	prev = NULL;
+	while (curr)
+	{
+		if (curr->ptr == ptr)
+		{
+			if (prev == NULL)
+				*head = curr->next;
+			else
+				prev->next = curr->next;
+			free(curr->ptr);
+			free(curr);
+			break ;
+		}
+		prev = curr;
+		curr = curr->next;
+	}
+}
+
+void	*mem_manager(int mode, size_t size, void *ptr)
+{
+	static t_node	*head = NULL;
+
+	if (mode == MALLOC)
+		return(safe_malloc(size, &head));
+	else if (mode == FREE)
+		safe_free(ptr, &head);
+	else if (mode == FREEALL)
+		free_all_malloc(&head);
+	return (NULL);
 }

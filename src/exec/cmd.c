@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 20:47:31 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:26:36 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**get_env(t_env *env)
 		i++;
 		tmp = tmp->next;
 	}
-	res = (char **)safe_malloc(sizeof(char *) * (i + 1));
+	res = (char **)mem_manager(MALLOC, sizeof(char *) * (i + 1), NULL);
 	if (!res)
 		return (NULL);
 	i = 0;
@@ -62,24 +62,24 @@ void	free_cmd(t_cmd *cmd)
 
 	tmp = cmd->argv;
 	while (*tmp)
-		free(*tmp++);
-	free(cmd->argv);
+		mem_manager(FREE, 0, *tmp++);
+	mem_manager(FREE, 0, cmd->argv);
 	tmp = cmd->envp;
 	while (*tmp)
-		free(*tmp++);
-	free(cmd->envp);
+		mem_manager(FREE, 0, *tmp++);
+	mem_manager(FREE, 0, cmd->envp);
 	tmp = cmd->delimiter;
 	while (*tmp)
-		free(*tmp++);
-	free(cmd->delimiter);
-	free(cmd);
+		mem_manager(FREE, 0, *tmp++);
+	mem_manager(FREE, 0, cmd->delimiter);
+	mem_manager(FREE, 0, cmd);
 }
 
 t_cmd	*set_cmd(t_token *token, t_env *env)
 {
 	t_cmd	*cmd;
 
-	cmd = (t_cmd *)safe_malloc(sizeof(t_cmd));
+	cmd = (t_cmd *)mem_manager(MALLOC, sizeof(t_cmd), NULL);
 	if (!cmd)
 		return (NULL);
 	cmd->name = get_name(token);

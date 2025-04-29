@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:47:45 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 14:22:33 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/29 04:42:30 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	modif_tokens_2(t_shell *shell, int *i)
 	type = assign_tokens(clean_word, token_lstlast(shell->token));
 	if (!(order == EXPAND_DOLLAR && ft_strlen(clean_word) == 0))
 		token_lstadd_back(&(shell->token), token_lst(clean_word, type, 0));
-	free(clean_word);
+	mem_manager(FREE, 0, clean_word);
 }
 
 void	modif_tokens(t_shell *shell, int *i)
@@ -92,7 +92,7 @@ void	modif_tokens(t_shell *shell, int *i)
 		last_token = token_lstlast(shell->token);
 		type = assign_tokens(operation, last_token);
 		token_lstadd_back(&(shell->token), token_lst(operation, type, 0));
-		free(operation);
+		mem_manager(FREE, 0, operation);
 		*i += length_op;
 	}
 	else

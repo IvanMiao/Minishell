@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 15:24:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 15:09:14 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/29 04:44:07 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static int	replace_env(t_env *copy, char *arg)
 
 	name = ft_strchr(arg, '=');
 	start = name - arg;
-	free(copy->content);
-	free(copy->name);
-	free(copy->word);
+	mem_manager(FREE, 0, copy->content);
+	mem_manager(FREE, 0, copy->name);
+	mem_manager(FREE, 0, copy->word);
 	copy->content = ft_strdup(arg);
 	copy->name = ft_substr(arg, 0, start);
 	copy->word = ft_substr(arg, start + 1, ft_strlen(arg) - start);

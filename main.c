@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 12:06:56 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/29 04:37:04 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,6 @@ int	main(int argc, char **argv, char **envp)
 		token_lstclear(&token);
 		free(history);
 	}
-	return (env_free(shell.env), shell.exit_code);
+	env_free(shell.env);
+	return (mem_manager(FREEALL, 0, NULL), shell.exit_code);
 }

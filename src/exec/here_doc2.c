@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:45:30 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 12:25:01 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/29 04:46:34 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	handle_child_process(t_cmd *cmd, t_env *env)
 				, ft_strlen(cmd->delimiter[i]) + 1) != 0)
 			flag_expand = false;
 		read_here_doc(delimiter, flag_expand, env, cmd);
-		free(delimiter);
+		mem_manager(FREE, 0, delimiter);
 		i++;
 	}
 }

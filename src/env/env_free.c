@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:13:33 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/04 17:16:52 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:25:43 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	env_free(t_env *env)
 	while (env)
 	{
 		tmp = env->next;
-		free(env->name);
-		free(env->word);
-		free(env->content);
-		free(env);
+		mem_manager(FREE, 0, env->name);
+		mem_manager(FREE, 0, env->word);
+		mem_manager(FREE, 0, env->content);
+		mem_manager(FREE, 0, env);
 		env = tmp;
 	}
 }

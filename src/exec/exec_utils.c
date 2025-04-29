@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 16:12:44 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/28 00:29:46 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:31:18 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void	free_all(t_env *env, t_token *token, t_cmd *cmd)
 		token_lstclear(&token);
 	if (cmd)
 		free_cmd(cmd);
+	mem_manager(FREEALL, 0, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:07:45 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 20:46:26 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:21:29 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*get_word(char const *s, char c)
 
 	i = -1;
 	nb = count_word(s, c);
-	word = (char *)safe_malloc(sizeof(char) * (nb + 1));
+	word = (char *)mem_manager(MALLOC, sizeof(char) * (nb + 1), NULL);
 	if (!word)
 		return (NULL);
 	while (++i < nb)
@@ -73,7 +73,7 @@ char	**ft_split(char const *s, char c)
 
 	j = 0;
 	nb = count_array(s, c);
-	ans = (char **)safe_malloc(sizeof(char *) * (nb + 1));
+	ans = (char **)mem_manager(MALLOC, sizeof(char *) * (nb + 1), NULL);
 	if (!ans)
 		return (NULL);
 	while (*s)

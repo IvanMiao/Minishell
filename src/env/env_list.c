@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:32:46 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 20:48:06 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 04:44:25 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_env	*env_lstnew(char *content)
 	t_env	*new;
 	int		start;
 
-	new = (t_env *)safe_malloc(sizeof(t_env) * 1);
+	new = (t_env *)mem_manager(MALLOC, sizeof(t_env), NULL);
 	if (!new)
 		return (NULL);
 	start = get_delim(content);
@@ -76,10 +76,10 @@ void	env_lstdelone(t_env **lst, t_env *target)
 	if (*lst == target)
 	{
 		*lst = target->next;
-		free(target->name);
-		free(target->word);
-		free(target->content);
-		free(target);
+		mem_manager(FREE, 0, target->name);
+		mem_manager(FREE, 0, target->word);
+		mem_manager(FREE, 0, target->content);
+		mem_manager(FREE, 0, target);
 		return ;
 	}
 	current = *lst;
@@ -88,9 +88,9 @@ void	env_lstdelone(t_env **lst, t_env *target)
 	if (current && current->next == target)
 	{
 		current->next = target->next;
-		free(target->name);
-		free(target->word);
-		free(target->content);
-		free(target);
+		mem_manager(FREE, 0, target->name);
+		mem_manager(FREE, 0, target->word);
+		mem_manager(FREE, 0, target->content);
+		mem_manager(FREE, 0, target);
 	}
 }
