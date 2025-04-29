@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 16:41:55 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/28 20:47:31 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**get_env(t_env *env)
 		i++;
 		tmp = tmp->next;
 	}
-	res = malloc(sizeof(char *) * (i + 1));
+	res = (char **)safe_malloc(sizeof(char *) * (i + 1));
 	if (!res)
 		return (NULL);
 	i = 0;
@@ -79,7 +79,7 @@ t_cmd	*set_cmd(t_token *token, t_env *env)
 {
 	t_cmd	*cmd;
 
-	cmd = malloc(sizeof(t_cmd));
+	cmd = (t_cmd *)safe_malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
 	cmd->name = get_name(token);

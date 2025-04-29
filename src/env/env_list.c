@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 03:32:46 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 18:47:01 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 20:48:06 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_env	*env_lstnew(char *content)
 	t_env	*new;
 	int		start;
 
-	new = malloc(sizeof(t_env) * 1);
+	new = (t_env *)safe_malloc(sizeof(t_env) * 1);
 	if (!new)
 		return (NULL);
 	start = get_delim(content);

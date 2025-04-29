@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 00:50:22 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/07 04:05:43 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 03:38:34 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		len = 0;
 	else if (len > len_s - start)
 		len = len_s - start;
-	dest = (char *)malloc(sizeof(char) * (len + 1));
+	dest = (char *)safe_malloc(sizeof(char) * (len + 1));
 	if (!dest)
 		return (NULL);
 	while (i < len && s[start + i])
@@ -42,7 +42,7 @@ char	*ft_strdup(const char *s)
 	char	*dest;
 
 	i = 0;
-	dest = malloc(sizeof(char) * ft_strlen(&s[i]) + 1);
+	dest = (char *)safe_malloc(sizeof(char) * ft_strlen(&s[i]) + 1);
 	if (dest == NULL)
 		return (0);
 	if (s == NULL)
@@ -66,7 +66,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	i = -1;
-	p = malloc(sizeof(char) * (len_s1 + len_s2 + 1));
+	p = (char *)safe_malloc(sizeof(char) * (len_s1 + len_s2 + 1));
 	if (!p)
 		return (NULL);
 	while (++i < len_s1)

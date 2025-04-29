@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quotes.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:53:56 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/22 17:06:48 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/28 20:47:00 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*remove_quotes(char *str)
 	int		i;
 	int		j;
 
-	result = malloc(ft_strlen(str) + 1);
+	result = (char *)safe_malloc(ft_strlen(str) + 1);
 	if (!result)
 		return (NULL);
 	single_quote = 0;

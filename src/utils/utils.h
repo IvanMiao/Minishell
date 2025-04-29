@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 00:48:48 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/22 16:29:01 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/29 03:38:21 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <stdio.h>
+
+typedef struct s_node
+{
+	void			*ptr;
+	struct s_node	*next;
+}	t_node;
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
@@ -39,5 +45,7 @@ void	ft_putchar_fd(int c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 
 int		ft_fprintf(int fd, const char *s, char *str);
+
+void	*safe_malloc(size_t size);
 
 #endif

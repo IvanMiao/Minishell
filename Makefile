@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+         #
+#    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/28 15:13:07 by cgerner          ###   ########.fr        #
+#    Updated: 2025/04/28 20:49:24 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRCS		=	$(addprefix src/, builtins/cd.c builtins/env.c \
 				utils/libft_part1.c utils/libft_part2.c \
 				utils/libft_part3.c \
 				utils/ft_split.c utils/ft_itoa.c \
-				utils/ft_fprintf.c)
+				utils/ft_fprintf.c utils/safe_malloc.c)
 
 OBJS	=	$(SRCS:.c=.o)
 

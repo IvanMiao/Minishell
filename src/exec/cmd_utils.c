@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:32:50 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 00:53:31 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/28 20:47:43 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	**get_real_cmd(t_token *token, t_env *env)
 	int		i;
 
 	i = count_cmd_arg(token);
-	cmd = malloc(sizeof(char *) * (i + 1));
+	cmd = (char **)safe_malloc(sizeof(char *) * (i + 1));
 	if (!cmd)
 		return (NULL);
 	i = 0;
