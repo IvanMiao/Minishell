@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:51:42 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/23 11:45:08 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:10:25 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	check_cmd(t_cmd *cmd, t_token *token, t_env *env)
 {
 	int	code;
 
+	if (g_signal_received)
+		return (130);
 	if (!cmd->pathname && cmd->delimiter)
 	{
 		handle_here_doc(token, env, cmd);

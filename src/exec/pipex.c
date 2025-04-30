@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/29 17:07:23 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 17:00:02 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,12 @@ static int	handle_last_command(t_token *start, t_env *env,
 	{
 		if (waitpid(-1, &status, 0) == last_pid)
 			exit_code = status;
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			printf("\n");
 	}
 	sig_in_parent(2);
 	if (access("./.heredoc.tmp", F_OK) == 0)
 		unlink("./.heredoc.tmp");
-	if (WIFSIGNALED(status))
-	{
-		printf("TEST\n");
-		exit_code = 128 + WTERMSIG(status);
-	}
-	else if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
+	if (WIFEXITED(exit_code))
+		exit_code = WEXITSTATUS(exit_code);
 	return (exit_code);
 }
 

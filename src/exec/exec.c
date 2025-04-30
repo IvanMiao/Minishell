@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/28 00:31:14 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 17:05:19 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	if (cmd->delimiter)
 		unlink("./.heredoc.tmp");
 	free_cmd(cmd);
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		printf("\n");
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (0);
