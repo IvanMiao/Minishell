@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 13:30:58 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:41:10 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/src.h"
 
-int	g_signal_received;
+int	g_signal_received = 0;
 
 int	empty_line(char *str)
 {
@@ -84,11 +84,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (!history)
 			exit_history(1);
-		ctrl_d(history, shell.env, &shell);
+		ctrl_d(history, &shell);
 		add_history(history);
 		if (process_main(&shell, history))
 			continue ;
 	}
-	env_free(shell.env);
 	return (mem_manager(FREEALL, 0, NULL), shell.exit_code);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 04:14:36 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/30 12:33:43 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:39:57 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	ctrl_c(int code)
 	signal(SIGINT, ctrl_c);
 }
 
-void	ctrl_d(char *s, t_env *env, t_shell *shell)
+void	ctrl_d(char *s, t_shell *shell)
 {
 	if (s == NULL)
 	{
 		printf("exit\n");
-		env_free(env);
+		env_free(shell->env);
 		exit(shell->exit_code);
 	}
 }

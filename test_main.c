@@ -106,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 		history = readline("minishell$ ");
 		if (!history)
 			exit_history(1);
-		ctrl_d(history, env);
+		ctrl_d(history, &shell);
 		add_history(history);
 		(&shell)->str = history;
 		token = init_tokens(&shell);

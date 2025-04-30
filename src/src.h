@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   src.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/30 12:28:47 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:40:19 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int		ft_unset(t_env *env, t_cmd *cmd);
 
 // signals
 void	controls(void);
-void	ctrl_d(char *s, t_env *env, t_shell *shell);
+void	ctrl_d(char *s, t_shell *shell);
 void	ctrl_c(int code);
 void	sig_in_parent(int value);
 void	sig_in_child(void);
