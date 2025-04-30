@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 04:21:14 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/29 04:26:36 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 21:33:34 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	free_cmd(t_cmd *cmd)
 	mem_manager(FREE, 0, cmd);
 }
 
-t_cmd	*set_cmd(t_token *token, t_env *env)
+t_cmd	*set_cmd(t_token *token, t_env *env, int *prev_pipe)
 {
 	t_cmd	*cmd;
 
@@ -92,5 +92,6 @@ t_cmd	*set_cmd(t_token *token, t_env *env)
 	cmd->delimiter = get_delimiter(token);
 	cmd->append = check_append(token);
 	cmd->fd = -1;
+	cmd->prev_pipe = prev_pipe;
 	return (cmd);
 }

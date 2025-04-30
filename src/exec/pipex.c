@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 19:34:58 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 21:33:54 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 	t_cmd	*cmd;
 	int		exit_code;
 
-	cmd = set_cmd(token, env);
+	cmd = set_cmd(token, env, prev_pipe);
 	exit_code = check_cmd(cmd, token, env);
 	if (exit_code != -1)
 		return (free_cmd(cmd), exit_code);

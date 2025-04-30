@@ -6,14 +6,14 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/30 17:46:16 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 21:33:45 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SRC_H
 # define SRC_H
 
-# define _POSIX_C_SOURCE	200809L
+//# define _POSIX_C_SOURCE	200809L
 
 # define FAIL	-1
 
@@ -79,7 +79,6 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	int		fd;
 	char	*name;
 	char	*pathname;
 	char	**argv;
@@ -89,6 +88,8 @@ typedef struct s_cmd
 	char	**delimiter;
 	bool	append;
 	bool	open_error;
+	int		fd;
+	int		*prev_pipe;
 }		t_cmd;
 
 typedef struct s_shell
@@ -143,7 +144,7 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state);
 int		check_syntax(t_token *token);
 
 // exec -- cmd
-t_cmd	*set_cmd(t_token *token, t_env *env);
+t_cmd	*set_cmd(t_token *token, t_env *env, int *prev_pipe);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);

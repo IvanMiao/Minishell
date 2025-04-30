@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:45:30 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 19:12:55 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 22:05:15 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	handle_child_process(t_cmd *cmd, t_env *env)
 	char	*delimiter;
 
 	i = 0;
+	if (cmd->prev_pipe != NULL && *(cmd->prev_pipe) != -1)
+		close(*(cmd->prev_pipe));
 	while (cmd->delimiter[i])
 	{
 		flag_expand = true;
@@ -29,7 +31,7 @@ static int	handle_child_process(t_cmd *cmd, t_env *env)
 		read_here_doc(delimiter, flag_expand, env, cmd);
 		mem_manager(FREE, 0, delimiter);
 		if (g_signal_received == SIGINT)
-			return (130) ;
+			return (130);
 		i++;
 	}
 	return (0);
@@ -41,7 +43,7 @@ int	handle_here_doc(t_token *token, t_env *env, t_cmd *cmd)
 	int		status;
 	int		code;
 
-	if (!cmd->delimiter)
+	if (!cmd->delimiter || !*(cmd->delimiter))
 		return (0);
 	signal(SIGINT, SIG_IGN);
 	child = fork();
