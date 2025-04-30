@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 17:18:36 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 17:41:47 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	read_expand(int fd, char *str, bool flag_expand, t_env *env)
 void	ctrl_c_hd(int code)
 {
 	(void)code;
-	printf("\n");
 	g_signal_received = SIGINT;
+	printf("\n");
 	close(0);
 }
 

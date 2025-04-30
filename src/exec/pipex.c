@@ -6,13 +6,13 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 17:22:06 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 19:34:58 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-int	close_x_cmd(int *prev_pipe, int pipe_fd[2], t_cmd *cmd)
+static int	close_x_cmd(int *prev_pipe, int *pipe_fd, t_cmd *cmd)
 {
 	sig_in_parent(1);
 	if (*prev_pipe != -1)

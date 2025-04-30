@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/30 17:13:04 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 19:26:49 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe)
 	}
 	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 		error_execve(cmd, env, token);
-	return (1);
+	exit (1);
 }
 
 pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe)
