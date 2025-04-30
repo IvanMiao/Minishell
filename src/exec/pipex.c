@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 17:00:21 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 17:22:06 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,14 @@ static int	handle_last_command(t_token *start, t_env *env,
 	{
 		if (waitpid(-1, &status, 0) == last_pid)
 			exit_code = status;
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			printf("\n");
 	}
 	sig_in_parent(2);
 	if (access("./.heredoc.tmp", F_OK) == 0)
 		unlink("./.heredoc.tmp");
-	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(exit_code))
+		return (printf("\n"), 128 + WTERMSIG(status));
+	if (WIFEXITED(exit_code))
+		return (WEXITSTATUS(exit_code));
 	return (exit_code);
 }
 

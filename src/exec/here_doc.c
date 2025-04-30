@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 13:05:24 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 17:18:36 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ctrl_c_hd(int code)
 {
 	(void)code;
 	printf("\n");
-	g_signal_received = 130;
+	g_signal_received = SIGINT;
 	close(0);
 }
 
@@ -95,7 +95,7 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env, t_cmd *cmd)
 		str = readline("> ");
 		if (!str)
 		{
-			if (g_signal_received == 130)
+			if (g_signal_received == SIGINT)
 				break ;
 			print_ctrld_hd(delimiter);
 			break ;

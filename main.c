@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 16:41:10 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 17:18:54 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 		history = readline("minishell$ ");
 		if (g_signal_received)
 		{
-			shell.exit_code = g_signal_received;
+			shell.exit_code = g_signal_received + 128;
 			g_signal_received = 0;
 		}
 		if (!history)

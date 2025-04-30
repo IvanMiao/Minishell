@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 04:14:36 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/30 16:39:57 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 17:18:13 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ctrl_c(int code)
 {
 	(void)code;
 	printf("\n");
-	g_signal_received = 130;
+	g_signal_received = SIGINT;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
