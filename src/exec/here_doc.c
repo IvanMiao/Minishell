@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
+/*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 11:36:33 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/29 04:46:08 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/04/30 13:05:24 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
-
-int	g_signal_received;
 
 /* expansion of all the dollar vars in char *str! */
 static char	*get_env_value(const char *str, int *pos, t_env *env)
@@ -80,7 +78,7 @@ void	ctrl_c_hd(int code)
 {
 	(void)code;
 	printf("\n");
-	g_signal_received = 1;
+	g_signal_received = 130;
 	close(0);
 }
 
@@ -97,7 +95,7 @@ void	read_here_doc(char *delimiter, bool flag_expand, t_env *env, t_cmd *cmd)
 		str = readline("> ");
 		if (!str)
 		{
-			if (g_signal_received == 1)
+			if (g_signal_received == 130)
 				break ;
 			print_ctrld_hd(delimiter);
 			break ;

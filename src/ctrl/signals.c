@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 04:14:36 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/29 17:14:42 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 12:33:43 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ctrl_c(int code)
 {
 	(void)code;
 	printf("\n");
+	g_signal_received = 130;
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

@@ -6,7 +6,7 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/29 17:14:48 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 12:28:47 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ typedef struct s_shell
 	t_cmd	*cmd;
 	int		exit_code;
 }		t_shell;
+
+extern int	g_signal_received;
 
 // env
 t_env	*env_lstnew(char *content);

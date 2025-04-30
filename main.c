@@ -6,11 +6,13 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/29 12:50:24 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/04/30 13:30:58 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "src/src.h"
+
+int	g_signal_received;
 
 int	empty_line(char *str)
 {
@@ -48,10 +50,23 @@ int	exit_history(int value)
 	return (value);
 }
 
+int	process_main(t_shell *shell, char *history)
+{
+	t_token	*token;
+
+	shell->str = history;
+	token = init_tokens(shell);
+	if (check_main(&token, history))
+		return (1);
+	shell->exit_code = pipex(token, shell->env);
+	token_lstclear(&token);
+	free(history);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*history;
-	t_token	*token;
 	t_shell	shell;
 
 	if (argc != 1)
@@ -62,17 +77,17 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		history = readline("minishell$ ");
+		if (g_signal_received)
+		{
+			shell.exit_code = g_signal_received;
+			g_signal_received = 0;
+		}
 		if (!history)
 			exit_history(1);
 		ctrl_d(history, shell.env, &shell);
 		add_history(history);
-		shell.str = history;
-		token = init_tokens(&shell);
-		if (check_main(&token, history))
+		if (process_main(&shell, history))
 			continue ;
-		shell.exit_code = pipex(token, shell.env);
-		token_lstclear(&token);
-		free(history);
 	}
 	env_free(shell.env);
 	return (mem_manager(FREEALL, 0, NULL), shell.exit_code);
