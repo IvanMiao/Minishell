@@ -6,13 +6,13 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/30 21:34:12 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/01 04:16:01 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-static t_cmd	*prepare_cmd(t_token *token, t_env *env, int *exit_code)
+static t_cmd	*prepare_cmd(t_token *token, t_env *env, int *exit_code, t_shell *shell)
 {
 	t_cmd	*cmd;
 
@@ -20,7 +20,7 @@ static t_cmd	*prepare_cmd(t_token *token, t_env *env, int *exit_code)
 	*exit_code = check_cmd(cmd, token, env);
 	if (*exit_code != -1)
 		return (free_cmd(cmd), NULL);
-	*exit_code = exec_builtin_parent(cmd, env, token);
+	*exit_code = exec_builtin_parent(cmd, env, token, shell);
 	if (*exit_code != -1)
 		return (free_cmd(cmd), NULL);
 	*exit_code = handle_here_doc(token, env, cmd);
@@ -42,7 +42,7 @@ static void	exec_simpcmd_child(t_cmd *cmd, t_env *env, t_token *token)
 	error_execve(cmd, env, token);
 }
 
-int	exec_simple_cmd(t_token *token, t_env *env)
+int	exec_simple_cmd(t_token *token, t_env *env, t_shell *shell)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
@@ -50,7 +50,7 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	int		exit_code;
 
 	exit_code = -1;
-	cmd = prepare_cmd(token, env, &exit_code);
+	cmd = prepare_cmd(token, env, &exit_code, shell);
 	if (!cmd)
 		return (exit_code);
 	pid = fork();

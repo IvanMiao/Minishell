@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 21:33:54 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/01 04:14:54 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
 	return (exit_code);
 }
 
-int	pipex(t_token *token, t_env *env)
+int	pipex(t_token *token, t_env *env, t_shell *shell)
 {
 	t_token	*copy;
 	int		exit_code;
@@ -118,6 +118,6 @@ int	pipex(t_token *token, t_env *env)
 	}
 	if (flag == true)
 		return (exec_pipes(token, env, &prev_pipe, nb_cmd + 1));
-	exit_code = exec_simple_cmd(token, env);
+	exit_code = exec_simple_cmd(token, env, shell);
 	return (exit_code);
 }

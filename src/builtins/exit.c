@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 13:44:00 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/23 18:09:09 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/01 04:20:06 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ static long long	ft_atoi_exit_2(char *str, int *error, int *i)
 	return ((resultat * sign) % 256);
 }
 
-static long long	ft_atoi_exit(char *str, int *error)
+static long long	ft_atoi_exit(char *str, int *error, t_shell *shell)
 {
 	int	i;
 
 	i = 0;
 	*error = 0;
+	if (!str && shell)
+		return (shell->exit_code);
 	if (!str)
 		return (0);
 	if (!is_numeric(str))
@@ -75,7 +77,7 @@ static long long	ft_atoi_exit(char *str, int *error)
 	return (ft_atoi_exit_2(str, error, &i));
 }
 
-int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
+int	ft_exit(t_token *token, t_env *env, t_cmd *cmd, t_shell *shell)
 {
 	long long	nb;
 	int			error;
@@ -85,7 +87,7 @@ int	ft_exit(t_token *token, t_env *env, t_cmd *cmd)
 	argc = 0;
 	while (cmd->argv[argc])
 		argc++;
-	nb = ft_atoi_exit(cmd->argv[1], &error);
+	nb = ft_atoi_exit(cmd->argv[1], &error, shell);
 	if (error)
 	{
 		ft_fprintf(2, "minishell: exit: %s: numeric argument required\n",

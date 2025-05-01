@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:16:03 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 17:18:54 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/01 04:14:39 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	process_main(t_shell *shell, char *history)
 	token = init_tokens(shell);
 	if (check_main(&token, history))
 		return (1);
-	shell->exit_code = pipex(token, shell->env);
+	shell->exit_code = pipex(token, shell->env, shell);
 	token_lstclear(&token);
 	free(history);
 	return (0);

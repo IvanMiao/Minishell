@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 17:01:13 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/24 18:28:53 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/01 04:16:20 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	exec_builtin(t_cmd *cmd, t_env *env, t_token *token)
 	if (!ft_strncmp(cmd->pathname, "echo", 5))
 		flag = ft_echo(cmd);
 	if (!ft_strncmp(cmd->pathname, "exit", 5))
-		flag = ft_exit(token, env, cmd);
+		flag = ft_exit(token, env, cmd, NULL);
 	return (flag);
 }
 
@@ -58,7 +58,7 @@ int	exec_builtin_child(t_cmd *cmd, t_env *env, t_token *token)
 }
 
 // for single cmd
-int	exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token)
+int	exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token, t_shell *shell)
 {
 	int	flag;
 
@@ -72,6 +72,6 @@ int	exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token)
 	if (!ft_strncmp(cmd->pathname, "unset", 6))
 		flag = ft_unset(env, cmd);
 	if (!ft_strncmp(cmd->pathname, "exit", 5))
-		flag = ft_exit(token, env, cmd);
+		flag = ft_exit(token, env, cmd, shell);
 	return (flag);
 }
