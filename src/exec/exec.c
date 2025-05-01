@@ -6,21 +6,22 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 07:05:52 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/30 17:54:25 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:40:36 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-static t_cmd	*prepare_cmd(t_token *token, t_env *env, int *exit_code)
+static t_cmd	*prepare_cmd(t_token *token, t_env *env,
+	int *exit_code, t_shell *shell)
 {
 	t_cmd	*cmd;
 
-	cmd = set_cmd(token, env);
+	cmd = set_cmd(token, env, NULL);
 	*exit_code = check_cmd(cmd, token, env);
 	if (*exit_code != -1)
 		return (free_cmd(cmd), NULL);
-	*exit_code = exec_builtin_parent(cmd, env, token);
+	*exit_code = exec_builtin_parent(cmd, env, token, shell);
 	if (*exit_code != -1)
 		return (free_cmd(cmd), NULL);
 	*exit_code = handle_here_doc(token, env, cmd);
@@ -42,7 +43,7 @@ static void	exec_simpcmd_child(t_cmd *cmd, t_env *env, t_token *token)
 	error_execve(cmd, env, token);
 }
 
-int	exec_simple_cmd(t_token *token, t_env *env)
+int	exec_simple_cmd(t_token *token, t_env *env, t_shell *shell)
 {
 	pid_t	pid;
 	t_cmd	*cmd;
@@ -50,7 +51,7 @@ int	exec_simple_cmd(t_token *token, t_env *env)
 	int		exit_code;
 
 	exit_code = -1;
-	cmd = prepare_cmd(token, env, &exit_code);
+	cmd = prepare_cmd(token, env, &exit_code, shell);
 	if (!cmd)
 		return (exit_code);
 	pid = fork();
@@ -84,7 +85,7 @@ int	exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe)
 	}
 	if (execve(cmd->pathname, cmd->argv, cmd->envp) < 0)
 		error_execve(cmd, env, token);
-	return (1);
+	exit (1);
 }
 
 pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe)
@@ -93,7 +94,7 @@ pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe)
 	pid_t	pid;
 	int		exit_code;
 
-	cmd = set_cmd(token, env);
+	cmd = set_cmd(token, env, prev_pipe);
 	exit_code = check_cmd(cmd, token, env);
 	if (exit_code != -1)
 		return (free_cmd(cmd), exit_code);

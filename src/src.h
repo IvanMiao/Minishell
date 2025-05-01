@@ -6,14 +6,14 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/30 16:40:19 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/01 04:48:03 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SRC_H
 # define SRC_H
 
-# define _POSIX_C_SOURCE	200809L
+//# define _POSIX_C_SOURCE	200809L
 
 # define FAIL	-1
 
@@ -79,7 +79,6 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	int		fd;
 	char	*name;
 	char	*pathname;
 	char	**argv;
@@ -89,6 +88,8 @@ typedef struct s_cmd
 	char	**delimiter;
 	bool	append;
 	bool	open_error;
+	int		fd;
+	int		*prev_pipe;
 }		t_cmd;
 
 typedef struct s_shell
@@ -115,7 +116,7 @@ void	env_free(t_env *env);
 int		ft_pwd(char **argv);
 int		ft_echo(t_cmd *cmd);
 int		ft_cd(t_env *env, t_cmd *cmd);
-int		ft_exit(t_token *token, t_env *env, t_cmd *cmd);
+int		ft_exit(t_token *token, t_env *env, t_cmd *cmd, t_shell *shell);
 int		ft_env(t_env *env);
 int		ft_export(t_env *env, t_cmd *cmd);
 int		ft_unset(t_env *env, t_cmd *cmd);
@@ -143,7 +144,7 @@ char	*expand_dollar(t_shell *shell, int *i, char *clean_word, int *state);
 int		check_syntax(t_token *token);
 
 // exec -- cmd
-t_cmd	*set_cmd(t_token *token, t_env *env);
+t_cmd	*set_cmd(t_token *token, t_env *env, int *prev_pipe);
 char	**get_real_cmd(t_token *token, t_env *env);
 char	**get_env(t_env *env);
 char	*get_pathname(t_env *env, char *first_cmd);
@@ -157,13 +158,13 @@ void	free_cmd(t_cmd *cmd);
 //exec -- command and pipe
 int		exec_builtin(t_cmd *cmd, t_env *env, t_token *token);
 int		exec_builtin_child(t_cmd *cmd, t_env *env, t_token *token);
-int		exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token);
-int		exec_simple_cmd(t_token *token, t_env *env);
+int		exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token,
+			t_shell *shell);
+int		exec_simple_cmd(t_token *token, t_env *env, t_shell *shell);
 int		exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe);
 pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 
-int		pipex(t_token *token, t_env *env);
-void	handle_child_process(t_cmd *cmd, t_env *env);
+int		pipex(t_token *token, t_env *env, t_shell *shell);
 int		handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
 void	read_here_doc(char *delimiter, bool flag_expand,
 			t_env *env, t_cmd *cmd);

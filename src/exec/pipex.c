@@ -6,13 +6,13 @@
 /*   By: cgerner <cgerner@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 13:24:32 by cgerner           #+#    #+#             */
-/*   Updated: 2025/04/30 18:27:28 by cgerner          ###   ########.fr       */
+/*   Updated: 2025/05/01 10:40:48 by cgerner          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src.h"
 
-int	close_x_cmd(int *prev_pipe, int pipe_fd[2], t_cmd *cmd)
+static int	close_x_cmd(int *prev_pipe, int *pipe_fd, t_cmd *cmd)
 {
 	sig_in_parent(1);
 	if (*prev_pipe != -1)
@@ -29,7 +29,7 @@ static int	x_cmd(t_token *token, t_env *env, int *prev_pipe)
 	t_cmd	*cmd;
 	int		exit_code;
 
-	cmd = set_cmd(token, env);
+	cmd = set_cmd(token, env, prev_pipe);
 	exit_code = check_cmd(cmd, token, env);
 	if (exit_code != -1)
 		return (free_cmd(cmd), exit_code);
@@ -94,7 +94,7 @@ int	exec_pipes(t_token *token, t_env *env, int *prev_pipe, int nb_cmd)
 	return (exit_code);
 }
 
-int	pipex(t_token *token, t_env *env)
+int	pipex(t_token *token, t_env *env, t_shell *shell)
 {
 	t_token	*copy;
 	int		exit_code;
@@ -118,6 +118,6 @@ int	pipex(t_token *token, t_env *env)
 	}
 	if (flag == true)
 		return (exec_pipes(token, env, &prev_pipe, nb_cmd + 1));
-	exit_code = exec_simple_cmd(token, env);
+	exit_code = exec_simple_cmd(token, env, shell);
 	return (exit_code);
 }

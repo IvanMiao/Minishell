@@ -63,13 +63,13 @@ static void	print_cmd(t_token *token, t_env *env)
 	{
 		if (token->type == PIPE)
 		{
-			cmd[i] = set_cmd(start, env);
+			cmd[i] = set_cmd(start, env, NULL);
 			start = token->next;
 			i++;
 		}
 		token = token->next;
 	}
-	cmd[i] = set_cmd(start, env);
+	cmd[i] = set_cmd(start, env, NULL);
 	for (int k = 0; k <= i; k++)
 	{
 		printf("------------------------------\n");
