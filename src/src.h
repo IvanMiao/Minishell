@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/05/01 04:13:41 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/01 04:48:03 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,8 @@ void	free_cmd(t_cmd *cmd);
 //exec -- command and pipe
 int		exec_builtin(t_cmd *cmd, t_env *env, t_token *token);
 int		exec_builtin_child(t_cmd *cmd, t_env *env, t_token *token);
-int		exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token, t_shell *shell);
+int		exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token,
+			t_shell *shell);
 int		exec_simple_cmd(t_token *token, t_env *env, t_shell *shell);
 int		exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe);
 pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
