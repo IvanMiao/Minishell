@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 00:48:48 by ymiao             #+#    #+#             */
-/*   Updated: 2025/04/29 04:50:45 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/02 04:12:49 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strjoin_char(char *s1, char c);
-char	*ft_strnstr(const char *s1, const char *s2, size_t len);
 
 char	*ft_itoa(int n);
 char	**ft_split(char const *s, char c);

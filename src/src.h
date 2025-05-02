@@ -6,7 +6,7 @@
 /*   By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 01:10:51 by ymiao             #+#    #+#             */
-/*   Updated: 2025/05/01 04:48:03 by ymiao            ###   ########.fr       */
+/*   Updated: 2025/05/02 04:14:36 by ymiao            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,10 +161,10 @@ int		exec_builtin_child(t_cmd *cmd, t_env *env, t_token *token);
 int		exec_builtin_parent(t_cmd *cmd, t_env *env, t_token *token,
 			t_shell *shell);
 int		exec_simple_cmd(t_token *token, t_env *env, t_shell *shell);
+int		pipex(t_token *token, t_env *env, t_shell *shell);
 int		exec_child(t_token *token, t_env *env, t_cmd *cmd, int *prev_pipe);
 pid_t	last_cmd(t_token *token, t_env *env, int *prev_pipe);
 
-int		pipex(t_token *token, t_env *env, t_shell *shell);
 int		handle_here_doc(t_token *token, t_env *env, t_cmd *cmd);
 void	read_here_doc(char *delimiter, bool flag_expand,
 			t_env *env, t_cmd *cmd);

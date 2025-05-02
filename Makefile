@@ -6,7 +6,7 @@
 #    By: ymiao <ymiao@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/31 01:27:01 by ymiao             #+#    #+#              #
-#    Updated: 2025/04/30 22:04:46 by ymiao            ###   ########.fr        #
+#    Updated: 2025/05/02 04:19:56 by ymiao            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ clean:
 	@rm -f $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME) test_minishell create_supp
+	@rm -f $(NAME)
 	@echo "Fully cleaned up."
 
 re: fclean all
