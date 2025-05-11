@@ -115,7 +115,7 @@ int	main(int argc, char **argv, char **envp)
 		if (check_main(&token, history))
 			continue ;
 		print_cmd(token, env);
-		(&shell)->exit_code = pipex(token, env);
+		(&shell)->exit_code = pipex(token, env, &shell);
 		token_lstclear(&token);
 		free(history);
 		printf("----exit code----\n%d\n", (&shell)->exit_code);

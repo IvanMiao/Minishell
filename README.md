@@ -1,32 +1,35 @@
 # Minishell
 
-## Git
+## what can minishell do?
+- execute commands : `/bin/ls`, `ls`, `ls -la`, ...
+- pipes: `ls -la | grep something | cat`, ...
+- 4 redirections: `<`, `>`, `<<`, `>>`
+- multiple redirections: `<a <b <c cat >d >e >f >>g`, `<<a <<b <<c cat`, ...
+- redirections and pipes
+- dollar expansion: `$USER`, `$PATH`, ...
+- single quotes and double quotes: `echo '$USER'`, `echo "$USER"`, `echo "'$USER'"`, `echo '"$USER"'`
+- dollar expansion in heredoc: `<<eof` will do the expansion, while `<<'eof'` do not
+- exit code: `$?`
+- signals: `CTRL C`, `CTRL D`, `CTRL \` in prompt, in commands, in pipes, in heredoc...
+- check syntax error
 
-Pour recuperer les dernieres versions du projet :
-- `git pull`
-- `git merge *fichier d'origine*`
+## built-in functions
+- echo && echo -n
+- cd
+- pwd
+- exit
+- env
+- export
+- unset
 
 ## Test
 
-For test:
+For test(show all tokens and commands):
 - `make test`
 - `./test_minishell`
 
 test with valgrind:
 - `make val`
-
-delete `test_minishell` and `readline.supp`:
-- `make fclean`
-
-## TODO
-
-### Fix
-
-
-### to test
-1. builtin with directions `echo >a ok`, `>>a echo bonjour >b`, `>b echo >>a bonjour`
-2. exit code of CTRL C: no cmd, with cmd, with heredoc, with pipes(first cmd), with pipes(last cmd)
-3. exit code of exit(): after a error, `exit` without arguments
 
 ref:
 [Shell Operation](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/html_node/Shell-Operation.html), 
